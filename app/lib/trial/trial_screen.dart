@@ -16,32 +16,30 @@ class TrialScreen extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Consumer<TrialState>(
-              builder: (BuildContext context, value, Widget? child) {
-                return Text(
-                  '${value.currentExercise.term}',
-                  style: TextStyle(fontSize: 60),
-                );
-              },
-            ),
-            SizedBox(
-              height: 100,
-            ),
-            TrialButton(
-              buttonTitle: 'Richtig',
-              buttonBackgroundColor: Colors.green,
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            TrialButton(
-              buttonTitle: 'Falsch',
-              buttonBackgroundColor: Colors.red,
-            ),
-          ],
+        child: Consumer<TrialState>(
+          builder: (context, value, child) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '${value.currentExercise.term}',
+                style: TextStyle(fontSize: 60),
+              ),
+              SizedBox(
+                height: 100,
+              ),
+              TrialButton(
+                buttonTitle: value.currentButtonConfig.buttonTitle1,
+                buttonBackgroundColor: value.currentButtonConfig.buttonBackgroundColor1,
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              TrialButton(
+                buttonTitle: value.currentButtonConfig.buttonTitle2,
+                buttonBackgroundColor: value.currentButtonConfig.buttonBackgroundColor2,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -57,7 +55,10 @@ class TrialButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => context.read<TrialState>().loadExercise(),
+      onPressed: () {
+        context.read<TrialState>().loadExercise();
+        context.read<TrialState>().loadButtonConfig();
+      },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(buttonTitle),
