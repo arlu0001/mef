@@ -3,6 +3,9 @@ import 'package:app/trial/trial_screen.dart';
 import 'package:app/survey_form.dart';
 import 'package:app/survey_form_controller.dart';
 import 'package:app/trial/trial_state.dart';
+import 'package:app/trial_example_screen.dart';
+import 'package:app/trial_explanation_screen.dart';
+import 'package:app/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,8 +18,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: trialScreen,
+      initialRoute: welcomeScreen,
       routes: {
+        welcomeScreen: (context) => WelcomeScreen(),
+        trialExplanationScreen: (context) => TrialExplanationScreen(),
+        trialExampleScreen: (context) => TrialExampleScreen(),
         trialScreen: (context) => ChangeNotifierProvider<TrialState>(
               create: (_) => TrialState(),
               child: TrialScreen(),
