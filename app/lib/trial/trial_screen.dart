@@ -1,3 +1,4 @@
+import 'package:app/route_names.dart';
 import 'package:app/trial/trial_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,40 +6,44 @@ import 'package:provider/provider.dart';
 class TrialScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Consumer<TrialState>(
-          builder: (BuildContext context, value, Widget? child) {
-            return Text(
-              'Aufgabe ${value.currentExerciseCounter}/${value.exercises.length}',
-            );
-          },
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Consumer<TrialState>(
+            builder: (BuildContext context, value, Widget? child) {
+              return Text(
+                'Aufgabe ${value.currentExerciseCounter}/${value.exercises.length}',
+              );
+            },
+          ),
         ),
-      ),
-      body: Center(
-        child: Consumer<TrialState>(
-          builder: (context, value, child) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '${value.currentExercise.term}',
-                style: TextStyle(fontSize: 60),
-              ),
-              SizedBox(
-                height: 100,
-              ),
-              TrialButton(
-                buttonTitle: value.currentButtonConfig.buttonTitle1,
-                buttonBackgroundColor: value.currentButtonConfig.buttonBackgroundColor1,
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              TrialButton(
-                buttonTitle: value.currentButtonConfig.buttonTitle2,
-                buttonBackgroundColor: value.currentButtonConfig.buttonBackgroundColor2,
-              ),
-            ],
+        body: Center(
+          child: Consumer<TrialState>(
+            builder: (context, value, child) => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '${value.currentExercise.term}',
+                  style: TextStyle(fontSize: 60),
+                ),
+                SizedBox(
+                  height: 100,
+                ),
+                TrialButton(
+                  buttonTitle: value.currentButtonConfig.buttonTitle1,
+                  buttonBackgroundColor: value.currentButtonConfig.buttonBackgroundColor1,
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                TrialButton(
+                  buttonTitle: value.currentButtonConfig.buttonTitle2,
+                  buttonBackgroundColor: value.currentButtonConfig.buttonBackgroundColor2,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -56,8 +61,13 @@ class TrialButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        context.read<TrialState>().loadExercise();
-        context.read<TrialState>().loadButtonConfig();
+        if(Provider.of<TrialState>(context, listen: false).currentExerciseCounter ==
+            Provider.of<TrialState>(context, listen: false).exercises.length) {
+          Navigator.pushNamed(context, colorBlindnessTestScreen);
+        } else {
+          context.read<TrialState>().loadExercise();
+          context.read<TrialState>().loadButtonConfig();
+        }
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

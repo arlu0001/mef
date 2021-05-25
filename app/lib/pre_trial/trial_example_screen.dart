@@ -8,7 +8,6 @@ class TrialExampleScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Versuchsdurchführung'),
-
       ),
       body: Center(
         child: Padding(

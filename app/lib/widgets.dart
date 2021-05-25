@@ -27,8 +27,27 @@ class NavigationButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => Navigator.pushNamed(context, navigationRoute),
+      onPressed: () {
+        Navigator.pushNamed(context, navigationRoute);
+      },
       child: Text('Weiter'),
+    );
+  }
+
+}
+
+class SendDataButton extends StatelessWidget {
+  final String navigationRoute;
+
+  SendDataButton({required this.navigationRoute});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.pushNamed(context, navigationRoute);
+      },
+      child: Text('Absenden'),
     );
   }
 
