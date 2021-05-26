@@ -1,4 +1,3 @@
-import 'package:app/route_names.dart';
 import 'package:app/trial/trial_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -61,19 +60,8 @@ class TrialButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        if(Provider.of<TrialState>(context, listen: false).currentExerciseCounter ==
-            Provider.of<TrialState>(context, listen: false).exercises.length) {
-          Provider.of<TrialState>(context, listen: false).countAnswers(buttonTitle);
-          Navigator.pushNamed(context, colorBlindnessTestScreen);
-          print('-------------------------------------------------------');
-          print('Richtig beantwortet: ${Provider.of<TrialState>(context, listen: false).correctAnsweredCounter}');
-          print('Falsch beantwortet: ${Provider.of<TrialState>(context, listen: false).falseAnsweredCounter}');
-          print('-------------------------------------------------------');
-        } else {
-          Provider.of<TrialState>(context, listen: false).countAnswers(buttonTitle);
-          context.read<TrialState>().loadExercise();
-          context.read<TrialState>().loadButtonConfig();
-        }
+        Provider.of<TrialState>(context, listen: false).countAnswers(buttonTitle);
+        context.read<TrialState>().finish(context);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

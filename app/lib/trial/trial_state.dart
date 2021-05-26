@@ -1,3 +1,4 @@
+import 'package:app/route_names.dart';
 import 'package:flutter/material.dart';
 
 import 'models/button_config.dart';
@@ -12,24 +13,49 @@ class TrialState extends ChangeNotifier {
     Exercise(term: '2 - 1 = 5', isTrue: false),
     Exercise(term: '7 - 4 = 3', isTrue: true),
   ];
+  List solveTimes = List.filled(4, 0);
   late ButtonConfig currentButtonConfig;
   int correctAnsweredCounter = 0;
   int falseAnsweredCounter = 0;
+  Stopwatch _stopwatch = Stopwatch();
 
   TrialState() {
-    loadExercise();
-    loadButtonConfig();
+    _stopwatch.start();
+    _loadExercise();
+    _loadButtonConfig();
   }
 
-  void loadExercise() {
+  void finish(BuildContext context) {
+    _stopwatch.stop();
+    solveTimes[currentExerciseCounter - 1] = _stopwatch.elapsedMilliseconds;
+    _stopwatch.reset();
+
+    print('-------------------------------------------------------');
+    print('Zeit: ${solveTimes[currentExerciseCounter - 1]}');
+    print('-------------------------------------------------------');
+
+    if(currentExerciseCounter == exercises.length) {
+      Navigator.pushNamed(context, colorBlindnessTestScreen);
+      print('Richtig beantwortet: $correctAnsweredCounter');
+      print('Falsch beantwortet: $falseAnsweredCounter');
+      print('-------------------------------------------------------');
+      // prepareResults // TODO
+    } else {
+      _loadExercise();
+      _loadButtonConfig();
+    }
+  }
+
+  void _loadExercise() {
     currentExercise = exercises[currentExerciseCounter];
     if (currentExerciseCounter < exercises.length) {
       currentExerciseCounter++;
     }
     notifyListeners();
+    _stopwatch.start();
   }
 
-  void loadButtonConfig() {
+  void _loadButtonConfig() {
     currentButtonConfig = ButtonConfig();
     notifyListeners();
   }
