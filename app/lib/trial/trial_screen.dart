@@ -63,8 +63,14 @@ class TrialButton extends StatelessWidget {
       onPressed: () {
         if(Provider.of<TrialState>(context, listen: false).currentExerciseCounter ==
             Provider.of<TrialState>(context, listen: false).exercises.length) {
+          Provider.of<TrialState>(context, listen: false).countAnswers(buttonTitle);
           Navigator.pushNamed(context, colorBlindnessTestScreen);
+          print('-------------------------------------------------------');
+          print('Richtig beantwortet: ${Provider.of<TrialState>(context, listen: false).correctAnsweredCounter}');
+          print('Falsch beantwortet: ${Provider.of<TrialState>(context, listen: false).falseAnsweredCounter}');
+          print('-------------------------------------------------------');
         } else {
+          Provider.of<TrialState>(context, listen: false).countAnswers(buttonTitle);
           context.read<TrialState>().loadExercise();
           context.read<TrialState>().loadButtonConfig();
         }
