@@ -1,6 +1,7 @@
 import 'package:app/post_trial/color_blindness_test_screen.dart';
 import 'package:app/post_trial/final_screen.dart';
 import 'package:app/post_trial/survey_screen_2.dart';
+import 'package:app/post_trial/survey_state.dart';
 import 'package:app/route_names.dart';
 import 'package:app/post_trial/survey_screen_1.dart';
 import 'package:app/trial/trial_screen.dart';
@@ -16,6 +17,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  SurveyState surveyState = SurveyState();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,8 +32,14 @@ class MyApp extends StatelessWidget {
               child: TrialScreen(),
             ),
         colorBlindnessTestScreen: (context) => ColorBlindnessTestScreen(),
-        surveyScreen1: (context) => SurveyScreen1(),
-        surveyScreen2: (context) => SurveyScreen2(),
+        surveyScreen1: (context) => ChangeNotifierProvider<SurveyState>(
+              create: (_) => surveyState,
+              child: SurveyScreen1(),
+            ),
+        surveyScreen2: (context) => ChangeNotifierProvider<SurveyState>(
+              create: (_) => surveyState,
+              child: SurveyScreen2(),
+            ),
         finalScreen: (context) => FinalScreen(),
       },
     );

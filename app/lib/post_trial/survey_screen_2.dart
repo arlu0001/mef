@@ -1,11 +1,10 @@
+import 'package:app/post_trial/survey_state.dart';
 import 'package:app/route_names.dart';
 import 'package:app/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SurveyScreen2 extends StatelessWidget {
-  var smartphoneUsage;
-  var usageConfidence;
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -22,70 +21,89 @@ class SurveyScreen2 extends StatelessWidget {
               'Wie häufig nutzen Sie ein Smartphone?',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            RadioListTile(
-              value: 'mehrmals täglich',
-              groupValue: smartphoneUsage,
-              onChanged: (value) => null,
-              title: Text('mehrmals täglich'),
+            Consumer<SurveyState>(
+              builder: (context, value, child) => RadioListTile<String?>(
+                value: 'mehrmals täglich',
+                groupValue: value.smartphoneUsage,
+                onChanged: (value) => context.read<SurveyState>().setSmartphoneUsage(value!),
+                title: Text('mehrmals täglich'),
+              ),
             ),
-            RadioListTile(
-              value: 'täglich',
-              groupValue: smartphoneUsage,
-              onChanged: (value) => null,
-              title: Text('täglich'),
+            Consumer<SurveyState>(
+              builder: (context, value, child) => RadioListTile<String?>(
+                value: 'täglich',
+                groupValue: value.smartphoneUsage,
+                onChanged: (value) => context.read<SurveyState>().setSmartphoneUsage(value!),
+                title: Text('täglich'),
+              ),
             ),
-            RadioListTile(
-              value: 'mehrmals die Woche',
-              groupValue: smartphoneUsage,
-              onChanged: (value) => null,
-              title: Text('mehrmals die Woche'),
+            Consumer<SurveyState>(
+              builder: (context, value, child) => RadioListTile<String?>(
+                value: 'mehrmals die Woche',
+                groupValue: value.smartphoneUsage,
+                onChanged: (value) => context.read<SurveyState>().setSmartphoneUsage(value!),
+                title: Text('mehrmals die Woche'),
+              ),
             ),
-            RadioListTile(
-              value: 'wöchentlich',
-              groupValue: smartphoneUsage,
-              onChanged: (value) => null,
-              title: Text('wöchentlich'),
+            Consumer<SurveyState>(
+              builder: (context, value, child) => RadioListTile<String?>(
+                value: 'wöchentlich',
+                groupValue: value.smartphoneUsage,
+                onChanged: (value) => context.read<SurveyState>().setSmartphoneUsage(value!),
+                title: Text('wöchentlich'),
+              ),
             ),
-            RadioListTile(
-              value: 'weniger als wöchentlich',
-              groupValue: smartphoneUsage,
-              onChanged: (value) => null,
-              title: Text('weniger als wöchentlich'),
+            Consumer<SurveyState>(
+              builder: (context, value, child) => RadioListTile<String?>(
+                value: 'weniger als wöchentlich',
+                groupValue: value.smartphoneUsage,
+                onChanged: (value) => context.read<SurveyState>().setSmartphoneUsage(value!),
+                title: Text('weniger als wöchentlich'),
+              ),
             ),
             Text(
               'Wie sicher fühlen Sie sich bei der Bedienung?',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            RadioListTile(
-              value: 'sehr sicher',
-              groupValue: usageConfidence,
-              onChanged: (value) => null,
-              title: Text('sehr sicher'),
+            Consumer<SurveyState>(
+              builder: (context, value, child) => RadioListTile<String?>(
+                value: 'sehr sicher',
+                groupValue: value.usageConfidence,
+                onChanged: (value) => context.read<SurveyState>().setUsageConfidence(value!),
+                title: Text('sehr sicher'),
+              ),
             ),
-            RadioListTile(
-              value: 'sicher',
-              groupValue: usageConfidence,
-              onChanged: (value) => null,
-              title: Text('sicher'),
+            Consumer<SurveyState>(
+              builder: (context, value, child) => RadioListTile<String?>(
+                value: 'sicher',
+                groupValue: value.usageConfidence,
+                onChanged: (value) => context.read<SurveyState>().setUsageConfidence(value!),
+                title: Text('sicher'),
+              ),
             ),
-            RadioListTile(
-              value: 'mittelmäßig',
-              groupValue: usageConfidence,
-              onChanged: (value) => null,
-              title: Text('mittelmäßig'),
+            Consumer<SurveyState>(
+              builder: (context, value, child) => RadioListTile<String?>(
+                value: 'mittelmäßig',
+                groupValue: value.usageConfidence,
+                onChanged: (value) => context.read<SurveyState>().setUsageConfidence(value!),
+                title: Text('mittelmäßig'),
+              ),
             ),
-            RadioListTile(
-              value: 'unsicher',
-              groupValue: usageConfidence,
-              onChanged: (value) => null,
-              title: Text('unsicher'),
+            Consumer<SurveyState>(
+              builder: (context, value, child) => RadioListTile<String?>(
+                value: 'unsicher',
+                groupValue: value.usageConfidence,
+                onChanged: (value) => context.read<SurveyState>().setUsageConfidence(value!),
+                title: Text('unsicher'),
+              ),
             ),
-            RadioListTile(
-              value: 'sehr unsicher',
-              groupValue: usageConfidence,
-              onChanged: (value) => null,
-              title: Text('sehr unsicher'),
-
+            Consumer<SurveyState>(
+              builder: (context, value, child) => RadioListTile<String?>(
+                value: 'sehr unsicher',
+                groupValue: value.usageConfidence,
+                onChanged: (value) => context.read<SurveyState>().setUsageConfidence(value!),
+                title: Text('sehr unsicher'),
+              ),
             ),
             Center(child: SendDataButton(navigationRoute: finalScreen)),
           ],
