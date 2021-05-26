@@ -17,7 +17,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  SurveyState surveyState = SurveyState();
+  final SurveyState surveyState = SurveyState();
 
   @override
   Widget build(BuildContext context) {
