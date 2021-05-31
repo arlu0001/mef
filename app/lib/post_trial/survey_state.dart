@@ -1,8 +1,14 @@
+import 'package:app/api/google_sheet_api.dart';
+import 'package:app/api/result.dart';
 import 'package:flutter/material.dart';
 
 class SurveyState extends ChangeNotifier {
+  GoogleSheetApi api = GoogleSheetApi();
+
+  late SurveyResult _surveyResult;
+
   bool hasRedGreenBlindness = false;
-  String? biologicalSex;
+  String biologicalSex = '';
   String age = '';
   String smartphoneUsage = '';
   String usageConfidence = '';
@@ -24,6 +30,17 @@ class SurveyState extends ChangeNotifier {
 
   void setUsageConfidence(String value) {
     usageConfidence = value;
+    _endSurvey();
     notifyListeners();
+  }
+
+  void _endSurvey() {
+    _surveyResult = SurveyResult(
+      biologicalSex: biologicalSex,
+      age: age,
+      smartphoneUsage: smartphoneUsage,
+      usageConfidence: usageConfidence,
+    );
+    api.setSurveyResult(_surveyResult);
   }
 }

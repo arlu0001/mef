@@ -1,3 +1,5 @@
+import 'package:app/api/google_sheet_api.dart';
+import 'package:app/api/result.dart';
 import 'package:app/route_names.dart';
 import 'package:flutter/material.dart';
 
@@ -5,6 +7,8 @@ import 'models/button_config.dart';
 import 'models/exercise.dart';
 
 class TrialState extends ChangeNotifier {
+  GoogleSheetApi api = GoogleSheetApi();
+
   int currentExerciseCounter = 0;
   Exercise currentExercise = Exercise(term: '', isTrue: true);
   List<Exercise> exercises = [
@@ -18,9 +22,9 @@ class TrialState extends ChangeNotifier {
   int correctAnsweredCounter = 0;
   int falseAnsweredCounter = 0;
   Stopwatch _stopwatch = Stopwatch();
+  late TrialResult _trialResult;
 
   TrialState() {
-    _stopwatch.start();
     _loadExercise();
     _loadButtonConfig();
   }
@@ -34,12 +38,17 @@ class TrialState extends ChangeNotifier {
     print('Zeit: ${solveTimes[currentExerciseCounter - 1]}');
     print('-------------------------------------------------------');
 
-    if(currentExerciseCounter == exercises.length) {
+    if (currentExerciseCounter == exercises.length) {
       Navigator.pushNamed(context, colorBlindnessTestScreen);
       print('Richtig beantwortet: $correctAnsweredCounter');
       print('Falsch beantwortet: $falseAnsweredCounter');
       print('-------------------------------------------------------');
-      // prepareResults // TODO
+      _trialResult = TrialResult(
+        solveTimes: solveTimes,
+        correctAnswerCount: correctAnsweredCounter.toString(),
+        falseAnswerCount: falseAnsweredCounter.toString(),
+      );
+      api.setTrialResults(_trialResult);
     } else {
       _loadExercise();
       _loadButtonConfig();

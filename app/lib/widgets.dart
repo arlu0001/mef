@@ -1,3 +1,4 @@
+import 'package:app/api/google_sheet_api.dart';
 import 'package:flutter/material.dart';
 
 class CustomText extends StatelessWidget {
@@ -45,6 +46,18 @@ class SendDataButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
+        GoogleSheetApi api = GoogleSheetApi();
+        api.prepareResult();
+        api.submitForm((String response) {
+          print("Response: $response");
+          if (response == GoogleSheetApi.STATUS_SUCCESS) {
+            // Feedback is saved succesfully in Google Sheets.
+            print("Feedback Submitted");
+          } else {
+            // Error Occurred while saving data in Google Sheets.
+            print("Error Occurred!");
+          }
+        });
         Navigator.pushNamed(context, navigationRoute);
       },
       child: Text('Absenden'),
