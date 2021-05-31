@@ -45,22 +45,6 @@ class SurveyScreen2 extends StatelessWidget {
                 title: Text('mehrmals die Woche'),
               ),
             ),
-            Consumer<SurveyState>(
-              builder: (context, value, child) => RadioListTile<String?>(
-                value: 'wöchentlich',
-                groupValue: value.smartphoneUsage,
-                onChanged: (value) => context.read<SurveyState>().setSmartphoneUsage(value!),
-                title: Text('wöchentlich'),
-              ),
-            ),
-            Consumer<SurveyState>(
-              builder: (context, value, child) => RadioListTile<String?>(
-                value: 'weniger als wöchentlich',
-                groupValue: value.smartphoneUsage,
-                onChanged: (value) => context.read<SurveyState>().setSmartphoneUsage(value!),
-                title: Text('weniger als wöchentlich'),
-              ),
-            ),
             Text(
               'Wie sicher fühlen Sie sich bei der Bedienung?',
               style: TextStyle(fontWeight: FontWeight.bold),
