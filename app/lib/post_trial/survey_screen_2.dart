@@ -105,7 +105,7 @@ class SurveyScreen2 extends StatelessWidget {
                 title: Text('sehr unsicher'),
               ),
             ),
-            Center(child: SendDataButton(navigationRoute: finalScreen)),
+            Center(child: NavigationButton(navigationRoute: trialExplanationScreen)),
           ],
         ),
       ),

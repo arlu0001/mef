@@ -25,13 +25,6 @@ class MyApp extends StatelessWidget {
       initialRoute: welcomeScreen,
       routes: {
         welcomeScreen: (context) => WelcomeScreen(),
-        trialExplanationScreen: (context) => TrialExplanationScreen(),
-        trialExampleScreen: (context) => TrialExampleScreen(),
-        trialScreen: (context) => ChangeNotifierProvider<TrialState>(
-              create: (_) => TrialState(),
-              child: TrialScreen(),
-            ),
-        colorBlindnessTestScreen: (context) => ColorBlindnessTestScreen(),
         surveyScreen1: (context) => ChangeNotifierProvider<SurveyState>(
               create: (_) => surveyState,
               child: SurveyScreen1(),
@@ -40,6 +33,13 @@ class MyApp extends StatelessWidget {
               create: (_) => surveyState,
               child: SurveyScreen2(),
             ),
+        trialExplanationScreen: (context) => TrialExplanationScreen(),
+        trialExampleScreen: (context) => TrialExampleScreen(),
+        trialScreen: (context) => ChangeNotifierProvider<TrialState>(
+              create: (_) => TrialState(),
+              child: TrialScreen(),
+            ),
+        colorBlindnessTestScreen: (context) => ColorBlindnessTestScreen(),
         finalScreen: (context) => FinalScreen(),
       },
     );

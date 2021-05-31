@@ -19,7 +19,7 @@ class ColorBlindnessTestScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Placeholder(),
-                NavigationButton(navigationRoute: surveyScreen1),
+                SendDataButton(navigationRoute: finalScreen),
               ],
             ),
           ),
