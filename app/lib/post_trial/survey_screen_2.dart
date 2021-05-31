@@ -12,7 +12,7 @@ class SurveyScreen2 extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text('Abschlussbefragung'),
+          title: Text('Daten zur Person 2/2'),
         ),
         body: ListView(
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),

@@ -10,7 +10,7 @@ class ColorBlindnessTestScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text('Abschlussbefragung'),
+          title: Text('Sehtest'),
         ),
         body: Center(
           child: Padding(
