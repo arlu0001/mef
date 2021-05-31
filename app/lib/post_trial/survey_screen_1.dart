@@ -43,6 +43,14 @@ class SurveyScreen1 extends StatelessWidget {
             ),
             Consumer<SurveyState>(
               builder: (context, value, child) => RadioListTile<String?>(
+                value: 'unter 11',
+                groupValue: value.age,
+                onChanged: (value) => context.read<SurveyState>().setAge(value!),
+                title: Text('unter 11'),
+              ),
+            ),
+            Consumer<SurveyState>(
+              builder: (context, value, child) => RadioListTile<String?>(
                 value: '11-20',
                 groupValue: value.age,
                 onChanged: (value) => context.read<SurveyState>().setAge(value!),
@@ -83,26 +91,10 @@ class SurveyScreen1 extends StatelessWidget {
             ),
             Consumer<SurveyState>(
               builder: (context, value, child) => RadioListTile<String?>(
-                value: '61-70',
+                value: 'über 60',
                 groupValue: value.age,
                 onChanged: (value) => context.read<SurveyState>().setAge(value!),
-                title: Text('61-70'),
-              ),
-            ),
-            Consumer<SurveyState>(
-              builder: (context, value, child) => RadioListTile<String?>(
-                value: '71-80',
-                groupValue: value.age,
-                onChanged: (value) => context.read<SurveyState>().setAge(value!),
-                title: Text('71-80'),
-              ),
-            ),
-            Consumer<SurveyState>(
-              builder: (context, value, child) => RadioListTile<String?>(
-                value: '81-90',
-                groupValue: value.age,
-                onChanged: (value) => context.watch<SurveyState>().setAge(value!),
-                title: Text('81-90'),
+                title: Text('über 60'),
               ),
             ),
             Center(
