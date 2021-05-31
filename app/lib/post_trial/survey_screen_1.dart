@@ -101,11 +101,17 @@ class SurveyScreen1 extends StatelessWidget {
               builder: (context, value, child) => RadioListTile<String?>(
                 value: '81-90',
                 groupValue: value.age,
-                onChanged: (value) => context.read<SurveyState>().setAge(value!),
+                onChanged: (value) => context.watch<SurveyState>().setAge(value!),
                 title: Text('81-90'),
               ),
             ),
-            Center(child: NavigationButton(navigationRoute: surveyScreen2)),
+            Center(
+              child: NavigationButton(
+                navigationRoute: surveyScreen2,
+                isComplete:
+                    (context.watch<SurveyState>().biologicalSex != '' && context.watch<SurveyState>().age != ''),
+              ),
+            ),
           ],
         ),
       ),

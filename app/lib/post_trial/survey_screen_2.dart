@@ -105,7 +105,12 @@ class SurveyScreen2 extends StatelessWidget {
                 title: Text('sehr unsicher'),
               ),
             ),
-            Center(child: NavigationButton(navigationRoute: trialExplanationScreen)),
+            Center(
+                child: NavigationButton(
+              navigationRoute: trialExplanationScreen,
+              isComplete: (context.watch<SurveyState>().smartphoneUsage != '' &&
+                  context.watch<SurveyState>().usageConfidence != ''),
+            )),
           ],
         ),
       ),

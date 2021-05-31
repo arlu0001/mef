@@ -18,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
               CustomText(text: 'Demographische Werte werden anonymisiert bewertet.'),
               CustomText(text: 'Vielen Dank, dass Sie sich bereit erklären, an der Studie teilzunehmen.'),
               CustomText(text: 'Dauer des Versuchs: x Minuten'),
-              NavigationButton(navigationRoute: surveyScreen1),
+              NavigationButton(navigationRoute: surveyScreen1, isComplete: true,),
             ],
           ),
         ),

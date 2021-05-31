@@ -22,14 +22,18 @@ class CustomText extends StatelessWidget {
 
 class NavigationButton extends StatelessWidget {
   final String navigationRoute;
+  bool isComplete;
 
-  NavigationButton({required this.navigationRoute});
+  NavigationButton({required this.navigationRoute, this.isComplete = false});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.pushNamed(context, navigationRoute);
+        if(isComplete)
+          Navigator.pushNamed(context, navigationRoute);
+        else
+          return null;
       },
       child: Text('Weiter'),
     );

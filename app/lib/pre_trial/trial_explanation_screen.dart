@@ -18,7 +18,7 @@ class TrialExplanationScreen extends StatelessWidget {
             children: [
               CustomText(text: 'Sie erhalten im folgenden mehrere Rechenaufgaben und Sie sollen auswählen, ob die Aufgabe richtig oder falsch gelöst wurde. '),
               CustomText(text: 'Um in den Versuch einzuführen erhalten Sie eine Übungsaufgabe, die die Aufgabenstellung verdeutlicht.'),
-              NavigationButton(navigationRoute: trialExampleScreen),
+              NavigationButton(navigationRoute: trialExampleScreen, isComplete: true,),
             ],
           ),
         ),

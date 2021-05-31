@@ -16,7 +16,7 @@ class TrialExampleScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Placeholder(),
-              NavigationButton(navigationRoute: trialScreen),
+              NavigationButton(navigationRoute: trialScreen, isComplete: true,),
             ],
           ),
         ),
