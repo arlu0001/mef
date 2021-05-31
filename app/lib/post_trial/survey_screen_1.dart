@@ -93,7 +93,7 @@ class SurveyScreen1 extends StatelessWidget {
               builder: (context, value, child) => RadioListTile<String?>(
                 value: '71-80',
                 groupValue: value.age,
-                onChanged: (value) => null,
+                onChanged: (value) => context.read<SurveyState>().setAge(value!),
                 title: Text('71-80'),
               ),
             ),
