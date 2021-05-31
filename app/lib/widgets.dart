@@ -22,7 +22,7 @@ class CustomText extends StatelessWidget {
 
 class NavigationButton extends StatelessWidget {
   final String navigationRoute;
-  bool isComplete;
+  final bool isComplete;
 
   NavigationButton({required this.navigationRoute, this.isComplete = false});
 
