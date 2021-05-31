@@ -1,6 +1,7 @@
 import 'package:app/api/google_sheet_api.dart';
 import 'package:app/api/result.dart';
 import 'package:app/route_names.dart';
+import 'package:app/trial/models/exercise_list.dart';
 import 'package:flutter/material.dart';
 
 import 'models/button_config.dart';
@@ -9,15 +10,10 @@ import 'models/exercise.dart';
 class TrialState extends ChangeNotifier {
   GoogleSheetApi api = GoogleSheetApi();
 
+  late List<Exercise> exercises = getExercises;
   int currentExerciseCounter = 0;
-  Exercise currentExercise = Exercise(term: '', isTrue: true);
-  List<Exercise> exercises = [
-    Exercise(term: '1 + 1 = 2', isTrue: true),
-    Exercise(term: '5 + 3 = 2', isTrue: false),
-    Exercise(term: '2 - 1 = 5', isTrue: false),
-    Exercise(term: '7 - 4 = 3', isTrue: true),
-  ];
-  List solveTimes = List.filled(4, 0);
+  late Exercise currentExercise;
+  late List solveTimes;
   late ButtonConfig currentButtonConfig;
   int correctAnsweredCounter = 0;
   int falseAnsweredCounter = 0;
@@ -25,6 +21,7 @@ class TrialState extends ChangeNotifier {
   late TrialResult _trialResult;
 
   TrialState() {
+    solveTimes = List.filled(exercises.length, 0);
     _loadExercise();
     _loadButtonConfig();
   }
