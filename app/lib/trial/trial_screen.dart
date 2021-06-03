@@ -60,6 +60,10 @@ class TrialButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
+        Provider.of<TrialState>(context, listen: false).analyzeReaction(
+          buttonTitle,
+          buttonBackgroundColor,
+        );
         Provider.of<TrialState>(context, listen: false).countAnswers(buttonTitle);
         context.read<TrialState>().finish(context);
       },

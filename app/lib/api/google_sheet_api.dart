@@ -12,7 +12,7 @@ class GoogleSheetApi {
   GoogleSheetApi._internal();
 
   static const String URL =
-      "https://script.google.com/macros/s/AKfycbz04pXbW-rw5KgSxwKgh2Db3rCmiqGPyZkAInQeqR6IsNEaoq-K/exec";
+      "https://script.google.com/macros/s/AKfycby-KjIalECL1ytorrv0Hta25GknUXt6maZw986NEBWqHEBznsyl/exec";
 
   static const STATUS_SUCCESS = "SUCCESS";
 
@@ -36,10 +36,12 @@ class GoogleSheetApi {
       usageConfidence: _surveyResult.usageConfidence,
       correctAnsweredCount: _trialResult.correctAnswerCount,
       falseAnsweredCount: _trialResult.falseAnswerCount,
-      exercise1Time: _trialResult.solveTimes[0].toString(),
-      exercise2Time: _trialResult.solveTimes[1].toString(),
-      exercise3Time: _trialResult.solveTimes[2].toString(),
-      exercise4Time: _trialResult.solveTimes[3].toString(),
+      times: _trialResult.solveTimes,
+      reactions: _trialResult.reactions,
+      // exercise1Time: _trialResult.solveTimes[0].toString(),
+      // exercise2Time: _trialResult.solveTimes[1].toString(),
+      // exercise3Time: _trialResult.solveTimes[2].toString(),
+      // exercise4Time: _trialResult.solveTimes[3].toString(),
     );
   }
 
@@ -55,7 +57,8 @@ class GoogleSheetApi {
           callback(convert.jsonDecode(response.body)['status']);
         }
       });
-    } catch (e) {
+    } on Exception catch (e) {
+      print("Hallo");
       print(e);
     }
   }

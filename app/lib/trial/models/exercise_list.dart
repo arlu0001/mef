@@ -1,6 +1,6 @@
 import 'exercise.dart';
 
-const int exerciseAmount = 6;
+const int exerciseAmount = 50;
 
 List<Exercise> get getExercises => _createExerciseList();
 

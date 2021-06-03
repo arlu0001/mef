@@ -13,7 +13,8 @@ class TrialState extends ChangeNotifier {
   late List<Exercise> exercises = getExercises;
   int currentExerciseCounter = 0;
   late Exercise currentExercise;
-  late List solveTimes;
+  late List<int> solveTimes;
+  late List<int> reaction;
   late ButtonConfig currentButtonConfig;
   int correctAnsweredCounter = 0;
   int falseAnsweredCounter = 0;
@@ -22,6 +23,7 @@ class TrialState extends ChangeNotifier {
 
   TrialState() {
     solveTimes = List.filled(exercises.length, 0);
+    reaction = List.filled(exercises.length, 0);
     _loadExercise();
     _loadButtonConfig();
   }
@@ -42,6 +44,7 @@ class TrialState extends ChangeNotifier {
       print('-------------------------------------------------------');
       _trialResult = TrialResult(
         solveTimes: solveTimes,
+        reactions: reaction,
         correctAnswerCount: correctAnsweredCounter.toString(),
         falseAnswerCount: falseAnsweredCounter.toString(),
       );
@@ -75,6 +78,38 @@ class TrialState extends ChangeNotifier {
       correctAnsweredCounter++;
     } else if (buttonTitle == 'Falsch' && currentExercise.isTrue) {
       falseAnsweredCounter++;
+    }
+  }
+
+  // 1: buttonTitle: 'Richtig', color: 'green', result: true
+  // 2: buttonTitle: 'Richtig', color: 'green', result: false
+  // 3: buttonTitle: 'Richtig', color: 'red', result: true;
+  // 4: buttonTitle: 'Richtig', color: 'red', result: false;
+  // 5: buttonTitle: 'Falsch', color: 'green', result: true;
+  // 6: buttonTitle: 'Falsch', color: 'green', result: false;
+  // 7: buttonTitle: 'Falsch', color: 'red', result: true;
+  // 8: buttonTitle: 'Falsch', color: 'red', result: false;
+  void analyzeReaction(String buttonTitle, Color buttonColor) {
+    bool btnTitle = buttonTitle == 'Richtig';
+    bool btnColor = buttonColor == Colors.green;
+    bool result = currentExercise.isTrue;
+
+    if(btnTitle && btnColor && result) {
+      reaction[currentExerciseCounter - 1] = 1;
+    } else if(btnColor && btnColor && !result) {
+      reaction[currentExerciseCounter - 1] = 2;
+    } else if(btnTitle && !btnColor && result) {
+      reaction[currentExerciseCounter - 1] = 3;
+    } else if(btnTitle && !btnColor && !result) {
+      reaction[currentExerciseCounter - 1] = 4;
+    } else if(!btnTitle && btnColor && result) {
+      reaction[currentExerciseCounter - 1] = 5;
+    } else if(!btnTitle && btnColor && !result) {
+      reaction[currentExerciseCounter - 1] = 6;
+    } else if(!btnTitle && !btnColor && result) {
+      reaction[currentExerciseCounter - 1] = 7;
+    } else if(!btnTitle && !btnColor && !result) {
+      reaction[currentExerciseCounter - 1] = 8;
     }
   }
 }
