@@ -36,12 +36,10 @@ class GoogleSheetApi {
       usageConfidence: _surveyResult.usageConfidence,
       correctAnsweredCount: _trialResult.correctAnswerCount,
       falseAnsweredCount: _trialResult.falseAnswerCount,
+      totalTrialTime: _trialResult.totalTrialTime,
+      dateTime: _trialResult.dateTime,
       times: _trialResult.solveTimes,
       reactions: _trialResult.reactions,
-      // exercise1Time: _trialResult.solveTimes[0].toString(),
-      // exercise2Time: _trialResult.solveTimes[1].toString(),
-      // exercise3Time: _trialResult.solveTimes[2].toString(),
-      // exercise4Time: _trialResult.solveTimes[3].toString(),
     );
   }
 
@@ -58,7 +56,6 @@ class GoogleSheetApi {
         }
       });
     } on Exception catch (e) {
-      print("Hallo");
       print(e);
     }
   }

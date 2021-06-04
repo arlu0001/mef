@@ -18,26 +18,34 @@ class TrialState extends ChangeNotifier {
   late ButtonConfig currentButtonConfig;
   int correctAnsweredCounter = 0;
   int falseAnsweredCounter = 0;
-  Stopwatch _stopwatch = Stopwatch();
+  Stopwatch _reactionStopwatch = Stopwatch();
+  Stopwatch _trialStopwatch = Stopwatch();
   late TrialResult _trialResult;
+  late DateTime dateTime;
 
   TrialState() {
     solveTimes = List.filled(exercises.length, 0);
     reaction = List.filled(exercises.length, 0);
     _loadExercise();
+    _trialStopwatch.start();
+    dateTime = DateTime.now();
     _loadButtonConfig();
   }
 
   void finish(BuildContext context) {
-    _stopwatch.stop();
-    solveTimes[currentExerciseCounter - 1] = _stopwatch.elapsedMilliseconds;
-    _stopwatch.reset();
+    _reactionStopwatch.stop();
+    solveTimes[currentExerciseCounter - 1] = _reactionStopwatch.elapsedMilliseconds;
+    _reactionStopwatch.reset();
 
     print('-------------------------------------------------------');
     print('Zeit: ${solveTimes[currentExerciseCounter - 1]}');
     print('-------------------------------------------------------');
 
     if (currentExerciseCounter == exercises.length) {
+      _trialStopwatch.stop();
+      int completionTime = _trialStopwatch.elapsedMilliseconds;
+      Duration d = Duration(milliseconds: completionTime);
+      print('Zeit insgesamt: $d ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
       Navigator.pushNamed(context, colorBlindnessTestScreen);
       print('Richtig beantwortet: $correctAnsweredCounter');
       print('Falsch beantwortet: $falseAnsweredCounter');
@@ -47,6 +55,8 @@ class TrialState extends ChangeNotifier {
         reactions: reaction,
         correctAnswerCount: correctAnsweredCounter.toString(),
         falseAnswerCount: falseAnsweredCounter.toString(),
+        totalTrialTime: d,
+        dateTime: dateTime,
       );
       api.setTrialResults(_trialResult);
     } else {
@@ -61,7 +71,7 @@ class TrialState extends ChangeNotifier {
       currentExerciseCounter++;
     }
     notifyListeners();
-    _stopwatch.start();
+    _reactionStopwatch.start();
   }
 
   void _loadButtonConfig() {
@@ -94,21 +104,21 @@ class TrialState extends ChangeNotifier {
     bool btnColor = buttonColor == Colors.green;
     bool result = currentExercise.isTrue;
 
-    if(btnTitle && btnColor && result) {
+    if (btnTitle && btnColor && result) {
       reaction[currentExerciseCounter - 1] = 1;
-    } else if(btnColor && btnColor && !result) {
+    } else if (btnColor && btnColor && !result) {
       reaction[currentExerciseCounter - 1] = 2;
-    } else if(btnTitle && !btnColor && result) {
+    } else if (btnTitle && !btnColor && result) {
       reaction[currentExerciseCounter - 1] = 3;
-    } else if(btnTitle && !btnColor && !result) {
+    } else if (btnTitle && !btnColor && !result) {
       reaction[currentExerciseCounter - 1] = 4;
-    } else if(!btnTitle && btnColor && result) {
+    } else if (!btnTitle && btnColor && result) {
       reaction[currentExerciseCounter - 1] = 5;
-    } else if(!btnTitle && btnColor && !result) {
+    } else if (!btnTitle && btnColor && !result) {
       reaction[currentExerciseCounter - 1] = 6;
-    } else if(!btnTitle && !btnColor && result) {
+    } else if (!btnTitle && !btnColor && result) {
       reaction[currentExerciseCounter - 1] = 7;
-    } else if(!btnTitle && !btnColor && !result) {
+    } else if (!btnTitle && !btnColor && !result) {
       reaction[currentExerciseCounter - 1] = 8;
     }
   }
