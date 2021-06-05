@@ -11,16 +11,15 @@ class TrialExplanationScreen extends StatelessWidget {
 
       ),
       body: Center(
-        child: Padding(
+        child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CustomText(text: 'Sie erhalten im folgenden mehrere Rechenaufgaben und Sie sollen auswählen, ob die Aufgabe richtig oder falsch gelöst wurde. '),
-              CustomText(text: 'Um in den Versuch einzuführen erhalten Sie eine Übungsaufgabe, die die Aufgabenstellung verdeutlicht.'),
-              NavigationButton(navigationRoute: trialExampleScreen, isComplete: true,),
-            ],
-          ),
+          children: [
+            CustomText(text: 'Sie erhalten im folgenden mehrere Rechenaufgaben und Sie sollen auswählen, ob die Aufgabe richtig oder falsch gelöst wurde. '),
+            SizedBox(height: 16,),
+            CustomText(text: 'Um in den Versuch einzuführen erhalten Sie eine Übungsaufgabe, die die Aufgabenstellung verdeutlicht.'),
+            SizedBox(height: 24,),
+            NavigationButton(navigationRoute: trialExampleScreen, isComplete: true,),
+          ],
         ),
       ),
     );

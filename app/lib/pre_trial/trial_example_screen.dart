@@ -10,15 +10,13 @@ class TrialExampleScreen extends StatelessWidget {
         title: Text('Versuchsdurchführung'),
       ),
       body: Center(
-        child: Padding(
+        child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Placeholder(),
-              NavigationButton(navigationRoute: trialScreen, isComplete: true,),
-            ],
-          ),
+          children: [
+            Placeholder(),
+            SizedBox(height: 24,),
+            NavigationButton(navigationRoute: trialScreen, isComplete: true,),
+          ],
         ),
       ),
     );

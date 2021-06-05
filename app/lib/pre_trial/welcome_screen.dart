@@ -8,19 +8,21 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: Padding(
+        child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CustomText(text: 'Wir sind Studierende im Master Informatik. Diese Studie wird im Rahmen der Lehrveranstaltung “Methoden der empirischen Forschung” an der Hochschule Kaiserslautern durchgeführt.'),
-              CustomText(text: 'Die Studie beschäftigt sich mit der Reaktionszeit auf verschiedenen Benutzeroberflächen.'),
-              CustomText(text: 'Demographische Werte werden anonymisiert bewertet.'),
-              CustomText(text: 'Vielen Dank, dass Sie sich bereit erklären, an der Studie teilzunehmen.'),
-              CustomText(text: 'Dauer des Versuchs: x Minuten'),
-              NavigationButton(navigationRoute: surveyScreen1, isComplete: true,),
-            ],
-          ),
+          children: [
+            CustomText(text: 'Wir sind Studierende im Master Informatik. Diese Studie wird im Rahmen der Lehrveranstaltung “Methoden der empirischen Forschung” an der Hochschule Kaiserslautern durchgeführt.'),
+            SizedBox(height: 16,),
+            CustomText(text: 'Die Studie beschäftigt sich mit der Reaktionszeit auf verschiedenen Benutzeroberflächen.'),
+            SizedBox(height: 16,),
+            CustomText(text: 'Demographische Werte werden anonymisiert bewertet.'),
+            SizedBox(height: 16,),
+            CustomText(text: 'Vielen Dank, dass Sie sich bereit erklären, an der Studie teilzunehmen.'),
+            SizedBox(height: 16,),
+            CustomText(text: 'Dauer des Versuchs: x Minuten'),
+            SizedBox(height: 24,),
+            NavigationButton(navigationRoute: surveyScreen1, isComplete: true,),
+          ],
         ),
       ),
     );

@@ -13,15 +13,13 @@ class ColorBlindnessTestScreen extends StatelessWidget {
           title: Text('Sehtest'),
         ),
         body: Center(
-          child: Padding(
+          child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Placeholder(),
-                SendDataButton(navigationRoute: finalScreen),
-              ],
-            ),
+            children: [
+              Placeholder(),
+              SizedBox(height: 24,),
+              SendDataButton(navigationRoute: finalScreen),
+            ],
           ),
         ),
       ),

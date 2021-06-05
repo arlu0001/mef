@@ -12,15 +12,13 @@ class FinalScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
         ),
         body: Center(
-          child: Padding(
+          child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CustomText(text: 'Ihre Testergebnisse wurden anonymisiert versendet!'),
-                CustomText(text: 'Vielen Dank für Ihre Teilnahme!'),
-              ],
-            ),
+            children: [
+              CustomText(text: 'Ihre Testergebnisse wurden anonymisiert versendet!'),
+              SizedBox(height: 16,),
+              CustomText(text: 'Vielen Dank für Ihre Teilnahme!'),
+            ],
           ),
         ),
       ),
