@@ -12,9 +12,9 @@ class CustomText extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: 24,
+          fontSize: 18,
         ),
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.start,
       ),
     );
   }

@@ -1,8 +1,10 @@
-import 'package:app/post_trial/survey_state.dart';
+
 import 'package:app/route_names.dart';
 import 'package:app/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'survey_state.dart';
 
 class SurveyScreen2 extends StatelessWidget {
   @override
@@ -91,7 +93,7 @@ class SurveyScreen2 extends StatelessWidget {
             ),
             Center(
                 child: NavigationButton(
-              navigationRoute: trialExplanationScreen,
+              navigationRoute: trialExampleScreen,
               isComplete: (context.watch<SurveyState>().smartphoneUsage != '' &&
                   context.watch<SurveyState>().usageConfidence != ''),
             )),

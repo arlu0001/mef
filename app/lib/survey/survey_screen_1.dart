@@ -1,8 +1,10 @@
-import 'package:app/post_trial/survey_state.dart';
+
 import 'package:app/route_names.dart';
 import 'package:app/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'survey_state.dart';
 
 class SurveyScreen1 extends StatelessWidget {
   @override
