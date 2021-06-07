@@ -14,7 +14,7 @@ class ColorBlindnessTestScreen extends StatelessWidget {
         ),
         body: Center(
           child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.all(24.0),
             children: [
               Placeholder(),
               SizedBox(height: 24,),

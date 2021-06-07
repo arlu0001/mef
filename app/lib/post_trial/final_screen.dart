@@ -13,7 +13,7 @@ class FinalScreen extends StatelessWidget {
         ),
         body: Center(
           child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: const EdgeInsets.all(24.0),
             children: [
               CustomText(text: 'Ihre Testergebnisse wurden anonymisiert versendet!'),
               SizedBox(height: 16,),

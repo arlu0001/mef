@@ -5,18 +5,28 @@ import 'package:flutter/material.dart';
 class TrialExampleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Versuchsdurchführung'),
-      ),
-      body: Center(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          children: [
-            Placeholder(),
-            SizedBox(height: 24,),
-            NavigationButton(navigationRoute: trialScreen, isComplete: true,),
-          ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text('Versuchsdurchführung'),
+        ),
+        body: Center(
+          child: ListView(
+            padding: const EdgeInsets.all(24.0),
+            children: [
+              Image.asset('/assets/images'),
+              SizedBox(
+                height: 24,
+              ),
+              Center(
+                  child: NavigationButton(
+                navigationRoute: trialScreen,
+                isComplete: true,
+              )),
+            ],
+          ),
         ),
       ),
     );
