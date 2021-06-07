@@ -34,6 +34,7 @@ class GoogleSheetApi {
       age: _surveyResult.age,
       smartphoneUsage: _surveyResult.smartphoneUsage,
       usageConfidence: _surveyResult.usageConfidence,
+      redGreenBlindness: _surveyResult.redGreenBlindness,
       correctAnsweredCount: _trialResult.correctAnswerCount,
       falseAnsweredCount: _trialResult.falseAnswerCount,
       totalTrialTime: _trialResult.totalTrialTime,

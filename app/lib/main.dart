@@ -23,27 +23,30 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (userAgent.contains('iphone') || userAgent.contains('ipad') || userAgent.contains('android')) {
-    return MaterialApp(
-      initialRoute: welcomeScreen,
-      routes: {
-        welcomeScreen: (context) => WelcomeScreen(),
-        surveyScreen1: (context) => ChangeNotifierProvider<SurveyState>(
-              create: (_) => surveyState,
-              child: SurveyScreen1(),
-            ),
-        surveyScreen2: (context) => ChangeNotifierProvider<SurveyState>(
-              create: (_) => surveyState,
-              child: SurveyScreen2(),
-            ),
-        trialExampleScreen: (context) => TrialExampleScreen(),
-        trialScreen: (context) => ChangeNotifierProvider<TrialState>(
-              create: (_) => TrialState(),
-              child: TrialScreen(),
-            ),
-        colorBlindnessTestScreen: (context) => ColorBlindnessTestScreen(),
-        finalScreen: (context) => FinalScreen(),
-      },
-    );
+      return MaterialApp(
+        initialRoute: welcomeScreen,
+        routes: {
+          welcomeScreen: (context) => WelcomeScreen(),
+          surveyScreen1: (context) => ChangeNotifierProvider<SurveyState>(
+                create: (_) => surveyState,
+                child: SurveyScreen1(),
+              ),
+          surveyScreen2: (context) => ChangeNotifierProvider<SurveyState>(
+                create: (_) => surveyState,
+                child: SurveyScreen2(),
+              ),
+          trialExampleScreen: (context) => TrialExampleScreen(),
+          trialScreen: (context) => ChangeNotifierProvider<TrialState>(
+                create: (_) => TrialState(),
+                child: TrialScreen(),
+              ),
+          colorBlindnessTestScreen: (context) => ChangeNotifierProvider<SurveyState>(
+                create: (_) => surveyState,
+                child: ColorBlindnessTestScreen(),
+              ),
+          finalScreen: (context) => FinalScreen(),
+        },
+      );
     } else {
       return MaterialApp(
         home: Scaffold(

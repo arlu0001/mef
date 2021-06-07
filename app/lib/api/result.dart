@@ -5,6 +5,7 @@ class Result {
   final String age;
   final String smartphoneUsage;
   final String usageConfidence;
+  final String redGreenBlindness;
   final String correctAnsweredCount;
   final String falseAnsweredCount;
   final List<int> times;
@@ -17,6 +18,7 @@ class Result {
     required this.age,
     required this.smartphoneUsage,
     required this.usageConfidence,
+    required this.redGreenBlindness,
     required this.correctAnsweredCount,
     required this.falseAnsweredCount,
     required this.totalTrialTime,
@@ -31,6 +33,7 @@ class Result {
         'age': age,
         'smartphoneUsage': smartphoneUsage,
         'usageConfidence': usageConfidence,
+        'redGreenBlindness': redGreenBlindness,
         'correctAnsweredCount': correctAnsweredCount,
         'falseAnsweredCount': falseAnsweredCount,
         'totalTrialTime': totalTrialTime.toString(),
@@ -63,11 +66,13 @@ class SurveyResult {
   final String age;
   final String smartphoneUsage;
   final String usageConfidence;
+  final String redGreenBlindness;
 
   SurveyResult({
     required this.biologicalSex,
     required this.age,
     required this.smartphoneUsage,
     required this.usageConfidence,
+    required this.redGreenBlindness,
   });
 }
