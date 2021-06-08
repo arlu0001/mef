@@ -38,7 +38,8 @@ class GoogleSheetApi {
       correctAnsweredCount: _trialResult.correctAnswerCount,
       falseAnsweredCount: _trialResult.falseAnswerCount,
       totalTrialTime: _trialResult.totalTrialTime,
-      dateTime: _trialResult.dateTime,
+      date: _trialResult.dateTime,
+      time: _trialResult.dateTime,
       times: _trialResult.solveTimes,
       reactions: _trialResult.reactions,
     );

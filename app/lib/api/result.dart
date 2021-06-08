@@ -11,7 +11,8 @@ class Result {
   final List<int> times;
   final List<int> reactions;
   final Duration totalTrialTime;
-  final DateTime dateTime;
+  final DateTime date;
+  final DateTime time;
 
   const Result({
     required this.biologicalSex,
@@ -22,7 +23,8 @@ class Result {
     required this.correctAnsweredCount,
     required this.falseAnsweredCount,
     required this.totalTrialTime,
-    required this.dateTime,
+    required this.date,
+    required this.time,
     required this.times,
     required this.reactions,
   });
@@ -37,7 +39,8 @@ class Result {
         'correctAnsweredCount': correctAnsweredCount,
         'falseAnsweredCount': falseAnsweredCount,
         'totalTrialTime': totalTrialTime.toString(),
-        'dateTime': DateFormat('dd.MM.yyyy').add_Hm().format(dateTime),
+        'date': DateFormat('dd.MM.yyyy').format(date),
+        'time': DateFormat.Hm().format(date),
         'times': times.join(";"),
         'reactions': reactions.join(";"),
       };
