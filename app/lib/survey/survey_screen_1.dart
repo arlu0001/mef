@@ -25,7 +25,7 @@ class SurveyScreen1 extends StatelessWidget {
             ),
             Consumer<SurveyState>(
               builder: (context, value, child) => RadioListTile<String?>(
-                value: 'Weiblich',
+                value: 'f',
                 groupValue: value.biologicalSex,
                 onChanged: (value) => context.read<SurveyState>().setBiologicalSex(value!),
                 title: Text('Weiblich'),
@@ -33,7 +33,7 @@ class SurveyScreen1 extends StatelessWidget {
             ),
             Consumer<SurveyState>(
               builder: (context, value, child) => RadioListTile<String?>(
-                value: 'Männlich',
+                value: 'm',
                 groupValue: value.biologicalSex,
                 onChanged: (value) => context.read<SurveyState>().setBiologicalSex(value!),
                 title: Text('Männlich'),
