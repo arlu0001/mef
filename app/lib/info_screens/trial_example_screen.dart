@@ -24,7 +24,7 @@ class TrialExampleScreen extends StatelessWidget {
                   width: 1,
                   color: Colors.black,
                 )),
-                child: Image.asset('images/trial_example_green_red.jpg'),
+                child: Image.asset('assets/images/trial_example_blue.jpg'),
               ),
               Text('Beispielaufgabe', textAlign: TextAlign.center,),
               SizedBox(
