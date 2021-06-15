@@ -42,7 +42,6 @@ class SurveyState extends ChangeNotifier {
 
   void setUsageConfidence(String value) {
     usageConfidence = value;
-    _endSurvey();
     notifyListeners();
   }
 
@@ -55,12 +54,15 @@ class SurveyState extends ChangeNotifier {
   }
 
   void setIshiharaResult(String value) {
-    if (currentCounter == 0) {
+    if (currentCounter - 1 == 0) {
       ishiharaTestResult3 = value;
-    } else if (currentCounter == 1) {
+      _loadIshiharaImage();
+    } else if (currentCounter - 1 == 1) {
       ishiharaTestResult42 = value;
-    } else if (currentCounter == 2) {
+      _loadIshiharaImage();
+    } else if (currentCounter - 1 == 2) {
       ishiharaTestResultLines = value;
+      _endSurvey();
     }
   }
 
