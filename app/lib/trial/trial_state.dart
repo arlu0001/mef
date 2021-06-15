@@ -46,7 +46,7 @@ class TrialState extends ChangeNotifier {
       int completionTime = _trialStopwatch.elapsedMilliseconds;
       Duration d = Duration(milliseconds: completionTime);
       print('Zeit insgesamt: $d ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-      Navigator.pushNamed(context, ishiharaTestRoute);
+      Navigator.pushNamed(context, startIshiharaRoute);
       print('Richtig beantwortet: $correctAnsweredCounter');
       print('Falsch beantwortet: $falseAnsweredCounter');
       print('-------------------------------------------------------');

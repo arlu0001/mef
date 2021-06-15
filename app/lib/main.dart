@@ -1,3 +1,4 @@
+import 'package:app/info_screens/ishihara_start_screen.dart';
 import 'package:app/info_screens/trial_start_screen.dart';
 import 'package:app/survey/color_blindness_test_screen.dart';
 import 'package:app/survey/survey_screen_1.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
                 create: (_) => TrialState(),
                 child: TrialScreen(),
               ),
+          startIshiharaRoute: (context) => IshiharaStartScreen(),
           ishiharaTestRoute: (context) => ChangeNotifierProvider<SurveyState>(
                 create: (_) => surveyState,
                 child: ColorBlindnessTestScreen(),
