@@ -22,7 +22,7 @@ class ColorBlindnessTestScreen extends StatelessWidget {
             children: [
               Consumer<SurveyState>(
                 builder: (context, value, child) => Image.asset(
-                  'images/ishihara_${value.currentIshihara}.jpg',
+                  'assets/images/ishihara_${value.currentIshihara}.jpg',
                 ),
               ),
               SizedBox(
@@ -39,12 +39,12 @@ class ColorBlindnessTestScreen extends StatelessWidget {
               ),
               Consumer<SurveyState>(
                 builder: (context, value, child) {
-                  if (value.currentCounter < value.ishiharaTestCorrectAnswers.length) {
+                  if (value.currentCounter < value.ishiharaImageNames.length) {
                     return Center(
                       child: ElevatedButton(
                         child: Text("Weiter"),
                         onPressed: () {
-                          context.read<SurveyState>().countAnswers(_editingController.text);
+                          context.read<SurveyState>().setIshiharaResult(_editingController.text);
                           _editingController.clear();
                         },
                       ),
@@ -53,8 +53,7 @@ class ColorBlindnessTestScreen extends StatelessWidget {
                     return Center(
                       child: ElevatedButton(
                         onPressed: () {
-                          context.read<SurveyState>().countAnswers(_editingController.text);
-
+                          context.read<SurveyState>().setIshiharaResult(_editingController.text);
                           GoogleSheetApi api = GoogleSheetApi();
                           api.prepareResult();
                           api.submitForm((String response) {
@@ -71,7 +70,7 @@ class ColorBlindnessTestScreen extends StatelessWidget {
                           Navigator.pushNamed(context, finalScreen);
                         },
                         child: Text('Absenden'),
-                      )
+                      ),
                     );
                   }
                 },

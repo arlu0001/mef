@@ -5,9 +5,11 @@ class Result {
   final String age;
   final String smartphoneUsage;
   final String usageConfidence;
-  final String redGreenBlindness;
   final String correctAnsweredCount;
   final String falseAnsweredCount;
+  final String ishiharaTestResult3;
+  final String ishiharaTestResult42;
+  final String ishiharaTestResultLines;
   final List<int> times;
   final List<int> reactions;
   final Duration totalTrialTime;
@@ -19,9 +21,11 @@ class Result {
     required this.age,
     required this.smartphoneUsage,
     required this.usageConfidence,
-    required this.redGreenBlindness,
     required this.correctAnsweredCount,
     required this.falseAnsweredCount,
+    required this.ishiharaTestResult3,
+    required this.ishiharaTestResult42,
+    required this.ishiharaTestResultLines,
     required this.totalTrialTime,
     required this.date,
     required this.time,
@@ -35,9 +39,11 @@ class Result {
         'age': age,
         'smartphoneUsage': smartphoneUsage,
         'usageConfidence': usageConfidence,
-        'redGreenBlindness': redGreenBlindness,
         'correctAnsweredCount': correctAnsweredCount,
         'falseAnsweredCount': falseAnsweredCount,
+        'ishiharaTestResult3': ishiharaTestResult3,
+        'ishiharaTestResult42': ishiharaTestResult42,
+        'ishiharaTestResultLines': ishiharaTestResultLines,
         'totalTrialTime': totalTrialTime.toString(),
         'date': DateFormat('dd.MM.yyyy').format(date),
         'time': DateFormat.Hm().format(date),
@@ -69,13 +75,17 @@ class SurveyResult {
   final String age;
   final String smartphoneUsage;
   final String usageConfidence;
-  final String redGreenBlindness;
+  final String ishiharaTestResult3;
+  final String ishiharaTestResult42;
+  final String ishiharaTestResultLines;
 
   SurveyResult({
     required this.biologicalSex,
     required this.age,
     required this.smartphoneUsage,
     required this.usageConfidence,
-    required this.redGreenBlindness,
+    required this.ishiharaTestResult3,
+    required this.ishiharaTestResult42,
+    required this.ishiharaTestResultLines,
   });
 }

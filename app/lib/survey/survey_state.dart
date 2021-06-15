@@ -7,17 +7,19 @@ class SurveyState extends ChangeNotifier {
 
   late SurveyResult _surveyResult;
 
-  final List ishiharaTestCorrectAnswers = [42, 3, 74];
+  final List<String> ishiharaImageNames = ['42', '3', 'lines'];
   int correctAnswers = 0;
   int wrongAnswers = 0;
-  late int currentIshihara;
+  late String currentIshihara;
   int currentCounter = 0;
 
   String biologicalSex = '';
   String age = '';
   String smartphoneUsage = '';
   String usageConfidence = '';
-  late int ishiharaTestResult;
+  late String ishiharaTestResult3;
+  late String ishiharaTestResult42;
+  late String ishiharaTestResultLines;
 
   SurveyState() {
     _loadIshiharaImage();
@@ -44,40 +46,33 @@ class SurveyState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _loadIshiharaImage(){
-    currentIshihara = ishiharaTestCorrectAnswers[currentCounter];
-    if(currentCounter < ishiharaTestCorrectAnswers.length) {
+  void _loadIshiharaImage() {
+    currentIshihara = ishiharaImageNames[currentCounter];
+    if (currentCounter < ishiharaImageNames.length) {
       currentCounter++;
     }
     notifyListeners();
   }
 
-  void countAnswers(String answer) {
-    if(answer == currentIshihara.toString()) {
-      correctAnswers++;
-    } else {
-      wrongAnswers++;
+  void setIshiharaResult(String value) {
+    if (currentCounter == 0) {
+      ishiharaTestResult3 = value;
+    } else if (currentCounter == 1) {
+      ishiharaTestResult42 = value;
+    } else if (currentCounter == 2) {
+      ishiharaTestResultLines = value;
     }
-    _loadIshiharaImage();
   }
 
   void _endSurvey() {
-    if(correctAnswers == 3) {
-      // no red-green blindness
-      ishiharaTestResult = 1;
-    } else if (wrongAnswers == 3) {
-      // red-green blindness
-      ishiharaTestResult = 2;
-    } else {
-      // some red-green blindness
-      ishiharaTestResult = 3;
-    }
     _surveyResult = SurveyResult(
       biologicalSex: biologicalSex,
       age: age,
       smartphoneUsage: smartphoneUsage,
       usageConfidence: usageConfidence,
-      redGreenBlindness: ishiharaTestResult.toString(),
+      ishiharaTestResult3: ishiharaTestResult3,
+      ishiharaTestResult42: ishiharaTestResult42,
+      ishiharaTestResultLines: ishiharaTestResultLines,
     );
     api.setSurveyResult(_surveyResult);
   }
