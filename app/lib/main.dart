@@ -24,27 +24,27 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     if (userAgent.contains('iphone') || userAgent.contains('ipad') || userAgent.contains('android')) {
       return MaterialApp(
-        initialRoute: welcomeScreen,
+        initialRoute: initialRoute,
         routes: {
-          welcomeScreen: (context) => WelcomeScreen(),
-          surveyScreen1: (context) => ChangeNotifierProvider<SurveyState>(
+          initialRoute: (context) => WelcomeScreen(),
+          survey1Route: (context) => ChangeNotifierProvider<SurveyState>(
                 create: (_) => surveyState,
                 child: SurveyScreen1(),
               ),
-          surveyScreen2: (context) => ChangeNotifierProvider<SurveyState>(
+          survey2Route: (context) => ChangeNotifierProvider<SurveyState>(
                 create: (_) => surveyState,
                 child: SurveyScreen2(),
               ),
-          trialExampleScreen: (context) => TrialExampleScreen(),
-          trialScreen: (context) => ChangeNotifierProvider<TrialState>(
+          trialExampleRoute: (context) => TrialExampleScreen(),
+          trialScreenRoute: (context) => ChangeNotifierProvider<TrialState>(
                 create: (_) => TrialState(),
                 child: TrialScreen(),
               ),
-          colorBlindnessTestScreen: (context) => ChangeNotifierProvider<SurveyState>(
+          ishiharaTestRoute: (context) => ChangeNotifierProvider<SurveyState>(
                 create: (_) => surveyState,
                 child: ColorBlindnessTestScreen(),
               ),
-          finalScreen: (context) => FinalScreen(),
+          finalRoute: (context) => FinalScreen(),
         },
       );
     } else {

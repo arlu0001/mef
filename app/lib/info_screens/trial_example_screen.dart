@@ -32,7 +32,7 @@ class TrialExampleScreen extends StatelessWidget {
               ),
               Center(
                   child: NavigationButton(
-                navigationRoute: trialScreen,
+                navigationRoute: trialScreenRoute,
                 isComplete: true,
               )),
             ],

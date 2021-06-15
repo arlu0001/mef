@@ -67,7 +67,7 @@ class ColorBlindnessTestScreen extends StatelessWidget {
                             }
                           });
 
-                          Navigator.pushNamed(context, finalScreen);
+                          Navigator.pushNamed(context, finalRoute);
                         },
                         child: Text('Absenden'),
                       ),

@@ -36,7 +36,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             Center(
                 child: NavigationButton(
-              navigationRoute: surveyScreen1,
+              navigationRoute: survey1Route,
               isComplete: true,
             )),
           ],

@@ -1,7 +1,9 @@
-const String welcomeScreen = '/';
-const String trialExampleScreen = '/trialExampleRoute';
-const String trialScreen = '/trialRoute';
-const String colorBlindnessTestScreen = '/colorBlindnessTestRoute';
-const String surveyScreen1 = '/surveyRoute1';
-const String surveyScreen2 = '/surveyRoute2';
-const String finalScreen = '/finalRoute';
+const String initialRoute = '/';
+const String survey1Route = '/survey1';
+const String survey2Route = '/survey2';
+const String trialExampleRoute = '/trialExample';
+const String startTrialRoute = '/startTrial';
+const String trialScreenRoute = '/trial';
+const String startIshiharaRoute = '/startIshihara';
+const String ishiharaTestRoute = '/ishiharaTest';
+const String finalRoute = '/final';

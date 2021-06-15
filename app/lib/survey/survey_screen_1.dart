@@ -101,7 +101,7 @@ class SurveyScreen1 extends StatelessWidget {
             ),
             Center(
               child: NavigationButton(
-                navigationRoute: surveyScreen2,
+                navigationRoute: survey2Route,
                 isComplete:
                     (context.watch<SurveyState>().biologicalSex != '' && context.watch<SurveyState>().age != ''),
               ),
