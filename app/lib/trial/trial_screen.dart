@@ -12,9 +12,14 @@ class TrialScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: Consumer<TrialState>(
             builder: (BuildContext context, value, Widget? child) {
-              return Text(
-                'Aufgabe ${value.currentExerciseCounter}/${value.exercises.length}',
+              return LinearProgressIndicator(
+                value: (value.currentExerciseCounter - 1) / value.exercises.length,
+                color: Colors.white,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
               );
+              // return Text(
+              //   'Aufgabe ${value.currentExerciseCounter}/${value.exercises.length}',
+              // );
             },
           ),
         ),
