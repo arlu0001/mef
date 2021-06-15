@@ -37,6 +37,7 @@ class GoogleSheetApi {
       ishiharaTestResult3: _surveyResult.ishiharaTestResult3,
       ishiharaTestResult42: _surveyResult.ishiharaTestResult42,
       ishiharaTestResultLines: _surveyResult.ishiharaTestResultLines,
+      ishiharaTestDuration: _surveyResult.ishiharaTestDuration,
       correctAnsweredCount: _trialResult.correctAnswerCount,
       falseAnsweredCount: _trialResult.falseAnswerCount,
       totalTrialTime: _trialResult.totalTrialTime,

@@ -15,6 +15,7 @@ class Result {
   final Duration totalTrialTime;
   final DateTime date;
   final DateTime time;
+  final Duration ishiharaTestDuration;
 
   const Result({
     required this.biologicalSex,
@@ -26,6 +27,7 @@ class Result {
     required this.ishiharaTestResult3,
     required this.ishiharaTestResult42,
     required this.ishiharaTestResultLines,
+    required this.ishiharaTestDuration,
     required this.totalTrialTime,
     required this.date,
     required this.time,
@@ -44,6 +46,7 @@ class Result {
         'ishiharaTestResult3': ishiharaTestResult3,
         'ishiharaTestResult42': ishiharaTestResult42,
         'ishiharaTestResultLines': ishiharaTestResultLines,
+        'ishiharaTestDuration': ishiharaTestDuration.toString(),
         'totalTrialTime': totalTrialTime.toString(),
         'date': DateFormat('dd.MM.yyyy').format(date),
         'time': DateFormat.Hm().format(date),
@@ -78,6 +81,7 @@ class SurveyResult {
   final String ishiharaTestResult3;
   final String ishiharaTestResult42;
   final String ishiharaTestResultLines;
+  final Duration ishiharaTestDuration;
 
   SurveyResult({
     required this.biologicalSex,
@@ -87,5 +91,6 @@ class SurveyResult {
     required this.ishiharaTestResult3,
     required this.ishiharaTestResult42,
     required this.ishiharaTestResultLines,
+    required this.ishiharaTestDuration,
   });
 }

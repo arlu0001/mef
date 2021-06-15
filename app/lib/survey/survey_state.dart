@@ -20,9 +20,11 @@ class SurveyState extends ChangeNotifier {
   late String ishiharaTestResult3;
   late String ishiharaTestResult42;
   late String ishiharaTestResultLines;
+  Stopwatch _ishiharaTestStopwatch = Stopwatch();
 
   SurveyState() {
     _loadIshiharaImage();
+    _ishiharaTestStopwatch.start();
   }
 
   void setBiologicalSex(String value) {
@@ -62,6 +64,7 @@ class SurveyState extends ChangeNotifier {
       _loadIshiharaImage();
     } else if (currentCounter - 1 == 2) {
       ishiharaTestResultLines = value;
+      _ishiharaTestStopwatch.stop();
       _endSurvey();
     }
   }
@@ -75,6 +78,9 @@ class SurveyState extends ChangeNotifier {
       ishiharaTestResult3: ishiharaTestResult3,
       ishiharaTestResult42: ishiharaTestResult42,
       ishiharaTestResultLines: ishiharaTestResultLines,
+      ishiharaTestDuration: Duration(
+        milliseconds: _ishiharaTestStopwatch.elapsedMilliseconds,
+      ),
     );
     api.setSurveyResult(_surveyResult);
   }
