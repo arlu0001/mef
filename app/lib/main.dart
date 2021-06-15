@@ -1,3 +1,4 @@
+import 'package:app/info_screens/trial_start_screen.dart';
 import 'package:app/survey/color_blindness_test_screen.dart';
 import 'package:app/survey/survey_screen_1.dart';
 import 'package:app/survey/survey_screen_2.dart';
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
                 child: SurveyScreen2(),
               ),
           trialExampleRoute: (context) => TrialExampleScreen(),
-          trialScreenRoute: (context) => ChangeNotifierProvider<TrialState>(
+          startTrialRoute: (context) => TrialStartScreen(),
+          trialRoute: (context) => ChangeNotifierProvider<TrialState>(
                 create: (_) => TrialState(),
                 child: TrialScreen(),
               ),

@@ -16,8 +16,12 @@ class TrialExampleScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(24.0),
             children: [
-              CustomText(text: 'Sie erhalten im Experiment Rechen-\naufgaben, die schon gelöst worden sind (siehe Beispielaufgabe). Sie sollen entscheiden, ob die Aufgaben richtig oder falsch gelöst worden sind. Das tun Sie, indem Sie so schnell wie möglich einen der beiden Buttons antippen. Insgesamt werden Sie 100 Aufgaben bewerten.'),
-              SizedBox(height: 8,),
+              CustomText(
+                  text:
+                      'Sie erhalten im Experiment Rechen-\naufgaben, die schon gelöst worden sind (siehe Beispielaufgabe). Sie sollen entscheiden, ob die Aufgaben richtig oder falsch gelöst worden sind. Das tun Sie, indem Sie so schnell wie möglich einen der beiden Buttons antippen. Insgesamt werden Sie 100 Aufgaben bewerten.'),
+              SizedBox(
+                height: 8,
+              ),
               Container(
                 decoration: BoxDecoration(
                     border: Border.all(
@@ -26,15 +30,19 @@ class TrialExampleScreen extends StatelessWidget {
                 )),
                 child: Image.asset('assets/images/trial_example_blue.jpg'),
               ),
-              Text('Beispielaufgabe', textAlign: TextAlign.center,),
+              Text(
+                'Beispielaufgabe',
+                textAlign: TextAlign.center,
+              ),
               SizedBox(
                 height: 24,
               ),
               Center(
-                  child: NavigationButton(
-                navigationRoute: trialScreenRoute,
-                isComplete: true,
-              )),
+                child: NavigationButton(
+                  navigationRoute: startTrialRoute,
+                  isComplete: true,
+                ),
+              ),
             ],
           ),
         ),

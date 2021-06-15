@@ -1,4 +1,3 @@
-import 'package:app/api/google_sheet_api.dart';
 import 'package:flutter/material.dart';
 
 class CustomText extends StatelessWidget {
@@ -23,20 +22,24 @@ class CustomText extends StatelessWidget {
 class NavigationButton extends StatelessWidget {
   final String navigationRoute;
   final bool isComplete;
+  final String btnName;
 
-  NavigationButton({required this.navigationRoute, this.isComplete = false});
+  NavigationButton({
+    required this.navigationRoute,
+    this.btnName = 'Weiter',
+    this.isComplete = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        if(isComplete)
+        if (isComplete)
           Navigator.pushNamed(context, navigationRoute);
         else
           return null;
       },
-      child: Text('Weiter'),
+      child: Text(btnName),
     );
   }
-
 }
