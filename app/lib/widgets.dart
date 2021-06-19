@@ -11,9 +11,9 @@ class CustomText extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          fontSize: 24,
+          fontSize: 18,
         ),
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.start,
       ),
     );
   }
@@ -21,34 +21,25 @@ class CustomText extends StatelessWidget {
 
 class NavigationButton extends StatelessWidget {
   final String navigationRoute;
+  final bool isComplete;
+  final String btnName;
 
-  NavigationButton({required this.navigationRoute});
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.pushNamed(context, navigationRoute);
-      },
-      child: Text('Weiter'),
-    );
-  }
-
-}
-
-class SendDataButton extends StatelessWidget {
-  final String navigationRoute;
-
-  SendDataButton({required this.navigationRoute});
+  NavigationButton({
+    required this.navigationRoute,
+    this.btnName = 'Weiter',
+    this.isComplete = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.pushNamed(context, navigationRoute);
+        if (isComplete)
+          Navigator.pushNamed(context, navigationRoute);
+        else
+          return null;
       },
-      child: Text('Absenden'),
+      child: Text(btnName),
     );
   }
-
 }

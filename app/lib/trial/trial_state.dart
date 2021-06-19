@@ -1,45 +1,64 @@
+import 'package:app/api/google_sheet_api.dart';
+import 'package:app/api/result.dart';
 import 'package:app/route_names.dart';
+import 'package:app/trial/models/exercise_list.dart';
 import 'package:flutter/material.dart';
 
 import 'models/button_config.dart';
 import 'models/exercise.dart';
 
 class TrialState extends ChangeNotifier {
+  GoogleSheetApi api = GoogleSheetApi();
+
+  late List<Exercise> exercises = getExercises;
   int currentExerciseCounter = 0;
-  Exercise currentExercise = Exercise(term: '', isTrue: true);
-  List<Exercise> exercises = [
-    Exercise(term: '1 + 1 = 2', isTrue: true),
-    Exercise(term: '5 + 3 = 2', isTrue: false),
-    Exercise(term: '2 - 1 = 5', isTrue: false),
-    Exercise(term: '7 - 4 = 3', isTrue: true),
-  ];
-  List solveTimes = List.filled(4, 0);
+  late Exercise currentExercise;
+  late List<int> solveTimes;
+  late List<int> reaction;
   late ButtonConfig currentButtonConfig;
   int correctAnsweredCounter = 0;
   int falseAnsweredCounter = 0;
-  Stopwatch _stopwatch = Stopwatch();
+  Stopwatch _reactionStopwatch = Stopwatch();
+  Stopwatch _trialStopwatch = Stopwatch();
+  late TrialResult _trialResult;
+  late DateTime dateTime;
 
   TrialState() {
-    _stopwatch.start();
+    solveTimes = List.filled(exercises.length, 0);
+    reaction = List.filled(exercises.length, 0);
     _loadExercise();
+    _trialStopwatch.start();
+    dateTime = DateTime.now();
     _loadButtonConfig();
   }
 
   void finish(BuildContext context) {
-    _stopwatch.stop();
-    solveTimes[currentExerciseCounter - 1] = _stopwatch.elapsedMilliseconds;
-    _stopwatch.reset();
+    _reactionStopwatch.stop();
+    solveTimes[currentExerciseCounter - 1] = _reactionStopwatch.elapsedMilliseconds;
+    _reactionStopwatch.reset();
 
     print('-------------------------------------------------------');
     print('Zeit: ${solveTimes[currentExerciseCounter - 1]}');
     print('-------------------------------------------------------');
 
-    if(currentExerciseCounter == exercises.length) {
-      Navigator.pushNamed(context, colorBlindnessTestScreen);
+    if (currentExerciseCounter == exercises.length) {
+      _trialStopwatch.stop();
+      int completionTime = _trialStopwatch.elapsedMilliseconds;
+      Duration d = Duration(milliseconds: completionTime);
+      print('Zeit insgesamt: $d ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+      Navigator.pushNamed(context, startIshiharaRoute);
       print('Richtig beantwortet: $correctAnsweredCounter');
       print('Falsch beantwortet: $falseAnsweredCounter');
       print('-------------------------------------------------------');
-      // prepareResults // TODO
+      _trialResult = TrialResult(
+        solveTimes: solveTimes,
+        reactions: reaction,
+        correctAnswerCount: correctAnsweredCounter.toString(),
+        falseAnswerCount: falseAnsweredCounter.toString(),
+        totalTrialTime: d,
+        dateTime: dateTime,
+      );
+      api.setTrialResults(_trialResult);
     } else {
       _loadExercise();
       _loadButtonConfig();
@@ -52,7 +71,7 @@ class TrialState extends ChangeNotifier {
       currentExerciseCounter++;
     }
     notifyListeners();
-    _stopwatch.start();
+    _reactionStopwatch.start();
   }
 
   void _loadButtonConfig() {
@@ -69,6 +88,38 @@ class TrialState extends ChangeNotifier {
       correctAnsweredCounter++;
     } else if (buttonTitle == 'Falsch' && currentExercise.isTrue) {
       falseAnsweredCounter++;
+    }
+  }
+
+  // 1: buttonTitle: 'Richtig', color: 'green', result: true
+  // 2: buttonTitle: 'Richtig', color: 'green', result: false
+  // 3: buttonTitle: 'Richtig', color: 'red', result: true;
+  // 4: buttonTitle: 'Richtig', color: 'red', result: false;
+  // 5: buttonTitle: 'Falsch', color: 'green', result: true;
+  // 6: buttonTitle: 'Falsch', color: 'green', result: false;
+  // 7: buttonTitle: 'Falsch', color: 'red', result: true;
+  // 8: buttonTitle: 'Falsch', color: 'red', result: false;
+  void analyzeReaction(String buttonTitle, Color buttonColor) {
+    bool btnTitle = buttonTitle == 'Richtig';
+    bool btnColor = buttonColor == Colors.green;
+    bool result = currentExercise.isTrue;
+
+    if (btnTitle && btnColor && result) {
+      reaction[currentExerciseCounter - 1] = 1;
+    } else if (btnColor && btnColor && !result) {
+      reaction[currentExerciseCounter - 1] = 2;
+    } else if (btnTitle && !btnColor && result) {
+      reaction[currentExerciseCounter - 1] = 3;
+    } else if (btnTitle && !btnColor && !result) {
+      reaction[currentExerciseCounter - 1] = 4;
+    } else if (!btnTitle && btnColor && result) {
+      reaction[currentExerciseCounter - 1] = 5;
+    } else if (!btnTitle && btnColor && !result) {
+      reaction[currentExerciseCounter - 1] = 6;
+    } else if (!btnTitle && !btnColor && result) {
+      reaction[currentExerciseCounter - 1] = 7;
+    } else if (!btnTitle && !btnColor && !result) {
+      reaction[currentExerciseCounter - 1] = 8;
     }
   }
 }

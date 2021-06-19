@@ -1,8 +1,10 @@
-import 'package:app/post_trial/survey_state.dart';
+
 import 'package:app/route_names.dart';
 import 'package:app/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'survey_state.dart';
 
 class SurveyScreen1 extends StatelessWidget {
   @override
@@ -12,7 +14,7 @@ class SurveyScreen1 extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text('Abschlussbefragung'),
+          title: Text('Daten zur Person 1/2'),
         ),
         body: ListView(
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -23,7 +25,7 @@ class SurveyScreen1 extends StatelessWidget {
             ),
             Consumer<SurveyState>(
               builder: (context, value, child) => RadioListTile<String?>(
-                value: 'Weiblich',
+                value: 'f',
                 groupValue: value.biologicalSex,
                 onChanged: (value) => context.read<SurveyState>().setBiologicalSex(value!),
                 title: Text('Weiblich'),
@@ -31,7 +33,7 @@ class SurveyScreen1 extends StatelessWidget {
             ),
             Consumer<SurveyState>(
               builder: (context, value, child) => RadioListTile<String?>(
-                value: 'Männlich',
+                value: 'm',
                 groupValue: value.biologicalSex,
                 onChanged: (value) => context.read<SurveyState>().setBiologicalSex(value!),
                 title: Text('Männlich'),
@@ -40,6 +42,14 @@ class SurveyScreen1 extends StatelessWidget {
             Text(
               'Wie alt sind Sie?',
               style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Consumer<SurveyState>(
+              builder: (context, value, child) => RadioListTile<String?>(
+                value: 'unter 11',
+                groupValue: value.age,
+                onChanged: (value) => context.read<SurveyState>().setAge(value!),
+                title: Text('unter 11'),
+              ),
             ),
             Consumer<SurveyState>(
               builder: (context, value, child) => RadioListTile<String?>(
@@ -83,29 +93,19 @@ class SurveyScreen1 extends StatelessWidget {
             ),
             Consumer<SurveyState>(
               builder: (context, value, child) => RadioListTile<String?>(
-                value: '61-70',
+                value: 'über 60',
                 groupValue: value.age,
                 onChanged: (value) => context.read<SurveyState>().setAge(value!),
-                title: Text('61-70'),
+                title: Text('über 60'),
               ),
             ),
-            Consumer<SurveyState>(
-              builder: (context, value, child) => RadioListTile<String?>(
-                value: '71-80',
-                groupValue: value.age,
-                onChanged: (value) => null,
-                title: Text('71-80'),
+            Center(
+              child: NavigationButton(
+                navigationRoute: survey2Route,
+                isComplete:
+                    (context.watch<SurveyState>().biologicalSex != '' && context.watch<SurveyState>().age != ''),
               ),
             ),
-            Consumer<SurveyState>(
-              builder: (context, value, child) => RadioListTile<String?>(
-                value: '81-90',
-                groupValue: value.age,
-                onChanged: (value) => context.read<SurveyState>().setAge(value!),
-                title: Text('81-90'),
-              ),
-            ),
-            Center(child: NavigationButton(navigationRoute: surveyScreen2)),
           ],
         ),
       ),

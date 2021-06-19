@@ -1,8 +1,10 @@
-import 'package:app/post_trial/survey_state.dart';
+
 import 'package:app/route_names.dart';
 import 'package:app/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'survey_state.dart';
 
 class SurveyScreen2 extends StatelessWidget {
   @override
@@ -12,7 +14,7 @@ class SurveyScreen2 extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text('Abschlussbefragung'),
+          title: Text('Daten zur Person 2/2'),
         ),
         body: ListView(
           padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
@@ -43,22 +45,6 @@ class SurveyScreen2 extends StatelessWidget {
                 groupValue: value.smartphoneUsage,
                 onChanged: (value) => context.read<SurveyState>().setSmartphoneUsage(value!),
                 title: Text('mehrmals die Woche'),
-              ),
-            ),
-            Consumer<SurveyState>(
-              builder: (context, value, child) => RadioListTile<String?>(
-                value: 'wöchentlich',
-                groupValue: value.smartphoneUsage,
-                onChanged: (value) => context.read<SurveyState>().setSmartphoneUsage(value!),
-                title: Text('wöchentlich'),
-              ),
-            ),
-            Consumer<SurveyState>(
-              builder: (context, value, child) => RadioListTile<String?>(
-                value: 'weniger als wöchentlich',
-                groupValue: value.smartphoneUsage,
-                onChanged: (value) => context.read<SurveyState>().setSmartphoneUsage(value!),
-                title: Text('weniger als wöchentlich'),
               ),
             ),
             Text(
@@ -105,7 +91,12 @@ class SurveyScreen2 extends StatelessWidget {
                 title: Text('sehr unsicher'),
               ),
             ),
-            Center(child: SendDataButton(navigationRoute: finalScreen)),
+            Center(
+                child: NavigationButton(
+              navigationRoute: trialExampleRoute,
+              isComplete: (context.watch<SurveyState>().smartphoneUsage != '' &&
+                  context.watch<SurveyState>().usageConfidence != ''),
+            )),
           ],
         ),
       ),

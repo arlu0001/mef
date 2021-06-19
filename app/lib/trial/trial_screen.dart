@@ -12,9 +12,14 @@ class TrialScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: Consumer<TrialState>(
             builder: (BuildContext context, value, Widget? child) {
-              return Text(
-                'Aufgabe ${value.currentExerciseCounter}/${value.exercises.length}',
+              return LinearProgressIndicator(
+                value: (value.currentExerciseCounter - 1) / value.exercises.length,
+                color: Colors.white,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
               );
+              // return Text(
+              //   'Aufgabe ${value.currentExerciseCounter}/${value.exercises.length}',
+              // );
             },
           ),
         ),
@@ -60,6 +65,10 @@ class TrialButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
+        Provider.of<TrialState>(context, listen: false).analyzeReaction(
+          buttonTitle,
+          buttonBackgroundColor,
+        );
         Provider.of<TrialState>(context, listen: false).countAnswers(buttonTitle);
         context.read<TrialState>().finish(context);
       },
