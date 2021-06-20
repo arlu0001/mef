@@ -13,24 +13,19 @@ class WelcomeScreen extends StatelessWidget {
           children: [
             CustomText(
                 text:
-                    'Wir sind Studierende im Master Informatik. Diese Studie wird im Rahmen der Lehrveranstaltung “Methoden der empirischen Forschung” an der Hochschule Kaiserslautern durchgeführt.'),
+                    'Wir, Ariel, Emira und Kim, sind Studierende im Master Informatik und beschäftigen uns mit der Forschung zur Benutzung verschiedener Benutzeroberflächen. Die Forschung erfolgt als Prüfungsleistung des Moduls “Methoden der empirischen Forschung”.'),
             SizedBox(
               height: 16,
             ),
-            CustomText(
-                text: 'Die Studie beschäftigt sich mit der Reaktionszeit auf verschiedenen Benutzeroberflächen.'),
+            CustomText(text: 'Daten zu Ihrer Person werden anonymisiert.'),
             SizedBox(
               height: 16,
             ),
-            CustomText(text: 'Demographische Werte werden anonymisiert bewertet.'),
+            CustomText(text: 'Vielen Dank, dass Sie sich bereit erklären, an dieser Studie teilzunehmen.'),
             SizedBox(
               height: 16,
             ),
-            CustomText(text: 'Vielen Dank, dass Sie sich bereit erklären, an der Studie teilzunehmen.'),
-            SizedBox(
-              height: 16,
-            ),
-            CustomText(text: 'Dauer des Versuchs: x Minuten'),
+            CustomText(text: 'Dauer des Versuchs: 4 - 6 Minuten'),
             SizedBox(
               height: 24,
             ),
