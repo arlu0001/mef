@@ -4,7 +4,7 @@ import 'package:app/survey/survey_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ColorBlindnessTestScreen extends StatelessWidget {
+class IshiharaTestScreen extends StatelessWidget {
   final TextEditingController _editingController = TextEditingController();
 
   @override
@@ -20,6 +20,7 @@ class ColorBlindnessTestScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(24.0),
             children: [
+              Text("Welche Zahl erkennen Sie?", style: TextStyle(fontWeight: FontWeight.bold),),
               Consumer<SurveyState>(
                 builder: (context, value, child) => Image.asset(
                   'assets/images/ishihara_${value.currentIshihara}.jpg',
@@ -32,6 +33,7 @@ class ColorBlindnessTestScreen extends StatelessWidget {
                 controller: _editingController,
                 decoration: InputDecoration(
                   labelText: 'Eingabe',
+                  hintText: 'keine'
                 ),
               ),
               SizedBox(
@@ -44,7 +46,11 @@ class ColorBlindnessTestScreen extends StatelessWidget {
                       child: ElevatedButton(
                         child: Text("Weiter"),
                         onPressed: () {
-                          context.read<SurveyState>().setIshiharaResult(_editingController.text);
+                          if(_editingController.text.isEmpty) {
+                            context.read<SurveyState>().setIshiharaResult('keine');
+                          } else {
+                            context.read<SurveyState>().setIshiharaResult(_editingController.text);
+                          }
                           _editingController.clear();
                         },
                       ),
