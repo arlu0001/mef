@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (userAgent.contains('iphone') || userAgent.contains('ipad') || userAgent.contains('android')) {
-      return MaterialApp(
+    return MaterialApp(
         initialRoute: initialRoute,
         routes: {
           initialRoute: (context) => WelcomeScreen(),

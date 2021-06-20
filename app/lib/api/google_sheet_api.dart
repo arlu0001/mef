@@ -32,6 +32,7 @@ class GoogleSheetApi {
     result = Result(
       biologicalSex: _surveyResult.biologicalSex,
       age: _surveyResult.age,
+      os: getOs(),
       smartphoneUsage: _surveyResult.smartphoneUsage,
       usageConfidence: _surveyResult.usageConfidence,
       ishiharaTestResult3: _surveyResult.ishiharaTestResult3,
@@ -62,6 +63,18 @@ class GoogleSheetApi {
       });
     } on Exception catch (e) {
       print(e);
+    }
+  }
+
+  String getOs() {
+    if (userAgent.contains('iphone')) {
+      return 'iOS';
+    } else if (userAgent.contains('ipad')) {
+      return 'iPad';
+    } else if (userAgent.contains('android')) {
+      return 'Android';
+    } else {
+      return '-';
     }
   }
 }
