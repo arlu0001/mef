@@ -116,7 +116,7 @@ summary(Test_data1$Z1)
 
 ```{r }
 plot(Test_data1$Z1,type= "l")
-plot(Test_data1$Z1,type= "l", col = "green", main="Zeit pro Aufgabe n = 1, 25, 50, 75, 100", ylab= "Zeit in Sekunden", xlab = "Versuchsteilnehmer",ylim = c(100, 250))
+plot(Test_data1$Z1,type= "l", col = "green", main="Zeit pro Aufgabe n = 1, 25, 50, 75, 100", ylab= "Zeit in Mikrosekunden", xlab = "Versuchsteilnehmer",ylim = c(100, 250))
 lines(Test_data1$Z25, type= "l", col = "red")
 lines(Test_data1$Z50, type= "l", col = "blue")
 lines(Test_data1$Z75, type= "l", col = "yellow")
