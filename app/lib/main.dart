@@ -22,29 +22,44 @@ class MyApp extends StatelessWidget {
   final SurveyState surveyState = SurveyState();
   final userAgent = window.navigator.userAgent.toString().toLowerCase();
 
+  final example = Image.asset('assets/images/trial_example_blue.jpg');
+  final ishi42 = Image.asset('assets/images/ishihara_42.jpg');
+  final ishi3 = Image.asset('assets/images/ishihara_3.jpg');
+  final ishiLines = Image.asset('assets/images/ishihara_lines.jpg');
+
   @override
   Widget build(BuildContext context) {
-    if (userAgent.contains('iphone') || userAgent.contains('ipad') || userAgent.contains('android')) {
-    return MaterialApp(
+    precacheImage(example.image, context);
+    precacheImage(ishi42.image, context);
+    precacheImage(ishi3.image, context);
+    precacheImage(ishiLines.image, context);
+
+    if (userAgent.contains('iphone') || userAgent.contains('ipad') ||
+        userAgent.contains('android')) {
+      return MaterialApp(
         initialRoute: initialRoute,
         routes: {
           initialRoute: (context) => WelcomeScreen(),
-          survey1Route: (context) => ChangeNotifierProvider<SurveyState>(
+          survey1Route: (context) =>
+              ChangeNotifierProvider<SurveyState>(
                 create: (_) => surveyState,
                 child: SurveyScreen1(),
               ),
-          survey2Route: (context) => ChangeNotifierProvider<SurveyState>(
+          survey2Route: (context) =>
+              ChangeNotifierProvider<SurveyState>(
                 create: (_) => surveyState,
                 child: SurveyScreen2(),
               ),
           trialExampleRoute: (context) => TrialExampleScreen(),
           startTrialRoute: (context) => TrialStartScreen(),
-          trialRoute: (context) => ChangeNotifierProvider<TrialState>(
+          trialRoute: (context) =>
+              ChangeNotifierProvider<TrialState>(
                 create: (_) => TrialState(),
                 child: TrialScreen(),
               ),
           startIshiharaRoute: (context) => IshiharaStartScreen(),
-          ishiharaTestRoute: (context) => ChangeNotifierProvider<SurveyState>(
+          ishiharaTestRoute: (context) =>
+              ChangeNotifierProvider<SurveyState>(
                 create: (_) => surveyState,
                 child: IshiharaTestScreen(),
               ),
