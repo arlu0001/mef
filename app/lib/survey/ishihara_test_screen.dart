@@ -64,7 +64,11 @@ class IshiharaTestScreen extends StatelessWidget {
                     } else {
                       return OutlinedButton(
                         onPressed: () {
-                          context.read<SurveyState>().setIshiharaResult(_editingController.text);
+                          if(_editingController.text.isEmpty) {
+                            context.read<SurveyState>().setIshiharaResult('keine');
+                          } else {
+                            context.read<SurveyState>().setIshiharaResult(_editingController.text);
+                          }
                           GoogleSheetApi api = GoogleSheetApi();
                           api.prepareResult();
                           api.submitForm((String response) {
