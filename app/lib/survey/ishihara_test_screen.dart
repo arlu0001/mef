@@ -39,11 +39,20 @@ class IshiharaTestScreen extends StatelessWidget {
               SizedBox(
                 height: 24,
               ),
-              Consumer<SurveyState>(
-                builder: (context, value, child) {
-                  if (value.currentCounter < value.ishiharaImageNames.length) {
-                    return Center(
-                      child: ElevatedButton(
+
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Consumer<SurveyState>(
+                  builder: (context, value, child) {
+                    if (value.currentCounter < value.ishiharaImageNames.length) {
+                      return OutlinedButton(
                         child: Text("Weiter"),
                         onPressed: () {
                           if(_editingController.text.isEmpty) {
@@ -53,11 +62,9 @@ class IshiharaTestScreen extends StatelessWidget {
                           }
                           _editingController.clear();
                         },
-                      ),
-                    );
-                  } else {
-                    return Center(
-                      child: ElevatedButton(
+                      );
+                    } else {
+                      return OutlinedButton(
                         onPressed: () {
                           context.read<SurveyState>().setIshiharaResult(_editingController.text);
                           GoogleSheetApi api = GoogleSheetApi();
@@ -76,10 +83,10 @@ class IshiharaTestScreen extends StatelessWidget {
                           Navigator.pushNamed(context, finalRoute);
                         },
                         child: Text('Absenden'),
-                      ),
-                    );
-                  }
-                },
+                      );
+                    }
+                  },
+                ),
               ),
             ],
           ),

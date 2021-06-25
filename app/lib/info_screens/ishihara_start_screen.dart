@@ -20,7 +20,15 @@ class IshiharaStartScreen extends StatelessWidget {
               SizedBox(
                 height: 24,
               ),
-              Center(
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: NavigationButton(
                   navigationRoute: ishiharaTestRoute,
                   btnName: 'Start',

@@ -29,11 +29,20 @@ class WelcomeScreen extends StatelessWidget {
             SizedBox(
               height: 24,
             ),
-            Center(
-                child: NavigationButton(
-              navigationRoute: survey1Route,
-              isComplete: true,
-            )),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: NavigationButton(
+                navigationRoute: survey1Route,
+                isComplete: true,
+              ),
+            ),
           ],
         ),
       ),

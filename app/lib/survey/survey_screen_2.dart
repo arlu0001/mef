@@ -91,13 +91,22 @@ class SurveyScreen2 extends StatelessWidget {
                 title: Text('sehr unsicher'),
               ),
             ),
-            Center(
-                child: NavigationButton(
-              navigationRoute: trialExampleRoute,
-              isComplete: (context.watch<SurveyState>().smartphoneUsage != '' &&
-                  context.watch<SurveyState>().usageConfidence != ''),
-            )),
           ],
+        ),
+        bottomNavigationBar: BottomAppBar(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: NavigationButton(
+                  navigationRoute: trialExampleRoute,
+                  isComplete: (context.watch<SurveyState>().smartphoneUsage != '' &&
+                      context.watch<SurveyState>().usageConfidence != ''),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

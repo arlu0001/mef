@@ -32,14 +32,17 @@ class NavigationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return OutlinedButton(
       onPressed: () {
         if (isComplete)
           Navigator.pushNamed(context, navigationRoute);
         else
           return null;
       },
-      child: Text(btnName),
+      child: Text(
+        btnName,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }

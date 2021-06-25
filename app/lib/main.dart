@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (userAgent.contains('iphone') || userAgent.contains('ipad') || userAgent.contains('android')) {
+    // if (userAgent.contains('iphone') || userAgent.contains('ipad') || userAgent.contains('android')) {
     return MaterialApp(
         initialRoute: initialRoute,
         routes: {
@@ -51,17 +51,17 @@ class MyApp extends StatelessWidget {
           finalRoute: (context) => FinalScreen(),
         },
       );
-    } else {
-      return MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: Text(
-              'Dieses Experiment untersucht das Nutzerverhalten auf Smartphones. \nBitte rufen Sie diesen Link auf einem Smartphone auf, welches Android oder IOS als Betriebssystem nutzt. \nVielen Dank für Ihr Verständnis!',
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-      );
-    }
+    // } else {
+    //   return MaterialApp(
+    //     home: Scaffold(
+    //       body: Center(
+    //         child: Text(
+    //           'Dieses Experiment untersucht das Nutzerverhalten auf Smartphones. \nBitte rufen Sie diesen Link auf einem Smartphone auf, welches Android oder IOS als Betriebssystem nutzt. \nVielen Dank für Ihr Verständnis!',
+    //           textAlign: TextAlign.center,
+    //         ),
+    //       ),
+    //     ),
+    //   );
+    // }
   }
 }
