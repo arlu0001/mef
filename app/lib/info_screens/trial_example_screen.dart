@@ -18,7 +18,7 @@ class TrialExampleScreen extends StatelessWidget {
             children: [
               CustomText(
                   text:
-                      'Sie erhalten im Experiment einfache Rechen-\naufgaben, die schon gelöst worden sind (siehe Beispielaufgabe). Sie sollen entscheiden, ob die Aufgaben richtig oder falsch gelöst worden sind. Das tun Sie, indem Sie so schnell wie möglich einen der beiden Buttons antippen. Insgesamt werden Sie 100 Aufgaben bewerten. Bitte suchen Sie einen ruhigen Ort auf, an dem Sie das Experiment durchführen können.'),
+                      'Sie erhalten im Experiment einfache Rechenaufgaben, die schon gelöst worden sind (siehe Beispielaufgabe). Sie sollen entscheiden, ob die Aufgaben richtig oder falsch gelöst worden sind. Das tun Sie, indem Sie so schnell wie möglich einen der beiden Buttons antippen. Insgesamt werden Sie 100 Aufgaben bewerten. Bitte suchen Sie einen ruhigen Ort auf, an dem Sie das Experiment durchführen können.'),
               SizedBox(
                 height: 8,
               ),
