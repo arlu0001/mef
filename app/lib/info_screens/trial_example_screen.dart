@@ -18,9 +18,13 @@ class TrialExampleScreen extends StatelessWidget {
             children: [
               CustomText(
                   text:
-                      'Sie erhalten im Experiment einfache Rechen-\naufgaben, die schon gelöst worden sind (siehe Beispielaufgabe). Sie sollen entscheiden, ob die Aufgaben richtig oder falsch gelöst worden sind. Das tun Sie, indem Sie so schnell wie möglich einen der beiden Buttons antippen. Insgesamt werden Sie 100 Aufgaben bewerten. Bitte suchen Sie sich einen ruhigen Ort, an dem Sie das Experiment durchführen können.'),
+                      'Sie erhalten im Experiment einfache Rechen-\naufgaben, die schon gelöst worden sind (siehe Beispielaufgabe). Sie sollen entscheiden, ob die Aufgaben richtig oder falsch gelöst worden sind. Das tun Sie, indem Sie so schnell wie möglich einen der beiden Buttons antippen. Insgesamt werden Sie 100 Aufgaben bewerten. Bitte suchen Sie einen ruhigen Ort auf, an dem Sie das Experiment durchführen können.'),
               SizedBox(
                 height: 8,
+              ),
+              Text(
+                'Bild: Beispielaufgabe',
+                textAlign: TextAlign.center,
               ),
               Container(
                 decoration: BoxDecoration(
@@ -31,7 +35,7 @@ class TrialExampleScreen extends StatelessWidget {
                 child: Image.asset('assets/images/trial_example_blue.jpg'),
               ),
               Text(
-                'Beispielaufgabe',
+                'Bild: Beispielaufgabe',
                 textAlign: TextAlign.center,
               ),
               SizedBox(
