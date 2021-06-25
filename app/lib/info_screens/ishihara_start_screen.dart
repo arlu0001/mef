@@ -1,7 +1,9 @@
+import 'package:app/survey/survey_state.dart';
 import 'package:flutter/material.dart';
 
 import '../route_names.dart';
 import '../widgets.dart';
+import 'package:provider/provider.dart';
 
 class IshiharaStartScreen extends StatelessWidget {
   @override
@@ -29,11 +31,19 @@ class IshiharaStartScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: NavigationButton(
-                  navigationRoute: ishiharaTestRoute,
-                  btnName: 'Start',
-                  isComplete: true,
+                child: OutlinedButton(
+                  child: Text("Weiter"),
+                  onPressed: () {
+                    context.read<SurveyState>().startIshiharaStopWatch();
+                    Navigator.pushNamed(context, ishiharaTestRoute);
+                  },
                 ),
+
+                // NavigationButton(
+                //   navigationRoute: ishiharaTestRoute,
+                //   btnName: 'Start',
+                //   isComplete: true,
+                // ),
               ),
             ],
           ),

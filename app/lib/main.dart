@@ -34,32 +34,32 @@ class MyApp extends StatelessWidget {
     precacheImage(ishi3.image, context);
     precacheImage(ishiLines.image, context);
 
-    if (userAgent.contains('iphone') || userAgent.contains('ipad') ||
+    if (userAgent.contains('iphone') ||
+        userAgent.contains('ipad') ||
         userAgent.contains('android')) {
       return MaterialApp(
         initialRoute: initialRoute,
         routes: {
           initialRoute: (context) => WelcomeScreen(),
-          survey1Route: (context) =>
-              ChangeNotifierProvider<SurveyState>(
+          survey1Route: (context) => ChangeNotifierProvider<SurveyState>(
                 create: (_) => surveyState,
                 child: SurveyScreen1(),
               ),
-          survey2Route: (context) =>
-              ChangeNotifierProvider<SurveyState>(
+          survey2Route: (context) => ChangeNotifierProvider<SurveyState>(
                 create: (_) => surveyState,
                 child: SurveyScreen2(),
               ),
           trialExampleRoute: (context) => TrialExampleScreen(),
           startTrialRoute: (context) => TrialStartScreen(),
-          trialRoute: (context) =>
-              ChangeNotifierProvider<TrialState>(
+          trialRoute: (context) => ChangeNotifierProvider<TrialState>(
                 create: (_) => TrialState(),
                 child: TrialScreen(),
               ),
-          startIshiharaRoute: (context) => IshiharaStartScreen(),
-          ishiharaTestRoute: (context) =>
-              ChangeNotifierProvider<SurveyState>(
+          startIshiharaRoute: (context) => ChangeNotifierProvider<SurveyState>(
+                create: (_) => surveyState,
+                child: IshiharaStartScreen(),
+              ),
+          ishiharaTestRoute: (context) => ChangeNotifierProvider<SurveyState>(
                 create: (_) => surveyState,
                 child: IshiharaTestScreen(),
               ),
