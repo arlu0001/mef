@@ -31,15 +31,13 @@ class IshiharaTestScreen extends StatelessWidget {
               ),
               TextField(
                 controller: _editingController,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: 'Eingabe',
                   hintText: 'keine'
                 ),
               ),
-              SizedBox(
-                height: 24,
-              ),
-
+              Text('(Lassen Sie das Feld leer, wenn Sie keine Zahl erkennen.)'),
             ],
           ),
         ),
