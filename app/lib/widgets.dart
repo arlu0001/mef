@@ -36,8 +36,10 @@ class NavigationButton extends StatelessWidget {
       onPressed: () {
         if (isComplete)
           Navigator.pushNamed(context, navigationRoute);
-        else
-          return null;
+        else {
+          final snackBar = SnackBar(content: Text('Bitte füllen Sie alles aus!'));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
       },
       child: Text(
         btnName,
