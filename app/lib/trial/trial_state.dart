@@ -1,11 +1,11 @@
+import 'package:app/api/google_sheet_api.dart';
+import 'package:app/api/result.dart';
+import 'package:app/route_names.dart';
+import 'package:app/trial/models/exercise_list.dart';
 import 'package:flutter/material.dart';
-import 'package:mef_sose_2021_kea/api/google_sheet_api.dart';
-import 'package:mef_sose_2021_kea/api/result.dart';
 
-import '../route_names.dart';
 import 'models/button_config.dart';
 import 'models/exercise.dart';
-import 'models/exercise_list.dart';
 
 class TrialState extends ChangeNotifier {
   GoogleSheetApi api = GoogleSheetApi();
@@ -34,8 +34,7 @@ class TrialState extends ChangeNotifier {
 
   void finish(BuildContext context) {
     _reactionStopwatch.stop();
-    solveTimes[currentExerciseCounter - 1] =
-        _reactionStopwatch.elapsedMilliseconds;
+    solveTimes[currentExerciseCounter - 1] = _reactionStopwatch.elapsedMilliseconds;
     _reactionStopwatch.reset();
 
     print('-------------------------------------------------------');
@@ -46,8 +45,7 @@ class TrialState extends ChangeNotifier {
       _trialStopwatch.stop();
       int completionTime = _trialStopwatch.elapsedMilliseconds;
       Duration d = Duration(milliseconds: completionTime);
-      print(
-          'Zeit insgesamt: $d ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+      print('Zeit insgesamt: $d ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
       Navigator.pushNamed(context, startIshiharaRoute);
       print('Richtig beantwortet: $correctAnsweredCounter');
       print('Falsch beantwortet: $falseAnsweredCounter');

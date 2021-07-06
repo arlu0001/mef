@@ -1,7 +1,6 @@
+import 'package:app/route_names.dart';
+import 'package:app/widgets.dart';
 import 'package:flutter/material.dart';
-
-import '../route_names.dart';
-import '../widgets.dart';
 
 class TrialExampleScreen extends StatelessWidget {
   @override

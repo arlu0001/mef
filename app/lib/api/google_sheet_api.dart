@@ -1,7 +1,6 @@
+import 'package:app/api/result.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
-
-import 'package:mef_sose_2021_kea/api/result.dart';
 
 class GoogleSheetApi {
   static final GoogleSheetApi _instance = GoogleSheetApi._internal();
@@ -52,9 +51,7 @@ class GoogleSheetApi {
 
   void submitForm(void Function(String) callback) async {
     try {
-      await http
-          .post(Uri.parse(URL), body: result.toJson())
-          .then((response) async {
+      await http.post(Uri.parse(URL), body: result.toJson()).then((response) async {
         if (response.statusCode == 302) {
           var url = response.headers['location'];
           await http.get(Uri.parse(url!)).then((response) {

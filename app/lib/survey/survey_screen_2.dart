@@ -1,8 +1,9 @@
+
+import 'package:app/route_names.dart';
+import 'package:app/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../route_names.dart';
-import '../widgets.dart';
 import 'survey_state.dart';
 
 class SurveyScreen2 extends StatelessWidget {
@@ -26,8 +27,7 @@ class SurveyScreen2 extends StatelessWidget {
               builder: (context, value, child) => RadioListTile<String?>(
                 value: 'mehrmals täglich',
                 groupValue: value.smartphoneUsage,
-                onChanged: (value) =>
-                    context.read<SurveyState>().setSmartphoneUsage(value!),
+                onChanged: (value) => context.read<SurveyState>().setSmartphoneUsage(value!),
                 title: Text('mehrmals täglich'),
               ),
             ),
@@ -35,8 +35,7 @@ class SurveyScreen2 extends StatelessWidget {
               builder: (context, value, child) => RadioListTile<String?>(
                 value: 'täglich',
                 groupValue: value.smartphoneUsage,
-                onChanged: (value) =>
-                    context.read<SurveyState>().setSmartphoneUsage(value!),
+                onChanged: (value) => context.read<SurveyState>().setSmartphoneUsage(value!),
                 title: Text('täglich'),
               ),
             ),
@@ -44,8 +43,7 @@ class SurveyScreen2 extends StatelessWidget {
               builder: (context, value, child) => RadioListTile<String?>(
                 value: 'mehrmals die Woche',
                 groupValue: value.smartphoneUsage,
-                onChanged: (value) =>
-                    context.read<SurveyState>().setSmartphoneUsage(value!),
+                onChanged: (value) => context.read<SurveyState>().setSmartphoneUsage(value!),
                 title: Text('mehrmals die Woche'),
               ),
             ),
@@ -57,8 +55,7 @@ class SurveyScreen2 extends StatelessWidget {
               builder: (context, value, child) => RadioListTile<String?>(
                 value: 'sehr sicher',
                 groupValue: value.usageConfidence,
-                onChanged: (value) =>
-                    context.read<SurveyState>().setUsageConfidence(value!),
+                onChanged: (value) => context.read<SurveyState>().setUsageConfidence(value!),
                 title: Text('sehr sicher'),
               ),
             ),
@@ -66,8 +63,7 @@ class SurveyScreen2 extends StatelessWidget {
               builder: (context, value, child) => RadioListTile<String?>(
                 value: 'sicher',
                 groupValue: value.usageConfidence,
-                onChanged: (value) =>
-                    context.read<SurveyState>().setUsageConfidence(value!),
+                onChanged: (value) => context.read<SurveyState>().setUsageConfidence(value!),
                 title: Text('sicher'),
               ),
             ),
@@ -75,8 +71,7 @@ class SurveyScreen2 extends StatelessWidget {
               builder: (context, value, child) => RadioListTile<String?>(
                 value: 'mittelmäßig',
                 groupValue: value.usageConfidence,
-                onChanged: (value) =>
-                    context.read<SurveyState>().setUsageConfidence(value!),
+                onChanged: (value) => context.read<SurveyState>().setUsageConfidence(value!),
                 title: Text('mittelmäßig'),
               ),
             ),
@@ -84,8 +79,7 @@ class SurveyScreen2 extends StatelessWidget {
               builder: (context, value, child) => RadioListTile<String?>(
                 value: 'unsicher',
                 groupValue: value.usageConfidence,
-                onChanged: (value) =>
-                    context.read<SurveyState>().setUsageConfidence(value!),
+                onChanged: (value) => context.read<SurveyState>().setUsageConfidence(value!),
                 title: Text('unsicher'),
               ),
             ),
@@ -93,8 +87,7 @@ class SurveyScreen2 extends StatelessWidget {
               builder: (context, value, child) => RadioListTile<String?>(
                 value: 'sehr unsicher',
                 groupValue: value.usageConfidence,
-                onChanged: (value) =>
-                    context.read<SurveyState>().setUsageConfidence(value!),
+                onChanged: (value) => context.read<SurveyState>().setUsageConfidence(value!),
                 title: Text('sehr unsicher'),
               ),
             ),
@@ -108,9 +101,8 @@ class SurveyScreen2 extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: NavigationButton(
                   navigationRoute: trialExampleRoute,
-                  isComplete:
-                      (context.watch<SurveyState>().smartphoneUsage != '' &&
-                          context.watch<SurveyState>().usageConfidence != ''),
+                  isComplete: (context.watch<SurveyState>().smartphoneUsage != '' &&
+                      context.watch<SurveyState>().usageConfidence != ''),
                 ),
               )
             ],

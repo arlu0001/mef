@@ -1,17 +1,16 @@
-import 'package:mef_sose_2021_kea/route_names.dart';
-import 'package:mef_sose_2021_kea/survey/ishihara_test_screen.dart';
-import 'package:mef_sose_2021_kea/survey/survey_screen_1.dart';
-import 'package:mef_sose_2021_kea/survey/survey_screen_2.dart';
-import 'package:mef_sose_2021_kea/trial/trial_screen.dart';
-import 'package:mef_sose_2021_kea/trial/trial_state.dart';
+import 'package:app/info_screens/ishihara_start_screen.dart';
+import 'package:app/info_screens/trial_start_screen.dart';
+import 'package:app/survey/ishihara_test_screen.dart';
+import 'package:app/survey/survey_screen_1.dart';
+import 'package:app/survey/survey_screen_2.dart';
 import "package:universal_html/html.dart";
-
+import 'package:app/info_screens/final_screen.dart';
+import 'package:app/route_names.dart';
+import 'package:app/trial/trial_screen.dart';
+import 'package:app/trial/trial_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'info_screens/final_screen.dart';
-import 'info_screens/ishihara_start_screen.dart';
 import 'info_screens/trial_example_screen.dart';
-import 'info_screens/trial_start_screen.dart';
 import 'info_screens/welcome_screen.dart';
 import 'survey/survey_state.dart';
 

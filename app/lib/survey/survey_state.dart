@@ -1,6 +1,6 @@
+import 'package:app/api/google_sheet_api.dart';
+import 'package:app/api/result.dart';
 import 'package:flutter/material.dart';
-import 'package:mef_sose_2021_kea/api/google_sheet_api.dart';
-import 'package:mef_sose_2021_kea/api/result.dart';
 
 class SurveyState extends ChangeNotifier {
   GoogleSheetApi api = GoogleSheetApi();

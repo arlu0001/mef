@@ -1,7 +1,6 @@
+import 'package:app/route_names.dart';
+import 'package:app/widgets.dart';
 import 'package:flutter/material.dart';
-
-import '../route_names.dart';
-import '../widgets.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -22,9 +21,7 @@ class WelcomeScreen extends StatelessWidget {
             SizedBox(
               height: 16,
             ),
-            CustomText(
-                text:
-                    'Vielen Dank, dass Sie sich bereit erklären, an dieser Studie teilzunehmen.'),
+            CustomText(text: 'Vielen Dank, dass Sie sich bereit erklären, an dieser Studie teilzunehmen.'),
             SizedBox(
               height: 16,
             ),

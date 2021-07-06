@@ -1,6 +1,6 @@
+import 'package:app/route_names.dart';
 import 'package:flutter/material.dart';
 
-import '../route_names.dart';
 import '../widgets.dart';
 
 class TrialStartScreen extends StatelessWidget {
@@ -16,8 +16,7 @@ class TrialStartScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(24.0),
             children: [
-              CustomText(
-                  text: 'Starten Sie das Experiment, sobald Sie bereit sind.'),
+              CustomText(text: 'Starten Sie das Experiment, sobald Sie bereit sind.'),
               SizedBox(
                 height: 24,
               ),
