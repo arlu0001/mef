@@ -1,5 +1,5 @@
-import 'package:app/trial/trial_state.dart';
 import 'package:flutter/material.dart';
+import 'package:mef_sose_2021_kea/trial/trial_state.dart';
 import 'package:provider/provider.dart';
 
 class TrialScreen extends StatelessWidget {
@@ -13,7 +13,8 @@ class TrialScreen extends StatelessWidget {
           title: Consumer<TrialState>(
             builder: (BuildContext context, value, Widget? child) {
               return LinearProgressIndicator(
-                value: (value.currentExerciseCounter - 1) / value.exercises.length,
+                value:
+                    (value.currentExerciseCounter - 1) / value.exercises.length,
                 color: Colors.white,
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
               );
@@ -37,14 +38,16 @@ class TrialScreen extends StatelessWidget {
                 ),
                 TrialButton(
                   buttonTitle: value.currentButtonConfig.buttonTitle1,
-                  buttonBackgroundColor: value.currentButtonConfig.buttonBackgroundColor1,
+                  buttonBackgroundColor:
+                      value.currentButtonConfig.buttonBackgroundColor1,
                 ),
                 SizedBox(
                   height: 8,
                 ),
                 TrialButton(
                   buttonTitle: value.currentButtonConfig.buttonTitle2,
-                  buttonBackgroundColor: value.currentButtonConfig.buttonBackgroundColor2,
+                  buttonBackgroundColor:
+                      value.currentButtonConfig.buttonBackgroundColor2,
                 ),
               ],
             ),
@@ -69,7 +72,8 @@ class TrialButton extends StatelessWidget {
           buttonTitle,
           buttonBackgroundColor,
         );
-        Provider.of<TrialState>(context, listen: false).countAnswers(buttonTitle);
+        Provider.of<TrialState>(context, listen: false)
+            .countAnswers(buttonTitle);
         context.read<TrialState>().finish(context);
       },
       child: Padding(
@@ -77,9 +81,11 @@ class TrialButton extends StatelessWidget {
         child: Text(buttonTitle),
       ),
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(buttonBackgroundColor),
+        backgroundColor:
+            MaterialStateProperty.all<Color>(buttonBackgroundColor),
         foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-        textStyle: MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 24)),
+        textStyle:
+            MaterialStateProperty.all<TextStyle>(TextStyle(fontSize: 24)),
       ),
     );
   }

@@ -1,8 +1,10 @@
-import 'package:app/api/google_sheet_api.dart';
-import 'package:app/route_names.dart';
-import 'package:app/survey/survey_state.dart';
+
 import 'package:flutter/material.dart';
+import 'package:mef_sose_2021_kea/api/google_sheet_api.dart';
+import 'package:mef_sose_2021_kea/survey/survey_state.dart';
 import 'package:provider/provider.dart';
+
+import '../route_names.dart';
 
 class IshiharaTestScreen extends StatelessWidget {
   final TextEditingController _editingController = TextEditingController();

@@ -1,5 +1,5 @@
-import 'package:app/survey/survey_state.dart';
 import 'package:flutter/material.dart';
+import 'package:mef_sose_2021_kea/survey/survey_state.dart';
 
 import '../route_names.dart';
 import '../widgets.dart';
@@ -18,7 +18,9 @@ class IshiharaStartScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(24.0),
             children: [
-              CustomText(text: 'Fast geschafft! \nZum Schluss erfolgt noch ein kurzer Farbsehtest. Sie erhalten 3 Bilder. Bitte schreiben Sie in das Textfeld, was Sie erkennen.'),
+              CustomText(
+                  text:
+                      'Fast geschafft! \nZum Schluss erfolgt noch ein kurzer Farbsehtest. Sie erhalten 3 Bilder. Bitte schreiben Sie in das Textfeld, was Sie erkennen.'),
               SizedBox(
                 height: 24,
               ),
