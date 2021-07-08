@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Geschlecht
 Summary:
 ```{r}
-summary(Data_$Geschlecht)
+summary(sex)
 ```
 Plot:
 
@@ -21,104 +21,99 @@ plot(sex, main = "Biologisches Geschlecht", ylab= "Anzahl Personen")
 ##Alter
 ###Summary:
 ```{r pressure, echo=FALSE}
-summary(Test_data1$Alter)
+summary(age)
 ```
 
 ###Plot:
 
 ```{r pressure, echo=FALSE}
-plot(Test_data1$Alter, main = "Alter", ylab= "Anzahl Personen")
+plot(age, main = "Alter", ylab= "Anzahl Personen")
 ```
-
+##Betriebssystem
+###Summary:
+```{r pressure, echo=FALSE}
+summary(OS)
+```
+###Plot:
+```{r pressure, echo=FALSE}
+plot(OS, main = "Betriebssystem", ylab= "Anzahl Personen")
+```
 ##Smartphone Nutzung
 ###Summary:
 ```{r pressure, echo=FALSE}
-summary(Test_data1$`Smartphone Nutzung`)
+summary(usage)
 ```
 
 ###Plot:
 
 ```{r pressure, echo=FALSE}
-plot(Test_data1$`Smartphone Nutzung`,  main = "Häufigkeit der Smartphonenutzung", ylab= "Anzahl Personen")
+plot(usage,  main = "Häufigkeit der Smartphonenutzung", ylab= "Anzahl Personen")
 ```
 ##Smartphone Nutzungserfahrung
 ###Summary:
 ```{r}
-summary(Test_data1$`Smartphone Nutzungserfahrung`)
+summary(knowledge)
 ```
 
 ###Plot:
 
 ```{r pressure, echo=FALSE}
-plot(Test_data1$`Smartphone Nutzungserfahrung`, main = "Häufigkeit der Smartphone-Erfahrung", ylab= "Anzahl Personen")
-```
-##Seh-Schwäche
-###Summary:
-Frage? Wie die Zahlen am besten in Faktoren umwandeln
-```{r}
-summary(Test_data1$`Rot-Grün-Sehschwäche`)
-```
-
-###Plot:
-
-```{r pressure, echo=FALSE}
-plot(Test_data1$`Rot-Grün-Sehschwäche`,type= "l", main = "Rot-Grün-Schwäche", ylab= "Ausprägung", xlab = "Versuchsteilnehmer")
+plot(knowledge, main = "Smartphone-Erfahrung", ylab= "Anzahl Personen")
 ```
 
 ##Zeit Gesamt
 ###Summary:
 ```{r}
-summary(Test_data1$`Zeit gesamt`)
+
 ```
 
 ###Plot:
 
 ```{r pressure, echo=FALSE}
-plot(Test_data1$`Zeit gesamt`,type= "l",main="Dauer Aufgabe 1", ylab= "Zeit in Sekunden", xlab = "Versuchsteilnehmer")
+barplot(data$`Zeit gesamt`,type= "l",main="Dauer Aufgabe 1", ylab= "Zeit in Sekunden", xlab = "Versuchsteilnehmer")
 ```
 
 ##Richtig
 ###Summary:
 ```{r}
-summary(Test_data1$Richtig)
+summary(data$Richtig)
 ```
 
 ###Plot:
 
 ```{r pressure, echo=FALSE}
-plot(Test_data1$Richtig, type= "l", main="Richtige Aufgaben", ylab= "Anzahl", xlab = "Versuchsteilnehmer")
+plot(data$Richtig, type= "l", main="Richtige Aufgaben", ylab= "Anzahl", xlab = "Versuchsteilnehmer")
 ```
 
 ##Falsch
 ###Summary:
 ```{r}
-summary(Test_data1$FALSCH)
+summary(data$Falsch)
 ```
 
 ###Plot:
 
 ```{r pressure, echo=FALSE}
-plot(Test_data1$FALSCH,type= "l", main="Falsche Aufgaben", ylab= "Anzahl falsche Aufgabe", xlab = "Versuchsteilnehmer")
-```
-
-```{r pressure, echo=FALSE}
-plot(Test_data1$Richtig, type= "l", col = "green", main="Richtige und falsche Aufgaben", ylab= "Anzahl", xlab = "Versuchsteilnehmer")
-lines(Test_data1$FALSCH, type= "l", col = "red")
+plot(data$Falsch,type= "l", main="Falsche Aufgaben", ylab= "Anzahl falsche Aufgabe", xlab = "Versuchsteilnehmer")
 ```
 
 ##Zeit Aufgabe 1 
 ###Summary:
 ```{r}
-summary(Test_data1$Z1)
+summary(data$Z1)
 ```
 
 ###Plot:
 
 ```{r }
-plot(Test_data1$Z1,type= "l")
-plot(Test_data1$Z1,type= "l", col = "green", main="Zeit pro Aufgabe n = 1, 25, 50, 75, 100", ylab= "Zeit in Mikrosekunden", xlab = "Versuchsteilnehmer",ylim = c(100, 250))
-lines(Test_data1$Z25, type= "l", col = "red")
-lines(Test_data1$Z50, type= "l", col = "blue")
-lines(Test_data1$Z75, type= "l", col = "yellow")
-lines(Test_data1$Z100, type= "l", col = "orange")
+plot(data$Z1,type= "l", main = "Dauer der 1., 50. und 100.  Aufgabe", ylab= "Zeit in Mikrosekunden", xlab = "Versuchsteilnehmer")
+lines(data$Z50, type= "l", col = "blue")
+lines(data$Z100, type= "l", col = "orange")
+
+```
+
+
+### Verlauf der Aufgaben
+```{r }
+plot(mean_tpt,type= "l", main = "Durschnittliche Dauer der Aufgaben", ylab= "Zeit in Mikrosekunden", xlab = "Aufgaben")
 ```
