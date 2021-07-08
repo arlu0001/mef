@@ -10,12 +10,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Geschlecht
 Summary:
 ```{r}
-summary(Test_data1$Geschlecht)
+summary(data$Geschlecht)
 ```
 Plot:
 
 ```{r pressure, echo=FALSE}
-plot(Test_data1$Geschlecht, main = "Biologisches Geschlecht", ylab= "Anzahl Personen")
+plot(data$Geschlecht, main = "Biologisches Geschlecht", ylab= "Anzahl Personen")
 ```
 
 ##Alter
