@@ -32,14 +32,19 @@ class NavigationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return OutlinedButton(
       onPressed: () {
         if (isComplete)
           Navigator.pushNamed(context, navigationRoute);
-        else
-          return null;
+        else {
+          final snackBar = SnackBar(content: Text('Bitte füllen Sie alles aus!'));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
       },
-      child: Text(btnName),
+      child: Text(
+        btnName,
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }

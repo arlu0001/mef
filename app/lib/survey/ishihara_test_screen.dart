@@ -4,7 +4,7 @@ import 'package:app/survey/survey_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ColorBlindnessTestScreen extends StatelessWidget {
+class IshiharaTestScreen extends StatelessWidget {
   final TextEditingController _editingController = TextEditingController();
 
   @override
@@ -20,6 +20,7 @@ class ColorBlindnessTestScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(24.0),
             children: [
+              Text("Welche Zahl erkennen Sie?", style: TextStyle(fontWeight: FontWeight.bold),),
               Consumer<SurveyState>(
                 builder: (context, value, child) => Image.asset(
                   'assets/images/ishihara_${value.currentIshihara}.jpg',
@@ -30,30 +31,44 @@ class ColorBlindnessTestScreen extends StatelessWidget {
               ),
               TextField(
                 controller: _editingController,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   labelText: 'Eingabe',
+                  hintText: 'keine'
                 ),
               ),
-              SizedBox(
-                height: 24,
-              ),
-              Consumer<SurveyState>(
-                builder: (context, value, child) {
-                  if (value.currentCounter < value.ishiharaImageNames.length) {
-                    return Center(
-                      child: ElevatedButton(
+              Text('(Lassen Sie das Feld leer, wenn Sie keine Zahl erkennen.)'),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Consumer<SurveyState>(
+                  builder: (context, value, child) {
+                    if (value.currentCounter < value.ishiharaImageNames.length) {
+                      return OutlinedButton(
                         child: Text("Weiter"),
                         onPressed: () {
-                          context.read<SurveyState>().setIshiharaResult(_editingController.text);
+                          if(_editingController.text.isEmpty) {
+                            context.read<SurveyState>().setIshiharaResult('keine');
+                          } else {
+                            context.read<SurveyState>().setIshiharaResult(_editingController.text);
+                          }
                           _editingController.clear();
                         },
-                      ),
-                    );
-                  } else {
-                    return Center(
-                      child: ElevatedButton(
+                      );
+                    } else {
+                      return OutlinedButton(
                         onPressed: () {
-                          context.read<SurveyState>().setIshiharaResult(_editingController.text);
+                          if(_editingController.text.isEmpty) {
+                            context.read<SurveyState>().setIshiharaResult('keine');
+                          } else {
+                            context.read<SurveyState>().setIshiharaResult(_editingController.text);
+                          }
                           GoogleSheetApi api = GoogleSheetApi();
                           api.prepareResult();
                           api.submitForm((String response) {
@@ -70,10 +85,10 @@ class ColorBlindnessTestScreen extends StatelessWidget {
                           Navigator.pushNamed(context, finalRoute);
                         },
                         child: Text('Absenden'),
-                      ),
-                    );
-                  }
-                },
+                      );
+                    }
+                  },
+                ),
               ),
             ],
           ),

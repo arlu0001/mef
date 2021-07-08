@@ -1,8 +1,13 @@
+import "package:universal_html/html.dart";
+
 import 'package:intl/intl.dart';
+
+final userAgent = window.navigator.userAgent.toString().toLowerCase();
 
 class Result {
   final String biologicalSex;
   final String age;
+  final String os;
   final String smartphoneUsage;
   final String usageConfidence;
   final String correctAnsweredCount;
@@ -20,6 +25,7 @@ class Result {
   const Result({
     required this.biologicalSex,
     required this.age,
+    required this.os,
     required this.smartphoneUsage,
     required this.usageConfidence,
     required this.correctAnsweredCount,
@@ -35,10 +41,10 @@ class Result {
     required this.reactions,
   });
 
-  Map toJson() =>
-      {
+  Map toJson() => {
         'biologicalSex': biologicalSex,
         'age': age,
+        'os': os,
         'smartphoneUsage': smartphoneUsage,
         'usageConfidence': usageConfidence,
         'correctAnsweredCount': correctAnsweredCount,

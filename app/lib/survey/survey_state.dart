@@ -24,7 +24,6 @@ class SurveyState extends ChangeNotifier {
 
   SurveyState() {
     _loadIshiharaImage();
-    _ishiharaTestStopwatch.start();
   }
 
   void setBiologicalSex(String value) {
@@ -53,6 +52,10 @@ class SurveyState extends ChangeNotifier {
       currentCounter++;
     }
     notifyListeners();
+  }
+
+  void startIshiharaStopWatch() {
+    _ishiharaTestStopwatch.start();
   }
 
   void setIshiharaResult(String value) {

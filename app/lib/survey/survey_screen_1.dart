@@ -1,4 +1,3 @@
-
 import 'package:app/route_names.dart';
 import 'package:app/widgets.dart';
 import 'package:flutter/material.dart';
@@ -99,14 +98,22 @@ class SurveyScreen1 extends StatelessWidget {
                 title: Text('über 60'),
               ),
             ),
-            Center(
-              child: NavigationButton(
-                navigationRoute: survey2Route,
-                isComplete:
-                    (context.watch<SurveyState>().biologicalSex != '' && context.watch<SurveyState>().age != ''),
-              ),
-            ),
           ],
+        ),
+        bottomNavigationBar: BottomAppBar(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: NavigationButton(
+                  navigationRoute: survey2Route,
+                  isComplete:
+                      (context.watch<SurveyState>().biologicalSex != '' && context.watch<SurveyState>().age != ''),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
