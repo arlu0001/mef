@@ -1,0 +1,23 @@
+---
+title: "Mean_TaskTime"
+output: html_document
+---
+##Durchschnittliche Bearbeitungszeit (bereinigte Daten)
+### Nach Aufgabe 
+```{r}
+plot(mean_tpt,type= "l", main = "Durschnittliche Dauer der Aufgaben", ylab= "Zeit in Millisekunden", xlab = "Aufgaben")
+```
+### Nach Geschlechtern
+```{r}
+plot(mean_tpt_f,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Geschlechtern", ylab= "Zeit in Millisekunden", xlab = "Aufgaben")
+lines(mean_tpt_m, type= "l", col = "blue")
+```
+### Nach Geschlechtern
+```{r}
+plot(mean_tpt_1120,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Altersgruppen", ylab= "Zeit in Millisekunden", xlab = "Aufgaben")
+lines(mean_tpt_2130, type= "l", col = "green")
+lines(mean_tpt_3140, type= "l", col = "red")
+lines(mean_tpt_4150, type= "l", col = "yellow")
+lines(mean_tpt_5160, type= "l", col = "orange")
+lines(mean_tpt_60, type= "l", col = "grey")
+```

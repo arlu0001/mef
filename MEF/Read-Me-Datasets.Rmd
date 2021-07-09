@@ -1,0 +1,19 @@
+---
+title: "Read Me Datasets"
+output: html_notebook
+---
+#Datensätze
+data <- enthält alle original Daten des Experiments
+
+##Koventionen:
+data_ic_x <- Bereinigte Daten nach Farbfehlsichtigkeit (x für jeweiliger Filter)
+data_x <- Unbereinigte Daten (x für jeweiliger Filter)
+
+##Funktionen:
+
+get_tptfv <- Erstellt ein Value mit der Durchschnittszeit pro Aufgabe für den Datensatz eines Filters
+             Übergabewert: entsprechender Datensatz
+###Zugehörige Values
+mean_tpt <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben
+mean_tpt_x <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben ( x für den jeweiligen Filter)
+

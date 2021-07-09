@@ -1,0 +1,127 @@
+---
+title: "Datensaetze_Subsets"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Datensatz importieren
+```{r}
+
+library(readr)
+#Filenamen anpassen
+Daten_09_07 <- read_csv("Daten/Daten_09.07.csv", 
+    col_types = cols(Datum = col_date(format = "%d.%m.%Y"), 
+        Uhrzeit = col_time(format = "%H:%M"), 
+        Geschlecht = col_factor(levels = c("f", 
+            "m")), Alter = col_factor(levels = c("unter 11", 
+            "11-20", "21-30", "31-40", "41-50", 
+            "51-60", "über 60")), OS = col_factor(levels = c("iOS", 
+            "Android")), `Smartphone Nutzung` = col_factor(levels = c("mehrmals täglich", 
+            "täglich", "mehrmals die Woche")), 
+        `Smartphone Nutzungserfahrung` = col_factor(levels = c("sehr sicher", 
+            "sicher", "mittelmäßig", "unsicher", 
+            "sehr unsicher")), `Zeit gesamt` = col_time(format = "%H:%M:%OS")))
+```
+
+#Original Datensatz kopieren
+
+````{r}
+data <- Daten_09_07
+View(data)
+```
+
+#Bereinigen des Datensatz ohne Farbfehlsichtigkeit
+````{r}
+data_ishiharaclean <-subset(data, data$`Ishihara 3` == 3 & data$`Ishihara 42` == 42 & data$`Ishihara Linien`== 'keine')
+```
+
+#Subset nach Geschlecht
+##Bereinigt
+````{r}
+data_ic_m <-subset(data_ishiharaclean, data_ishiharaclean$'Geschlecht' == 'm')
+data_ic_f <-subset(data_ishiharaclean, data_ishiharaclean$'Geschlecht' == 'f')
+
+```
+
+##Unbereinigt
+````{r}
+data_m <-subset(data, data$'Geschlecht' == 'm')
+data_f <-subset(data, data$'Geschlecht' == 'f')
+
+```
+
+#Subsets nach Alter
+##Bereinigt
+````{r}
+data_ic_11 <-subset(data_ishiharaclean, data_ishiharaclean$'Alter' == 'unter 11')
+data_ic_1120 <-subset(data_ishiharaclean, data_ishiharaclean$'Alter' == '11-20')
+data_ic_2130 <-subset(data_ishiharaclean, data_ishiharaclean$'Alter' == '21-30')
+data_ic_3140 <-subset(data_ishiharaclean, data_ishiharaclean$'Alter' == '31-40')
+data_ic_4150 <-subset(data_ishiharaclean, data_ishiharaclean$'Alter' == '41-50')
+data_ic_5160 <-subset(data_ishiharaclean, data_ishiharaclean$'Alter' == '51-60')
+data_ic_60 <-subset(data_ishiharaclean, data_ishiharaclean$'Alter' == 'über 60')
+
+```
+##Unbereinigt
+````{r}
+data_11 <-subset(data, data$'Alter' == 'unter 11')
+data_1120 <-subset(data, data$'Alter' == '11-20')
+data_2130 <-subset(data, data$'Alter' == '21-30')
+data_3140 <-subset(data, data$'Alter' == '31-40')
+data_4150 <-subset(data, data$'Alter' == '41-50')
+data_5160 <-subset(data, data$'Alter' == '51-60')
+data_60 <-subset(data, data$'Alter' == 'über 60')
+```
+
+#Subsets nach OS
+##Bereinigt
+````{r}
+data_ic_iOs <-subset(data_ishiharaclean, data_ishiharaclean$'OS' == 'iOS')
+data_ic_Android <-subset(data_ishiharaclean, data_ishiharaclean$'OS' == 'Android')
+```
+##Unbereinigt
+````{r}
+data_iOs <-subset(data, data$'OS' == 'iOS')
+data_Android <-subset(data, data$'OS' == 'Android')
+```
+
+
+#Durschnittliche Zeit pro Aufgabe
+
+###Methode zur Brechnung der Durchschnitszeit
+````{r}
+get_tptfv <- function(dataset){
+  library(dplyr)
+  name_tpt_dataset <- dataset %>% select(starts_with('Z'))
+  #Zeit gesamt entfernen
+  name_tpt_dataset[, 'Zeit gesamt'] <- list(NULL)
+  #Variable mit der durchschnittlichen Zeit der einzelnen Aufgaben erstellen
+  mean_tpt_value <-c(colMeans(name_tpt_dataset))
+  return(mean_tpt_value)
+}
+```
+
+##Bereinigt
+````{r}
+mean_tpt <- get_tptfv(data_ishiharaclean)
+```
+
+##Bereinigt nach Geschlecht
+```{r}
+mean_tpt_f<- get_tptfv(data_ic_f)
+mean_tpt_m<- get_tptfv(data_ic_m)
+```
+
+##Bereinigt nach Alter
+```{r}
+mean_tpt_11<- get_tptfv(data_ic_11)
+mean_tpt_1120<- get_tptfv(data_ic_1120)
+mean_tpt_2130<- get_tptfv(data_ic_2130)
+mean_tpt_3140<- get_tptfv(data_ic_3140)
+mean_tpt_4150<- get_tptfv(data_ic_4150)
+mean_tpt_5160<- get_tptfv(data_ic_5160)
+mean_tpt_60<- get_tptfv(data_ic_60)
+```
