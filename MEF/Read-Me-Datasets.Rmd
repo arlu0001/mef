@@ -2,23 +2,60 @@
 title: "Read Me Datasets"
 output: html_notebook
 ---
-#Datensätze
+# Datensätze
 data <- enthält alle original Daten des Experiments
 
-##Koventionen:
-data_ic_x <- Bereinigte Daten nach Farbfehlsichtigkeit (x für jeweiliger Filter)
-data_x <- Unbereinigte Daten (x für jeweiliger Filter)
+## Koventionen:
+data_ishiharaclean <-Bereinigte Daten nach Farbfehlsichtigkeit </br>
+data_ic_x <- Bereinigte Daten nach Farbfehlsichtigkeit (x für jeweiliger Filter) </br>
+data_x <- Unbereinigte Daten (x für jeweiliger Filter) </br>
 
-##Funktionen:
+### Filter:
+#### Geschlecht: 
+f <- Weiblich </br>
+m <- Männlich </br>
 
-get_tptfv <- Erstellt ein Value mit der Durchschnittszeit pro Aufgabe für den Datensatz eines Filters
-             Übergabewert: entsprechender Datensatz
-###Zugehörige Values
-mean_tpt <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben
+#### Alter:
+11 <- unter 11 </br>
+1120 <- 11-20 </br>
+2130 <- 21-30 </br>
+3140 <- 31-40 </br>
+4150 <- 41-50 </br>
+5160 <- 51-60 </br>
+60 <- über 60 </br>
+
+#### Betriebssystem
+iOS <- iOS </br>
+Android <- Android </br>
+
+#### Smartphone Nutzung
+mt <- mehrmals täglich </br>
+t <- täglich </br>
+mw <- mehrmals die Woche </br>
+
+#### Smartphone Nutzung
+ss <- sehr sicher </br>
+s <- sicher </br>
+m <- mittelmäßig </br>
+u <- unsicher </br>
+su <- sehr unsicher </br>
+
+
+## Funktionen:
+
+### get_tptfv 
+Erstellt ein Value mit der Durchschnittszeit pro Aufgabe für den Datensatz eines Filters </br>
+             Übergabewert: entsprechender Datensatz 
+             
+#### Zugehörige Values
+mean_tpt <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben </br>
 mean_tpt_x <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben ( x für den jeweiligen Filter)
 
-get_tptfvr <- Erstellt ein Value mit der Durchschnittszeit pro Aufgabe für den Datensatz eines Filters
+
+### get_tptfvr 
+Erstellt ein Value mit der Durchschnittszeit pro Aufgabe für den Datensatz eines Filters </br>
              Übergabewert: entsprechender Datensatz (in Sekunden)
-###Zugehörige Values
-mean_tptr <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben
-mean_tptr_x <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben ( x für den jeweiligen Filter)
+             
+#### Zugehörige Values
+mean_tptr <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben </br>
+mean_tptr_x <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben ( x für den jeweiligen Filter) 

@@ -45,3 +45,31 @@ lines(mean_tpt_Android, type= "l", col = "blue")
 plot(mean_tptr_iOS,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Betriebssystem", ylab= "Zeit in Sekunden", xlab = "Aufgaben")
 lines(mean_tptr_Android, type= "l", col = "blue")
 ```
+
+### Nach Smartphone Nutzung
+```{r}
+#Millisekunden
+plot(mean_tpt_mt,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Smartphone Nutzung", ylab= "Zeit in Millisekunden", xlab = "Aufgaben", ylim=c(1500,5100))
+lines(mean_tpt_t, type= "l", col = "blue")
+#lines(mean_tpt_mw, type= "l", col = "rot")
+#Sekunden
+plot(mean_tptr_mt,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Smartphone Nutzung", ylab= "Zeit in Sekunden", xlab = "Aufgaben", ylim=c(1.5,5.1))
+lines(mean_tptr_t, type= "l", col = "blue")
+#lines(mean_tptr_mw, type= "l", col = "rot")
+```
+
+### Nach Smartphone Erfahrung
+```{r}
+#Millisekunden
+plot(mean_tpt_ss,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Smartphone  Erfahrung", ylab= "Zeit in Millisekunden", xlab = "Aufgaben", ylim=c(1500,5100))
+lines(mean_tpt_s, type= "l", col = "blue")
+lines(mean_tpt_m, type= "l", col = "red")
+lines(mean_tpt_u, type= "l", col = "yellow")
+lines(mean_tpt_su, type= "l", col = "green")
+#Sekunden
+plot(mean_tptr_ss,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Smartphone Erfahrung", ylab= "Zeit in Sekunden", xlab = "Aufgaben", ylim=c(1.5,5.1))
+lines(mean_tptr_s, type= "l", col = "blue")
+lines(mean_tptr_m, type= "l", col = "red")
+lines(mean_tptr_u, type= "l", col = "yellow")
+lines(mean_tptr_su, type= "l", col = "green")
+```
