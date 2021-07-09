@@ -6,18 +6,42 @@ output: html_document
 ### Nach Aufgabe 
 ```{r}
 plot(mean_tpt,type= "l", main = "Durschnittliche Dauer der Aufgaben", ylab= "Zeit in Millisekunden", xlab = "Aufgaben")
+plot(mean_tptr,type= "l", main = "Durschnittliche Dauer der Aufgaben", ylab= "Zeit in Sekunden", xlab = "Aufgaben")
 ```
 ### Nach Geschlechtern
 ```{r}
+#Millisekunden
 plot(mean_tpt_f,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Geschlechtern", ylab= "Zeit in Millisekunden", xlab = "Aufgaben")
 lines(mean_tpt_m, type= "l", col = "blue")
+#Sekunden
+plot(mean_tptr_f,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Geschlechtern", ylab= "Zeit in Sekunden", xlab = "Aufgaben")
+lines(mean_tptr_m, type= "l", col = "blue")
 ```
-### Nach Geschlechtern
+### Nach Altersgruppe
 ```{r}
+#Millisekunden
 plot(mean_tpt_1120,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Altersgruppen", ylab= "Zeit in Millisekunden", xlab = "Aufgaben")
 lines(mean_tpt_2130, type= "l", col = "green")
 lines(mean_tpt_3140, type= "l", col = "red")
 lines(mean_tpt_4150, type= "l", col = "yellow")
 lines(mean_tpt_5160, type= "l", col = "orange")
 lines(mean_tpt_60, type= "l", col = "grey")
+#Sekunden
+plot(mean_tptr_1120,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Altersgruppen", ylab= "Zeit in Sekunden", xlab = "Aufgaben")
+lines(mean_tptr_2130, type= "l", col = "green")
+lines(mean_tptr_3140, type= "l", col = "red")
+lines(mean_tptr_4150, type= "l", col = "yellow")
+lines(mean_tptr_5160, type= "l", col = "orange")
+lines(mean_tptr_60, type= "l", col = "blue")
+
+```
+
+### Nach Betriebssystem
+```{r}
+#Millisekunden
+plot(mean_tpt_iOS,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Betriebssystem", ylab= "Zeit in Millisekunden", xlab = "Aufgaben")
+lines(mean_tpt_Android, type= "l", col = "blue")
+#Sekunden
+plot(mean_tptr_iOS,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Betriebssystem", ylab= "Zeit in Sekunden", xlab = "Aufgaben")
+lines(mean_tptr_Android, type= "l", col = "blue")
 ```

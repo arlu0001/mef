@@ -17,3 +17,8 @@ get_tptfv <- Erstellt ein Value mit der Durchschnittszeit pro Aufgabe für den D
 mean_tpt <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben
 mean_tpt_x <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben ( x für den jeweiligen Filter)
 
+get_tptfvr <- Erstellt ein Value mit der Durchschnittszeit pro Aufgabe für den Datensatz eines Filters
+             Übergabewert: entsprechender Datensatz (in Sekunden)
+###Zugehörige Values
+mean_tptr <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben
+mean_tptr_x <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben ( x für den jeweiligen Filter)
