@@ -60,4 +60,26 @@ fig <- plot_ly(type='pie', labels=labels, values=values,
                insidetextorientation='radial')
 fig <- fig %>% layout(title = "OS")
 fig
-```
+````
+### Durschnittliche Geschwindigkeit Frauen/Männer
+```{r pressure, echo=FALSE}
+fig <- plot_ly(data= data, y = ~mean_tptr_f, type = 'bar', name = 'Frauen')
+fig <- fig %>% add_trace(y = ~mean_tptr_m, name = 'Männer')
+fig <- fig %>% layout(
+title = "Männer vs.Frauen",
+xaxis = list(title = "Aufgaben"),
+yaxis = list(title = 'Durchschnitt'), 
+barmode = 'group')
+fig
+````
+### Smartphone Smartphone Nutzung
+```{r pressure, echo=FALSE}
+library(plotly)
+labels = c('sehr sicher','sicher','mittelmäßig')
+values = c(26, 12,7)
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "Nutzung")
+fig
+````
