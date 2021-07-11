@@ -1,0 +1,63 @@
+---
+title: "Plots_Plotly"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## Aufteilung der richtigen Antwort nach Geschecht
+
+```{r pressure, echo=FALSE}
+fig <- plot_ly(data = data, x = ~Geschlecht, y = ~Richtig)
+fig
+```
+## Aufteilung der falschen Antwort nach Geschecht
+
+```{r pressure, echo=FALSE}
+fig <- plot_ly(data = data, x = ~Geschlecht, y = ~Falsch)
+fig
+```
+### Alter der Probanden
+```{r pressure, echo=FALSE}
+library(plotly)
+labels = c('11-20','21-30','31-40','41-50','51-60','über 60')
+values = c(4, 24, 5, 6, 7, 3)
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "Alter")
+fig
+```
+### Smartphone Betriebssystem
+```{r pressure, echo=FALSE}
+library(plotly)
+labels = c('IOS','Android')
+values = c(24, 25)
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "OS")
+fig
+```

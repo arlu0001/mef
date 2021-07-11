@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 library(readr)
 #Filenamen anpassen
-Daten_09_07 <- read_csv("Daten/Daten_n48.csv", 
+Daten_orig <- read_csv("Daten/Daten_n49.csv", 
     col_types = cols(Datum = col_date(format = "%d.%m.%Y"), 
         Uhrzeit = col_time(format = "%H:%M"), 
         Geschlecht = col_factor(levels = c("f", 
@@ -34,7 +34,7 @@ Daten_09_07 <- read_csv("Daten/Daten_n48.csv",
 # Original Datensatz kopieren
 
 ````{r}
-data <- Daten_09_07
+data <- Daten_orig
 #View(data)
 ```
 
@@ -140,7 +140,7 @@ data_su <-subset(data, data$'Smartphone Nutzungserfahrung' == 'sehr unsicher')
 
 # Durschnittliche Zeit pro Aufgabe
 
-### Methode zur Brechnung der Durchschnitszeit
+### Methode zur Berechnung der Durchschnitszeit
 ````{r}
 #Durchschnittliche Zeit pro Aufgabe in Millisekunden
 get_tptfv <- function(dataset){
