@@ -5,32 +5,35 @@ output: html_document
 # Grunddaten
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+source("Datasets_Subsets.R")
 ```
 
 ## Geschlechterverteilung
 ```{r}
-plot(data$Geschlecht, main = "Biologisches Geschlecht", ylab= "Anzahl Personen", ylim=c(0,25))
-plot(data_ishiharaclean$Geschlecht, main = "Biologisches Geschlecht bereinigt", ylab= "Anzahl Personen", ylim=c(0,25))
+plot(data$Geschlecht, main = "Biologisches Geschlecht", ylab= "Anzahl Personen", ylim=c(0,100))
+plot(data_ishiharaclean$Geschlecht, main = "Biologisches ohne Farbfehlsichtigkeit", ylab= "Anzahl Personen", ylim=c(0,100))
+plot(data_ishiharafalse$Geschlecht, main = "Biologisches mit Farbfehlsichtigkeit", ylab= "Anzahl Personen", ylim=c(0,100))
 ```
 
 
 ## Altersverteilung 
 
 ```{r}
-plot(data$Alter, main = "Alter", ylab= "Anzahl Personen", ylim=c(0,25))
-plot(data_ishiharaclean$Alter, main = "Alter bereinigt", ylab= "Anzahl Personen", ylim=c(0,25))
+plot(data$Alter, main = "Alter", ylab= "Anzahl Personen", ylim=c(0,75))
+plot(data_ishiharaclean$Alter, main = "Alter ohne Farbfehlsichtigkeit", ylab= "Anzahl Personen", ylim=c(0,60))
+plot(data_ishiharafalse$Alter, main = "Alter mit Farbfehlsichtigkeit", ylab= "Anzahl Personen", ylim=c(0,20))
 ```
 
 ## Verteilung der Nutzung des Betriebssystems
 ```{r}
-plot(data$OS, main = "Betriebssystem", ylab= "Anzahl Personen", ylim=c(0,25))
-plot(data_ishiharaclean$OS, main = "Betriebssystem bereinigt", ylab= "Anzahl Personen", ylim=c(0,25))
+plot(data$OS, main = "Betriebssystem", ylab= "Anzahl Personen", ylim=c(0,80))
+plot(data_ishiharaclean$OS, main = "Betriebssystem bereinigt", ylab= "Anzahl Personen", ylim=c(0,80))
 ```
 
 ## Smartphone Nutzung
 ```{r}
-plot(data$'Smartphone Nutzung', main = "Smartphone Nutzungshäufigkeit", ylab= "Anzahl Personen", ylim=c(0,50))
-plot(data_ishiharaclean$'Smartphone Nutzung', main = "Smartphone Nutzungshäufigkeit bereinigt", ylab= "Anzahl Personen", ylim=c(0,50))
+plot(data$'Smartphone Nutzung', main = "Smartphone Nutzungshäufigkeit", ylab= "Anzahl Personen", ylim=c(0,110))
+plot(data_ishiharaclean$'Smartphone Nutzung', main = "Smartphone Nutzungshäufigkeit bereinigt", ylab= "Anzahl Personen", ylim=c(0,110))
 ```
 
 ## Smartphone Nutzungserfahrung

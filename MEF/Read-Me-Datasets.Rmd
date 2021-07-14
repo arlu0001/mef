@@ -3,14 +3,23 @@ title: "Read Me Datasets"
 output: html_notebook
 ---
 # Datensätze
-data <- enthält alle original Daten des Experiments
+data_raw <- enthält alle original Daten des Experiments
+data <- enthält die verwertbaren Daten des Experiments
 
 ## Koventionen:
-data_ishiharaclean <-Bereinigte Daten nach Farbfehlsichtigkeit </br>
+data_ishiharaclean <- Bereinigte Daten nach Farbfehlsichtigkeit </br>
+data_ishiharafalse <- Bereinigte Daten nach Farbfehlsichtigkeit </br>
 data_ic_x <- Bereinigte Daten nach Farbfehlsichtigkeit (x für jeweiliger Filter) </br>
 data_x <- Unbereinigte Daten (x für jeweiliger Filter) </br>
 
 ### Filter:
+
+#### Uhrzeit:
+mo <- Morgens (06:00:00-11:59:59)
+a <- Nachmittag (12:00:00- 17:59:59)
+e <- Abends (18:00:00 - 23:59:59)
+n <- Nachts (00:00:00 - 05:59:59)  
+
 #### Geschlecht: 
 f <- Weiblich </br>
 m <- Männlich </br>
@@ -36,7 +45,7 @@ mw <- mehrmals die Woche </br>
 #### Smartphone Nutzung
 ss <- sehr sicher </br>
 s <- sicher </br>
-m <- mittelmäßig </br>
+mm <- mittelmäßig </br>
 u <- unsicher </br>
 su <- sehr unsicher </br>
 
