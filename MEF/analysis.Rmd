@@ -1,0 +1,173 @@
+---
+title: "analysis"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+source("util.R")
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo=FALSE}
+
+library(readr)
+#Filenamen anpassen
+Daten_orig <- read_csv("Daten/Daten_n49.csv", 
+    col_types = cols(Datum = col_date(format = "%d.%m.%Y"), 
+        Uhrzeit = col_time(format = "%H:%M"), 
+        Geschlecht = col_factor(levels = c("f", 
+            "m")), Alter = col_factor(levels = c("unter 11", 
+            "11-20", "21-30", "31-40", "41-50", 
+            "51-60", "über 60")), OS = col_factor(levels = c("iOS", 
+            "Android")), `Smartphone Nutzung` = col_factor(levels = c("mehrmals täglich", 
+            "täglich", "mehrmals die Woche")), 
+        `Smartphone Nutzungserfahrung` = col_factor(levels = c("sehr sicher", 
+            "sicher", "mittelmäßig", "unsicher", 
+            "sehr unsicher")), `Zeit gesamt` = col_time(format = "%H:%M:%OS")))
+
+```
+
+```{r echo=FALSE}
+data <- Daten_orig
+#View(data)
+```
+
+```{r echo=FALSE}
+data_ishiharaclean <-subset(data, data$`Ishihara 3` == 3 & data$`Ishihara 42` == 42 & data$`Ishihara Linien`== 'keine')
+```
+
+```{r Histo_Geschlecht, echo=FALSE}
+create.histogram.percent(data_ishiharaclean, ~Geschlecht, "Geschlechterverteilung")
+```
+```{r Histo_OS, echo=FALSE}
+create.histogram.percent(data_ishiharaclean, ~OS, "Verteilung Betriebssystem")
+```
+```{r Histo_Alter, echo=FALSE}
+create.histogram.percent(data_ishiharaclean, ~Alter, "Altersverteilung")
+```
+```{r Histo_Nutzung, echo=FALSE}
+create.histogram.percent(data_ishiharaclean, data_ishiharaclean$'Smartphone Nutzung', "Smartphone Nutzung")
+```
+```{r Histo_Erfahrung, echo=FALSE}
+create.histogram.percent(data_ishiharaclean, data_ishiharaclean$'Smartphone Nutzungserfahrung', "Smartphone Nutzungserfahrung")
+```
+
+```{r echo=FALSE}
+data_ic_m <-subset(data_ishiharaclean, data_ishiharaclean$'Geschlecht' == 'm')
+data_ic_f <-subset(data_ishiharaclean, data_ishiharaclean$'Geschlecht' == 'f')
+```
+
+```{r echo=FALSE}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = data_ic_m$`Richtig`, name= "m")
+fig <- fig %>% add_trace(y = data_ic_f$`Richtig`, name="w")
+
+fig <- fig %>% layout(
+    yaxis = list(title= "Anzahl richtig beantworteter Aufgaben"), 
+    title = "Verteilung richtiger Aufgaben nach Geschlecht"
+  )
+
+fig
+```
+```{r echo=FALSE}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = data_ic_m$`Falsch`, name= "m")
+fig <- fig %>% add_trace(y = data_ic_f$`Falsch`, name="w")
+
+fig <- fig %>% layout(
+    yaxis = list(title= "Anzahl falsch beantworteter Aufgaben"), 
+    title = "Verteilung falscher Aufgaben nach Geschlecht"
+  )
+
+fig
+```
+```{r echo=FALSE}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = data_ic_m$`Richtig`, name= "m")
+fig <- fig %>% add_trace(y = data_ic_f$`Richtig`, name="w")
+
+fig <- fig %>% layout(
+    yaxis = list(title= "Anzahl richtig beantworteter Aufgaben"), 
+    title = "Verteilung richtiger Aufgaben nach Geschlecht"
+  )
+
+fig
+```
+
+```{r echo=FALSE}
+data_ic_iOS <-subset(data_ishiharaclean, data_ishiharaclean$'OS' == 'iOS')
+data_ic_Android <-subset(data_ishiharaclean, data_ishiharaclean$'OS' == 'Android')
+```
+
+```{r echo=FALSE}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = data_ic_iOS$`Richtig`, name= "iOS")
+fig <- fig %>% add_trace(y = data_ic_Android$`Richtig`, name="Android")
+
+fig <- fig %>% layout(
+    yaxis = list(title= "Anzahl richtig beantworteter Aufgaben"), 
+    title = "Verteilung richtiger Aufgaben nach Betriebssystem"
+  )
+
+fig
+```
+
+```{r echo=FALSE}
+data_time_config <- data_ishiharaclean
+data_time_config <-data_time_config %>% select(-("Datum":"Ishihara Dauer"))
+```
+
+```{r echo=FALSE}
+
+data_time_config_long <- data_time_config %>%
+ # add row numbers as we need them to keep the order
+  dplyr::mutate(rn = dplyr::row_number()) %>%
+  # gather is depricated
+  tidyr::pivot_longer(-rn, names_to = "colu", values_to = "vals") %>%
+  # extract number from the column names that now are a column as we need them to keep the order also
+  dplyr::mutate(nr = readr::parse_number(colu))
+  
+data_time_config_long <- data_time_config_long %>%
+   dplyr::filter(stringr::str_detect(colu, "Z")) %>%
+  dplyr::left_join(data_time_config_long %>%
+                     dplyr::filter(stringr::str_detect(colu, "R")), by = c("rn", "nr")) %>%
+  # order to get the exact output you are looking for
+  dplyr::arrange(nr) %>%
+  # select and rename to get exactout put you a looking vor
+  dplyr::select(Z = colu.x, `Time in ms` = vals.x, R = colu.y, Reaction = vals.y) 
+```
+
+```{r echo=FALSE}
+knitr::kable(head(data_time_config_long))
+```
+
+```{r echo=FALSE}
+data_time_config_1 <- subset(data_time_config_long, data_time_config_long$Reaction == 1)
+data_time_config_2 <- subset(data_time_config_long, data_time_config_long$Reaction == 2)
+data_time_config_3 <- subset(data_time_config_long, data_time_config_long$Reaction == 3)
+data_time_config_4 <- subset(data_time_config_long, data_time_config_long$Reaction == 4)
+data_time_config_5 <- subset(data_time_config_long, data_time_config_long$Reaction == 5)
+data_time_config_6 <- subset(data_time_config_long, data_time_config_long$Reaction == 6)
+data_time_config_7 <- subset(data_time_config_long, data_time_config_long$Reaction == 7)
+data_time_config_8 <- subset(data_time_config_long, data_time_config_long$Reaction == 8)
+```
+
+```{r echo=FALSE}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = data_time_config_1$`Time in ms`, name="1")
+fig <- fig %>% add_trace(y = data_time_config_2$`Time in ms`, name="2")
+fig <- fig %>% add_trace(y = data_time_config_3$`Time in ms`, name="3")
+fig <- fig %>% add_trace(y = data_time_config_4$`Time in ms`, name="4")
+fig <- fig %>% add_trace(y = data_time_config_5$`Time in ms`, name="5")
+fig <- fig %>% add_trace(y = data_time_config_6$`Time in ms`, name="6")
+fig <- fig %>% add_trace(y = data_time_config_7$`Time in ms`, name="7")
+fig <- fig %>% add_trace(y = data_time_config_8$`Time in ms`, name="8")
+
+fig <- fig %>% layout(
+    yaxis = list(title= "Zeit in ms"), 
+    title = "Boxplots"
+  )
+
+fig
+```
+
