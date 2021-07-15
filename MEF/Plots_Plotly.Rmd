@@ -30,13 +30,13 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 ## Aufteilung der richtigen Antwort nach Geschecht
 
 ```{r pressure, echo=FALSE}
-fig <- plot_ly(data = data, x = ~Geschlecht, y = ~Richtig)
+fig <- plot_ly(data=data_ishiharaclean, x = ~Geschlecht, y = ~Richtig)
 fig
 ```
 ## Aufteilung der falschen Antwort nach Geschecht
 
 ```{r pressure, echo=FALSE}
-fig <- plot_ly(data = data, x = ~Geschlecht, y = ~Falsch)
+fig <- plot_ly(data=data_ishiharaclean, x = ~Geschlecht, y = ~Falsch)
 fig
 ```
 ### Alter der Probanden
@@ -63,7 +63,7 @@ fig
 ````
 ### Durschnittliche Geschwindigkeit Frauen/Männer
 ```{r pressure, echo=FALSE}
-fig <- plot_ly(data= data, y = ~mean_tptr_f, type = 'bar', name = 'Frauen')
+fig <- plot_ly(data=data_ishiharaclean, y = ~mean_tptr_f, type = 'bar', name = 'Frauen')
 fig <- fig %>% add_trace(y = ~mean_tptr_m, name = 'Männer')
 fig <- fig %>% layout(
 title = "Männer vs.Frauen",
@@ -82,4 +82,44 @@ fig <- plot_ly(type='pie', labels=labels, values=values,
                insidetextorientation='radial')
 fig <- fig %>% layout(title = "Nutzung")
 fig
+````
+### Verteilung Männer vs. Frauen
+```{r pressure, echo=FALSE}
+library(plotly)
+labels = c('Männer','Frauen')
+values = c(64, 53)
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "Verteilung Geschlecht")
+fig
+````
+### Regressionsgerade
+```{r pressure, echo=FALSE}
+model<-lm(mean_tptr_f ~ mean_tptr_m , data=data_ishiharaclean)
+summary(model)
+res<-residuals(model)
+plot(mean_tptr_f ~ mean_tptr_m,xlim=c(0,4), ylim=c(0,4))
+abline(model,col="blue")
+````
+### Konfidenzintervall 95%
+```{r pressure, echo=FALSE}
+confint(model)
+````
+### Konfidenzintervall 90%
+```{r pressure, echo=FALSE}
+confint(model, level=0.90)
+````
+### Lineare Regression Frauen
+```{r pressure, echo=FALSE}
+plot(mean_tptr_f, type="o", main="Frauen", ylab="Aufgaben", xlab="Durchschnittliche Geschwindigkeit", col="blue", lwd=2)
+````
+### Lineare Regression Männer
+```{r pressure, echo=FALSE}
+plot(mean_tptr_m, type="o", main="Männer", ylab="Aufgaben", xlab="Durchschnittliche Geschwindigkeit", col="blue", lwd=2)
+````
+### Lineare Regression Männer und Frauen
+```{r pressure, echo=FALSE}
+library(ggplot2)
+ggplot(data_ishiharaclean, aes(x = mean_tptr_f, y = mean_tptr_m)) + geom_point() + geom_smooth(method = "lm", se = FALSE, size = 0.5) + labs(x = "hp (PS, horsepower)", y = "mpg - Verbrauch in miles per gallon\n(Je höher, desto sparsamer)", title = "lm(mpg ~ hp, data = mtcars)")
 ````
