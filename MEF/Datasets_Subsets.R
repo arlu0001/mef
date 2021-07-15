@@ -21,13 +21,11 @@ Daten_orig <- read_csv("Daten/Daten_n118.csv",
 
 # Original Datensatz kopieren
 data_raw <- Daten_orig
-#View(data)
 
 
 # Original Datensatz kopieren minus ungültige Zeilen 
 drops <- c(107)
 data <- data_raw[-drops,]
-View(data)
 
 
 # Bereinigen des Datensatz ohne Farbfehlsichtigkeit
@@ -36,7 +34,6 @@ data_ishiharaclean <-subset(data, data$`Ishihara 3` == 3 & data$`Ishihara 42` ==
 
 # Bereinigen des Datensatz mit Farbfehlsichtigkeit
 data_ishiharafalse <-subset(data, data$`Ishihara 3` != 3 | data$`Ishihara 42` != 42 | data$`Ishihara Linien`!= 'keine')
-View(data_ishiharafalse)
 
 
 #Subsets nach Uhrzeit 
@@ -219,12 +216,12 @@ mean_tptr_Android<- get_tptfvr(data_ic_Android)
 #Millisekunden
 mean_tpt_mt<- get_tptfv(data_ic_mt)
 mean_tpt_t<- get_tptfv(data_ic_t)
-mean_tpt_wt<- get_tptfv(data_ic_wt)
+#mean_tpt_wt<- get_tptfv(data_ic_wt)
 
 #Sekunden
 mean_tptr_mt<- get_tptfvr(data_ic_mt)
 mean_tptr_t<- get_tptfvr(data_ic_t)
-mean_tptr_wt<- get_tptfvr(data_ic_wt)
+#mean_tptr_wt<- get_tptfvr(data_ic_wt)
 
 
 ## Bereinigt nach Smartphone Erfahrung
@@ -241,4 +238,18 @@ mean_tptr_s<- get_tptfvr(data_ic_s)
 mean_tptr_mm<- get_tptfvr(data_ic_mm)
 mean_tptr_u<- get_tptfvr(data_ic_u)
 mean_tptr_su<- get_tptfvr(data_ic_su)
+
+## Bereinigt nach Uhrzeit
+
+#Millisekunden
+mean_tpt_mo <- get_tptfv(data_ic_mo)
+mean_tpt_a <- get_tptfv(data_ic_a)
+mean_tpt_e <- get_tptfv(data_ic_e)
+mean_tpt_n <- get_tptfv(data_ic_n)
+
+#Sekunden
+mean_tptr_mo <- get_tptfvr(data_ic_mo)
+mean_tptr_a <- get_tptfvr(data_ic_a)
+mean_tptr_e <- get_tptfvr(data_ic_e)
+mean_tptr_n <- get_tptfvr(data_ic_n)
 

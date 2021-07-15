@@ -1,0 +1,22 @@
+---
+title: "Schließende Statistik"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+### Nullhypothese:
+H<sub>0</sub>: Die Färbung der Buttons und die Beschriftung haben Auswirkung auf die Bearbeitungszeit
+
+### Gegenhypothese:
+H<sub>1</sub>: Die Färbung der Buttons und die Beschriftung haben keine Auswirkung auf die Bearbeitungszeit
+
+
+## Anova-Test
+```{r}
+summary(aov(data_time_config_long$`Time in ms` ~ data_time_config_long$Reaction))
+
+```

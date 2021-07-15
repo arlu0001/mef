@@ -35,7 +35,7 @@ Daten_orig <- read_csv("Daten/Daten_n118.csv",
 
 ````{r}
 data_raw <- Daten_orig
-#View(data)
+
 ```
 
 # Original Datensatz kopieren minus ungültige Zeilen 
@@ -43,7 +43,7 @@ data_raw <- Daten_orig
 ````{r}
 drops <- c(107)
 data <- data_raw[-drops,]
-View(data)
+
 ```
 
 
@@ -55,7 +55,6 @@ data_ishiharaclean <-subset(data, data$`Ishihara 3` == 3 & data$`Ishihara 42` ==
 # Bereinigen des Datensatz mit Farbfehlsichtigkeit
 ````{r}
 data_ishiharafalse <-subset(data, data$`Ishihara 3` != 3 | data$`Ishihara 42` != 42 | data$`Ishihara Linien`!= 'keine')
-View(data_ishiharafalse)
 ```
 
 #Subsets nach Uhrzeit 
@@ -66,13 +65,9 @@ library(tidyverse)
 summary(data_ishiharaclean$'Uhrzeit')
 data_ishiharaclean$'Uhrzeit' <- format(as.POSIXct(data_ishiharaclean$'Uhrzeit'), "%H:%M:%S")
 data_ic_mo <-subset(data_ishiharaclean, data_ishiharaclean$'Uhrzeit' >= "06:00:00" & data_ishiharaclean$'Uhrzeit'<= "11:59:59")
-View(data_ic_mo)
 data_ic_a <-subset(data_ishiharaclean, data_ishiharaclean$'Uhrzeit' >= "12:00:00" & data_ishiharaclean$'Uhrzeit'<= "17:59:59" )
-View(data_ic_a)
 data_ic_e <-subset(data_ishiharaclean, data_ishiharaclean$'Uhrzeit' >= '18:00:00' & data_ishiharaclean$'Uhrzeit'<= '23:59:59')
-View(data_ic_e)
 data_ic_n <-subset(data_ishiharaclean, data_ishiharaclean$'Uhrzeit' >= '00:00:00' & data_ishiharaclean$'Uhrzeit'<= '05:59:59')
-View(data_ic_n)
 
 ```
 
@@ -80,13 +75,9 @@ View(data_ic_n)
 ````{r}
 data$'Uhrzeit' <- format(as.POSIXct(data$'Uhrzeit'), "%H:%M:%S")
 data_mo <-subset(data, data$'Uhrzeit' >= "06:00:00" & data$'Uhrzeit'<= "11:59:59")
-View(data_mo)
 data_a <-subset(data, data$'Uhrzeit' >= "12:00:00" & data$'Uhrzeit'<= "17:59:59" )
-View(data_a)
 data_e <-subset(data, data$'Uhrzeit' >= '18:00:00' & data$'Uhrzeit'<= '23:59:59')
-View(data_e)
 data_n <-subset(data, data$'Uhrzeit' >= '00:00:00' & data$'Uhrzeit'<= '05:59:59')
-View(data_n)
 
 ```
 
@@ -219,21 +210,6 @@ mean_tptr <- get_tptfvr(data_ishiharaclean)
 
 ```
 
-## Bereinigt nach Uhrzeit
-```{r}
-#Millisekunden
-mean_tpt_mo <- get_tptfv(data_ic_mo)
-mean_tpt_a <- get_tptfv(data_ic_a)
-mean_tpt_e <- get_tptfv(data_ic_e)
-mean_tpt_n <- get_tptfv(data_ic_n)
-
-#Sekunden
-mean_tptr_mo <- get_tptfv(data_ic_mo)
-mean_tptr_a <- get_tptfv(data_ic_a)
-mean_tptr_e <- get_tptfv(data_ic_e)
-mean_tptr_n <- get_tptfv(data_ic_n)
-```
-
 ## Bereinigt nach Geschlecht
 ```{r}
 #Millisekunden
@@ -304,4 +280,19 @@ mean_tptr_s<- get_tptfvr(data_ic_s)
 mean_tptr_mm<- get_tptfvr(data_ic_mm)
 mean_tptr_u<- get_tptfvr(data_ic_u)
 mean_tptr_su<- get_tptfvr(data_ic_su)
+```
+
+## Bereinigt nach Uhrzeit
+```{r}
+#Millisekunden
+mean_tpt_mo <- get_tptfv(data_ic_mo)
+mean_tpt_a <- get_tptfv(data_ic_a)
+mean_tpt_e <- get_tptfv(data_ic_e)
+mean_tpt_n <- get_tptfv(data_ic_n)
+
+#Sekunden
+mean_tptr_mo <- get_tptfvr(data_ic_mo)
+mean_tptr_a <- get_tptfvr(data_ic_a)
+mean_tptr_e <- get_tptfvr(data_ic_e)
+mean_tptr_n <- get_tptfvr(data_ic_n)
 ```

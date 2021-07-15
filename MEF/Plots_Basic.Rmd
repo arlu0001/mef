@@ -12,9 +12,8 @@ source("Datasets_Subsets.R")
 ```{r}
 plot(data$Geschlecht, main = "Biologisches Geschlecht", ylab= "Anzahl Personen", ylim=c(0,100))
 plot(data_ishiharaclean$Geschlecht, main = "Biologisches ohne Farbfehlsichtigkeit", ylab= "Anzahl Personen", ylim=c(0,100))
-plot(data_ishiharafalse$Geschlecht, main = "Biologisches mit Farbfehlsichtigkeit", ylab= "Anzahl Personen", ylim=c(0,100))
+plot(data_ishiharafalse$Geschlecht, main = "Biologisches mit Farbfehlsichtigkeit", ylab= "Anzahl Personen", ylim=c(0,25))
 ```
-
 
 ## Altersverteilung 
 
@@ -38,7 +37,11 @@ plot(data_ishiharaclean$'Smartphone Nutzung', main = "Smartphone Nutzungshäufig
 
 ## Smartphone Nutzungserfahrung
 ```{r}
-plot(data$'Smartphone Nutzungserfahrung', main = "Smartphone Nutzungserfahrung", ylab= "Anzahl Personen", ylim=c(0,50))
-plot(data_ishiharaclean$'Smartphone Nutzungserfahrung', main = "Smartphone Nutzungserfahrung bereinigt", ylab= "Anzahl Personen", ylim=c(0,50))
+plot(data$'Smartphone Nutzungserfahrung', main = "Smartphone Nutzungserfahrung", ylab= "Anzahl Personen", ylim=c(0,70))
+plot(data_ishiharaclean$'Smartphone Nutzungserfahrung', main = "Smartphone Nutzungserfahrung bereinigt", ylab= "Anzahl Personen", ylim=c(0,70))
 ```
-
+## Smartphone Nutzungserfahrung
+```{r}
+plot(data$'Smartphone Nutzungserfahrung', main = "Smartphone Nutzungserfahrung", ylab= "Anzahl Personen", ylim=c(0,70))
+plot(data_ishiharaclean$'Smartphone Nutzungserfahrung', main = "Smartphone Nutzungserfahrung bereinigt", ylab= "Anzahl Personen", ylim=c(0,70))
+```

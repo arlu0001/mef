@@ -2,6 +2,11 @@
 title: "Mean_TaskTime"
 output: html_document
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("Datasets_Subsets.R")
+```
+
 ##Durchschnittliche Bearbeitungszeit (bereinigte Daten)
 ### Nach Aufgabe 
 ```{r}
@@ -72,4 +77,18 @@ lines(mean_tptr_s, type= "l", col = "blue")
 lines(mean_tptr_m, type= "l", col = "red")
 lines(mean_tptr_u, type= "l", col = "yellow")
 lines(mean_tptr_su, type= "l", col = "green")
+```
+
+### Nach Uhrzeit
+```{r}
+#Millisekunden
+plot(mean_tpt_mo,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Uhrzeit", ylab= "Zeit in Millisekunden", xlab = "Aufgaben", ylim=c(1500,5100))
+lines(mean_tpt_a, type= "l", col = "blue")
+lines(mean_tpt_n, type= "l", col = "red")
+lines(mean_tpt_e, type= "l", col = "yellow")
+#Sekunden
+plot(mean_tptr_mo,type= "l", main = "Durschnittliche Dauer der Aufgaben nach Uhrzeit", ylab= "Zeit in Sekunden", xlab = "Aufgaben", ylim=c(1.5,5.1))
+lines(mean_tptr_a, type= "l", col = "blue")
+lines(mean_tptr_n, type= "l", col = "red")
+lines(mean_tptr_e, type= "l", col = "yellow")
 ```
