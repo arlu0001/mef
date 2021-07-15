@@ -7,9 +7,10 @@ data_raw <- enthält alle original Daten des Experiments
 data <- enthält die verwertbaren Daten des Experiments
 
 ## Koventionen:
-data_ishiharaclean <- Bereinigte Daten nach Farbfehlsichtigkeit </br>
-data_ishiharafalse <- Bereinigte Daten nach Farbfehlsichtigkeit </br>
-data_ic_x <- Bereinigte Daten nach Farbfehlsichtigkeit (x für jeweiliger Filter) </br>
+data_ishiharaclean <- Bereinigte Daten nach Probanden ohne Farbfehlsichtigkeit </br>
+data_ishiharafalse <- Bereinigte Daten nach Probanden mit Farbfehlsichtigkeit </br>
+data_ic_x <- Bereinigte Daten nach Probanden ohne Farbfehlsichtigkeit (x für jeweiliger Filter) </br>
+data_if_x <- Bereinigte Daten nach Probanden mit Farbfehlsichtigkeit (x für jeweiliger Filter) </br>
 data_x <- Unbereinigte Daten (x für jeweiliger Filter) </br>
 
 ### Filter:
@@ -60,6 +61,10 @@ Erstellt ein Value mit der Durchschnittszeit pro Aufgabe für den Datensatz eine
 mean_tpt <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben </br>
 mean_tpt_x <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben ( x für den jeweiligen Filter)
 
+####Probanden mit Farbfehlsichtigkeit
+mean_tpt_if <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben </br>
+mean_tpt_if_x <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben ( x für den jeweiligen Filter)
+
 
 ### get_tptfvr 
 Erstellt ein Value mit der Durchschnittszeit pro Aufgabe für den Datensatz eines Filters </br>
@@ -68,3 +73,7 @@ Erstellt ein Value mit der Durchschnittszeit pro Aufgabe für den Datensatz eine
 #### Zugehörige Values
 mean_tptr <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben </br>
 mean_tptr_x <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben ( x für den jeweiligen Filter) 
+
+####Probanden mit Farbfehlsichtigkeit
+mean_tptr_if <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben </br>
+mean_tptr_if_x <- Durschnittliche Bearbeitungszeit der einzelnen Aufgaben ( x für den jeweiligen Filter)
