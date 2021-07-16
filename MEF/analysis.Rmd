@@ -144,3 +144,89 @@ fig <- fig %>% layout(
 fig
 ```
 
+```{r}
+data_time_config_1 <- subset(data_time_config_1, data_time_config_1$`Time in ms` <= 6000)
+data_time_config_2 <- subset(data_time_config_2, data_time_config_2$`Time in ms` <= 6000)
+data_time_config_3 <- subset(data_time_config_3, data_time_config_3$`Time in ms` <= 6000)
+data_time_config_4 <- subset(data_time_config_4, data_time_config_4$`Time in ms` <= 6000)
+data_time_config_5 <- subset(data_time_config_5, data_time_config_5$`Time in ms` <= 6000)
+data_time_config_6 <- subset(data_time_config_6, data_time_config_6$`Time in ms` <= 6000)
+data_time_config_7 <- subset(data_time_config_7, data_time_config_7$`Time in ms` <= 6000)
+data_time_config_8 <- subset(data_time_config_8, data_time_config_8$`Time in ms` <= 6000)
+```
+
+```{r}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = data_time_config_1$`Time in ms`, name="1")
+fig <- fig %>% add_trace(y = data_time_config_2$`Time in ms`, name="2")
+fig <- fig %>% add_trace(y = data_time_config_3$`Time in ms`, name="3")
+fig <- fig %>% add_trace(y = data_time_config_4$`Time in ms`, name="4")
+fig <- fig %>% add_trace(y = data_time_config_5$`Time in ms`, name="5")
+fig <- fig %>% add_trace(y = data_time_config_6$`Time in ms`, name="6")
+fig <- fig %>% add_trace(y = data_time_config_7$`Time in ms`, name="7")
+fig <- fig %>% add_trace(y = data_time_config_8$`Time in ms`, name="8")
+
+fig <- fig %>% layout(
+    yaxis = list(title= "Zeit in ms"), 
+    title = "Boxplots"
+  )
+
+fig
+```
+
+
+```{r}
+data_time_config_100 <- data_ishiharaclean
+data_time_config_100 <- subset(data_time_config_100, data_time_config_100$Richtig == 100)
+data_time_config_100 <- data_time_config_100 %>% select(-("Datum":"Ishihara Dauer"))
+data_time_config_100[data_time_config_100 == 2] <- 6 
+```
+
+```{r}
+data_time_config_long_100 <- wideToLongTable(data_time_config_100)
+data_time_config_long_100$Reaction <- as.factor(data_time_config_long_100$Reaction)
+```
+
+```{r}
+data_time_config_100_1 <- subset(data_time_config_long_100, data_time_config_long_100$Reaction == 1)
+data_time_config_100_3 <- subset(data_time_config_long_100, data_time_config_long_100$Reaction == 3)
+data_time_config_100_6 <- subset(data_time_config_long_100, data_time_config_long_100$Reaction == 6)
+data_time_config_100_8 <- subset(data_time_config_long_100, data_time_config_long_100$Reaction == 8)
+```
+
+```{r}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = data_time_config_100_1$`Time in ms`, name="Config 1")
+fig <- fig %>% add_trace(y = data_time_config_100_3$`Time in ms`, name="Config 3")
+fig <- fig %>% add_trace(y = data_time_config_100_6$`Time in ms`, name="Config 6")
+fig <- fig %>% add_trace(y = data_time_config_100_8$`Time in ms`, name="Config 8")
+
+fig <- fig %>% layout(
+    yaxis = list(title= "Zeit in ms"), 
+    title = "Boxplots 100 richtig"
+  )
+
+fig
+```
+```{r}
+data_time_config_100_1 <- subset(data_time_config_long_100, data_time_config_long_100$`Time in ms` <= 6000)
+data_time_config_100_3 <- subset(data_time_config_long_100, data_time_config_long_100$`Time in ms` <= 6000)
+data_time_config_100_6 <- subset(data_time_config_long_100, data_time_config_long_100$`Time in ms` <= 6000)
+data_time_config_100_8 <- subset(data_time_config_long_100, data_time_config_long_100$`Time in ms` <= 6000)
+```
+
+```{r}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = data_time_config_100_1$`Time in ms`, name="Config 1")
+fig <- fig %>% add_trace(y = data_time_config_100_3$`Time in ms`, name="Config 3")
+fig <- fig %>% add_trace(y = data_time_config_100_6$`Time in ms`, name="Config 6")
+fig <- fig %>% add_trace(y = data_time_config_100_8$`Time in ms`, name="Config 8")
+
+fig <- fig %>% layout(
+    yaxis = list(title= "Zeit in ms"), 
+    title = "Boxplots 100 richtig"
+  )
+
+fig
+```
+
