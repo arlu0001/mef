@@ -1,8 +1,9 @@
 # Datensatz importieren
 
 library(readr)
+
 #Filenamen anpassen
-Daten_orig <- read_csv("Daten/Daten_n118.csv", 
+Daten_orig <- read_csv("Daten/Daten_n121.csv", 
                        col_types = cols(Datum = col_date(format = "%d.%m.%Y"), 
                                         Uhrzeit = col_time(format = "%H:%M"), 
                                         Geschlecht = col_factor(levels = c("f", 
@@ -29,12 +30,12 @@ data <- data_raw[-drops,]
 
 
 # Bereinigen des Datensatz ohne Farbfehlsichtigkeit
-data_ishiharaclean <-subset(data, data$`Ishihara 3` == 3 & data$`Ishihara 42` == 42 & data$`Ishihara Linien`== 'keine')
-
+data$'Ishihara Dauer' <- format(as.POSIXct(data$'Ishihara Dauer'), "%H:%M:%OS")
+data_ishiharaclean <-subset(data, data$`Ishihara 3` == 3 & data$`Ishihara 42` == 42 & data$`Ishihara Linien`== 'keine'  & data$'Ishihara Dauer' < "00:02:00")
 
 # Bereinigen des Datensatz mit Farbfehlsichtigkeit
-data_ishiharafalse <-subset(data, data$`Ishihara 3` != 3 | data$`Ishihara 42` != 42 | data$`Ishihara Linien`!= 'keine')
-
+#data$'Ishihara Dauer' <- format(as.POSIXct(data$'Ishihara Dauer'), "%H:%M:%OS")
+data_ishiharafalse <-subset(data, data$`Ishihara 3` != 3 | data$`Ishihara 42` != 42 | data$`Ishihara Linien`!= 'keine' | data$'Ishihara Dauer' >= "00:02:00")
 
 #Subsets nach Uhrzeit 
 ## Bereinigt nur Probanden ohne Farbfehlsichtigkeit
@@ -375,4 +376,5 @@ mean_tptr_if_mo <- get_tptfvr(data_if_mo)
 mean_tptr_if_a <- get_tptfvr(data_if_a)
 mean_tptr_if_e <- get_tptfvr(data_if_e)
 mean_tptr_if_n <- get_tptfvr(data_if_n)
+
 
