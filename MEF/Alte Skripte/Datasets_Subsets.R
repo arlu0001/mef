@@ -37,6 +37,8 @@ data_ishiharaclean <-subset(data, data$`Ishihara 3` == 3 & data$`Ishihara 42` ==
 #data$'Ishihara Dauer' <- format(as.POSIXct(data$'Ishihara Dauer'), "%H:%M:%OS")
 data_ishiharafalse <-subset(data, data$`Ishihara 3` != 3 | data$`Ishihara 42` != 42 | data$`Ishihara Linien`!= 'keine' | data$'Ishihara Dauer' >= "00:02:00")
 
+
+
 #Subsets nach Uhrzeit 
 ## Bereinigt nur Probanden ohne Farbfehlsichtigkeit
 library(tidyverse)

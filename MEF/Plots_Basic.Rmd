@@ -5,11 +5,10 @@ output: html_document
 # Grunddaten
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-
-
+source("Skripte/import.R")
+source("Skripte/subsets_erstellen.R")
+source("Skripte/all_tpt.R")
 ```
-
-
 
 ## Geschlechterverteilung
 ```{r}

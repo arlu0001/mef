@@ -5,14 +5,18 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+#source("Skripte/import.R")
+#source("Skripte/subsets_erstellen.R")
+#source("Skripte/all_tpt.R")
+#source("Skripte/util.R")
 ```
 
 
 ### Nullhypothese:
-H<sub>0</sub>: Die Färbung der Buttons und die Beschriftung haben Auswirkung auf die Bearbeitungszeit
+H<sub>0</sub>: Die Färbung der Buttons und die Beschriftung haben keine Auswirkung auf die Bearbeitungszeit
 
 ### Gegenhypothese:
-H<sub>1</sub>: Die Färbung der Buttons und die Beschriftung haben keine Auswirkung auf die Bearbeitungszeit
+H<sub>1</sub>: Die Färbung der Buttons und die Beschriftung haben Auswirkung auf die Bearbeitungszeit
 
 
 ## Anova-Test

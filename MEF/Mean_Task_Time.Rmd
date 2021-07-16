@@ -4,7 +4,9 @@ output: html_document
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-source("Datasets_Subsets.R")
+source("Skripte/import.R")
+source("Skripte/subsets_erstellen.R")
+source("Skripte/all_tpt.R")
 ```
 
 ##Durchschnittliche Bearbeitungszeit (bereinigte Daten)
