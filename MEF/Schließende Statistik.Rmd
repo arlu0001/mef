@@ -5,10 +5,26 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-#source("Skripte/import.R")
-#source("Skripte/subsets_erstellen.R")
-#source("Skripte/all_tpt.R")
-#source("Skripte/util.R")
+source("Skripte/import.R")
+source("Skripte/subsets_erstellen.R")
+source("Skripte/all_tpt.R")
+source("Skripte/util.R")
+```
+
+### Signifikanz-Niveau
+0,05
+
+###Normalverteilung in den Configurationen prüfen
+```{r}
+
+shapiro.test(data_time_config_long$`Time in ms`[data_time_config_long$Reaction == "1"])
+shapiro.test(data_time_config_long$`Time in ms`[data_time_config_long$Reaction == "2"])
+shapiro.test(data_time_config_long$`Time in ms`[data_time_config_long$Reaction == "3"])
+shapiro.test(data_time_config_long$`Time in ms`[data_time_config_long$Reaction == "4"])
+shapiro.test(data_time_config_long$`Time in ms`[data_time_config_long$Reaction == "5"])
+#shapiro.test(data_time_config_long$`Time in ms`[data_time_config_long$Reaction == "6"])
+shapiro.test(data_time_config_long$`Time in ms`[data_time_config_long$Reaction == "7"])
+shapiro.test(data_time_config_long$`Time in ms`[data_time_config_long$Reaction == "8"])
 ```
 
 
@@ -22,5 +38,15 @@ H<sub>1</sub>: Die Färbung der Buttons und die Beschriftung haben Auswirkung au
 ## Anova-Test
 ```{r}
 summary(aov(data_time_config_long$`Time in ms` ~ data_time_config_long$Reaction))
+```
+#P-Value < 0,5 d.h. dass die 7 Gruppen sich signifikant hinsichtlich der Zeit unterscheiden
 
+
+Wenn die Varianzanalyse einen signifikanten Unterschied zeigt macht man einen Post Hoc test
+
+# Post-Hoc-Test
+## Um zu überprüfen zwischen welchen Konfigurationen die Unterschiede bestehen
+```{r}
+data_time_config_long$Reaction <- as.factor(data_time_config_long$Reaction)
+TukeyHSD(aov(data_time_config_long$`Time in ms` ~ data_time_config_long$Reaction))
 ```
