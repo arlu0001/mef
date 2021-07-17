@@ -209,10 +209,10 @@ fig <- fig %>% layout(
 fig
 ```
 ```{r}
-data_time_config_100_1 <- subset(data_time_config_long_100, data_time_config_long_100$`Time in ms` <= 6000)
-data_time_config_100_3 <- subset(data_time_config_long_100, data_time_config_long_100$`Time in ms` <= 6000)
-data_time_config_100_6 <- subset(data_time_config_long_100, data_time_config_long_100$`Time in ms` <= 6000)
-data_time_config_100_8 <- subset(data_time_config_long_100, data_time_config_long_100$`Time in ms` <= 6000)
+data_time_config_100_1 <- subset(data_time_config_100_1, data_time_config_100_1$`Time in ms` <= 6000)
+data_time_config_100_3 <- subset(data_time_config_100_3, data_time_config_100_3$`Time in ms` <= 6000)
+data_time_config_100_6 <- subset(data_time_config_100_6, data_time_config_100_6$`Time in ms` <= 6000)
+data_time_config_100_8 <- subset(data_time_config_100_8, data_time_config_100_8$`Time in ms` <= 6000)
 ```
 
 ```{r}
