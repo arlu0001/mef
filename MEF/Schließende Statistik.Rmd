@@ -13,7 +13,7 @@ source("Skripte/util.R")
 
 ### Signifikanz-Niveau
 0,05
-
+##Vorraussetzungen für die Varianzanalyse 
 ###Normalverteilung in den Configurationen prüfen
 ```{r}
 
@@ -26,6 +26,19 @@ shapiro.test(data_time_config_long$`Time in ms`[data_time_config_long$Reaction =
 shapiro.test(data_time_config_long$`Time in ms`[data_time_config_long$Reaction == "7"])
 shapiro.test(data_time_config_long$`Time in ms`[data_time_config_long$Reaction == "8"])
 ```
+Normalverteilung nur bei Config 7 gegeben (p entspricht also mehr als 0,05)
+
+Normalverteilung nicht erfüllt
+
+
+## Varianzhomogenität prüfen 
+Test --> Levene Test:
+```{r}
+library(car)
+#leveneTest(data_time_config_long$`Time in ms` ~ data_time_config_long$Reaction)
+```
+#Varianzhomogenität muss p > 0,05 sein
+Varianzhomogenität nicht erfüllt 
 
 
 ### Nullhypothese:
@@ -50,3 +63,50 @@ Wenn die Varianzanalyse einen signifikanten Unterschied zeigt macht man einen Po
 data_time_config_long$Reaction <- as.factor(data_time_config_long$Reaction)
 TukeyHSD(aov(data_time_config_long$`Time in ms` ~ data_time_config_long$Reaction))
 ```
+
+Für die 100%
+### Signifikanz-Niveau
+0,05
+
+###Normalverteilung in den Configurationen prüfen
+```{r}
+
+shapiro.test(data_time_config_long_100$`Time in ms`[data_time_config_long_100$Reaction == "1"])
+#shapiro.test(data_time_config_long_100$`Time in ms`[data_time_config_long_100$Reaction == "2"])
+shapiro.test(data_time_config_long_100$`Time in ms`[data_time_config_long_100$Reaction == "3"])
+#shapiro.test(data_time_config_long_100$`Time in ms`[data_time_config_long_100$Reaction == "4"])
+#shapiro.test(data_time_config_long_100$`Time in ms`[data_time_config_long_100$Reaction == "5"])
+#shapiro.test(data_time_config_long_100$`Time in ms`[data_time_config_long$Reaction == "6"])
+#shapiro.test(data_time_config_long_100$`Time in ms`[data_time_config_long_100$Reaction == "7"])
+shapiro.test(data_time_config_long_100$`Time in ms`[data_time_config_long_100$Reaction == "8"])
+```
+## LeveneTest:
+```{r}
+library(car)
+#leveneTest(data_time_config_long_100$`Time in ms` ~ data_time_config_long_100$Reaction)
+```
+
+### Nullhypothese:
+H<sub>0</sub>: Die Färbung der Buttons und die Beschriftung haben keine Auswirkung auf die Bearbeitungszeit
+
+### Gegenhypothese:
+H<sub>1</sub>: Die Färbung der Buttons und die Beschriftung haben Auswirkung auf die Bearbeitungszeit
+
+
+## Anova-Test
+```{r}
+summary(aov(data_time_config_long_100$`Time in ms` ~ data_time_config_long_100$Reaction))
+```
+#P-Value < 0,5 d.h. dass die 7 Gruppen sich signifikant hinsichtlich der Zeit unterscheiden
+
+
+Wenn die Varianzanalyse einen signifikanten Unterschied zeigt macht man einen Post Hoc test
+
+# Post-Hoc-Test
+## Um zu überprüfen zwischen welchen Konfigurationen die Unterschiede bestehen
+```{r}
+data_time_config_long_100$Reaction <- as.factor(data_time_config_long_100$Reaction)
+TukeyHSD(aov(data_time_config_long_100$`Time in ms` ~ data_time_config_long_100$Reaction))
+```
+
+

@@ -1,0 +1,62 @@
+---
+title: "Kruskal-Wallis-Test"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Signifikanz-Niveau
+0,05
+
+# Nullhypothese:
+H<sub>0</sub>: Die Färbung der Buttons und die Beschriftung haben keine Auswirkung auf die Bearbeitungszeit (Kein Mittelwertunterschied der Testvariable)
+
+# Gegenhypothese:
+H<sub>1</sub>: Die Färbung der Buttons und die Beschriftung haben Auswirkung auf die Bearbeitungszeit (Zwischen den Gruppen existieren Unterschiede)
+
+## Kruskal-Wallis-Test 
+```{r}
+# Vorherige Betrachtungen
+library("psych")
+describeBy(data_time_config_long$`Time in ms`,data_time_config_long$Reaction)
+kruskal.test(data_time_config_long$`Time in ms`,data_time_config_long$Reaction)
+```
+
+```{r}
+# Berechnung Kruskal-Wallis-Test
+kruskal.test(data_time_config_long$`Time in ms`,data_time_config_long$Reaction)
+```
+### P-Wert = 2.2e-16 somit kleiner als 0.05 und die Nullhypothese
+
+## Post-hoc-Analyse:
+```{r}
+# pairwise.wilcox.test(data_time_config_long$`Time in ms`,data_time_config_long$Reaction, p.adjust="bonferroni")
+
+```
+
+## Effektstärke des Kuskal-Wallis_test
+```{r}
+# Anzahl der Gruppen k
+k <- 7
+# Anzahl der Gesamtbeobachtungen
+n1 <- 2387
+n2 <- 2406
+n3 <- 2422
+n4 <- 137
+n5 <- 115
+n7 <- 76
+n8 <- 2457
+
+n <- n1+n2+n3+n4+n5+n7+n8
+
+# H 
+h <- 223.66
+
+eta_squared <- (h - k + 1)/(n-k)
+eta_squared
+
+f <- sqrt(eta_squared/(1-eta_squared))
+f
+```
+### Schwacher Effekt liegt vor da der F-Wert über 0,1 aber unter 0,25 liegt
