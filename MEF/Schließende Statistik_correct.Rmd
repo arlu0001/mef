@@ -1,0 +1,63 @@
+---
+title: "Schließende Statistik"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("Skripte/import.R")
+source("Skripte/subsets_erstellen.R")
+source("Skripte/all_tpt.R")
+source("Skripte/util.R")
+```
+
+### Signifikanz-Niveau
+0,05
+##Vorraussetzungen für die Varianzanalyse 
+###Normalverteilung in den Configurationen prüfen
+```{r}
+correct_long <- wideToLongTable(correct)
+
+shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "1"])
+#shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "2"])
+shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "3"])
+shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "4"])
+#shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "5"])
+shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "6"])
+shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "7"])
+shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "8"])
+```
+Normalverteilung bei Config 4 und Config 7 gegeben (p entspricht also mehr als 0,05)
+
+Normalverteilung nicht erfüllt
+
+
+## Varianzhomogenität prüfen 
+Test --> Levene Test:
+```{r}
+library(car)
+#leveneTest(correct_long$Reaction  ~  correct_long$`Time in ms`)
+```
+### Nullhypothese:
+H<sub>0</sub>: Die Färbung der Buttons und die Beschriftung haben keine Auswirkung auf die Bearbeitungszeit
+
+### Gegenhypothese:
+H<sub>1</sub>: Die Färbung der Buttons und die Beschriftung haben Auswirkung auf die Bearbeitungszeit
+
+
+## Anova-Test
+```{r}
+summary(aov(correct_long$`Time in ms` ~ correct_long$Reaction))
+```
+#P-Value < 0,5 d.h. dass die Gruppen sich signifikant hinsichtlich der Zeit unterscheiden
+
+
+Wenn die Varianzanalyse einen signifikanten Unterschied zeigt macht man einen Post Hoc test
+
+# Post-Hoc-Test
+## Um zu überprüfen zwischen welchen Konfigurationen die Unterschiede bestehen
+```{r}
+correct_long$Reaction <- as.factor(correct_long$Reaction)
+TukeyHSD(aov(correct_long$`Time in ms` ~ correct_long$Reaction))
+```
+

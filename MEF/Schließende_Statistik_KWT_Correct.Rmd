@@ -19,19 +19,18 @@ H<sub>1</sub>: Die Färbung der Buttons und die Beschriftung haben Auswirkung au
 ```{r}
 # Vorherige Betrachtungen
 library("psych")
-describeBy(data_time_config_long$`Time in ms`,data_time_config_long$Reaction)
-kruskal.test(data_time_config_long$`Time in ms`,data_time_config_long$Reaction,data_time_config_long$R )
+describeBy(correct_long$`Time in ms`,correct_long$Reaction)
 ```
 
 ```{r}
 # Berechnung Kruskal-Wallis-Test
-kruskal.test(data_time_config_long$`Time in ms`,data_time_config_long$Reaction)
+kruskal.test(correct_long$`Time in ms`,correct_long$Reaction)
 ```
-### P-Wert = 2.2e-16 somit kleiner als 0.05 und die Nullhypothese
+### P-Wert = 3.065e-06 somit kleiner als 0.05 und somit kann die Nullhypothese verworfen werden
 
 ## Post-hoc-Analyse:
 ```{r}
-# pairwise.wilcox.test(data_time_config_long$`Time in ms`,data_time_config_long$Reaction, p.adjust="bonferroni")
+# pairwise.wilcox.test(correct_long$`Time in ms`,correct_long$Reaction, p.adjust="bonferroni")
 
 ```
 
