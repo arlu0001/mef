@@ -229,4 +229,19 @@ fig <- fig %>% layout(
 
 fig
 ```
+```{r}
+library(dplyr)
+tmp <- subset(data_ishiharaclean, data_ishiharaclean$Richtig == 99) %>% select(-("Datum":"Ishihara Dauer"))
+tmp
+```
+```{r}
+tmp2 <- tmp[c(1, 4, 5, 7, 9, 11, 12, 15, 17, 19),]
+tmp2[tmp2 == 2] <- 6
+tmp2
+```
+
+```{r}
+correct <- rbind(data_time_config_100, tmp2)
+correct
+```
 
