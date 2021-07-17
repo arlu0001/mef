@@ -23,11 +23,14 @@ library(knitr)
 library(dplyr)
 ```
 
+# Signifikanz-Niveau
+0,05
+
 # Nullhypothese:
-H<sub>0</sub>: Die Färbung der Buttons und die Beschriftung haben keine Auswirkung auf die Bearbeitungszeit
+H<sub>0</sub>: Die Färbung der Buttons und die Beschriftung haben keine Auswirkung auf die Bearbeitungszeit (Kein Mittelwertunterschied der Testvariable)
 
 # Gegenhypothese:
-H<sub>1</sub>: Die Färbung der Buttons und die Beschriftung haben Auswirkung auf die Bearbeitungszeit
+H<sub>1</sub>: Die Färbung der Buttons und die Beschriftung haben Auswirkung auf die Bearbeitungszeit (Zwischen den Gruppen existieren Unterschiede)
 
 # Mittelwert und Standardabweichung
 ```{r}

@@ -20,7 +20,7 @@ H<sub>1</sub>: Die Färbung der Buttons und die Beschriftung haben Auswirkung au
 # Vorherige Betrachtungen
 library("psych")
 describeBy(data_time_config_long$`Time in ms`,data_time_config_long$Reaction)
-kruskal.test(data_time_config_long$`Time in ms`,data_time_config_long$Reaction)
+kruskal.test(data_time_config_long$`Time in ms`,data_time_config_long$Reaction,data_time_config_long$R )
 ```
 
 ```{r}
