@@ -36,7 +36,8 @@ subsets_erstellen <- function(){
   
   data_n <-subset(data, data$'Uhrzeit' >= '00:00:00' & data$'Uhrzeit'<= '05:59:59')
   
-  
+  # Subset Probanden mit 100 richtigen Antworten
+  data_100 <-subset(data_ishiharaclean, data_ishiharaclean$'Richtig' == '100')
   
   # Subset nach Geschlecht
   ## Bereinigt nur Probanden ohne Farbfehlsichtigkeit
