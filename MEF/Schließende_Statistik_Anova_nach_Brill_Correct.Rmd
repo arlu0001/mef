@@ -1,0 +1,243 @@
+---
+title: "Schließende Statistik"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("Skripte/import.R")
+source("Skripte/subsets_erstellen.R")
+source("Skripte/all_tpt.R")
+source("Skripte/util.R")
+
+library(car)
+library(multcomp)
+library(rstatix)
+library(ggpubr)
+library(datarium)
+library(emmeans)
+library(tidyverse)
+library(stats)
+library(ggplot2)
+library(knitr)
+library(dplyr)
+```
+
+# Signifikanz-Niveau
+0,05
+
+# Nullhypothese:
+H<sub>0</sub>: Die Färbung der Buttons und die Beschriftung haben keine Auswirkung auf die Bearbeitungszeit (Kein Mittelwertunterschied der Testvariable)
+
+# Gegenhypothese:
+H<sub>1</sub>: Die Färbung der Buttons und die Beschriftung haben Auswirkung auf die Bearbeitungszeit (Zwischen den Gruppen existieren Unterschiede)
+
+# Mittelwert und Standardabweichung
+```{r}
+
+cagg1 <- correct_long %>%
+  group_by(Reaction) %>%
+  summarize(Mittelwerte = mean(correct_long$`Time in ms`),
+            Standardabweichungen=sd(correct_long$`Time in ms`),
+            .groups="keep")
+
+cagg1
+```
+treatment = Reaction
+response = Time in MS
+```{r}
+install.packages('gplots')
+library(gplots)
+plotmeans(correct_long$`Time in ms` ~ correct_long$Reaction, data=correct_long,
+          xlab="Konfigurationen",
+          ylab="Zeit in Millisekunden",
+          col="darkgoldenrod2",
+          n.label=FALSE,
+          use.t=TRUE,
+          barwidth=2,
+          barcol="darkgoldenrod1",
+          main='Konfiguration\n95% Konfidenzintervalle')
+```
+
+Wir erkennen das die Konfigurationen 4, 5 und 7 am schnellsten bearbeitet werden konnten 
+# Varianzanalyse
+
+## Streuung der Mittelwerte
+```{r}
+correct_long_1 <- subset(correct_long, correct_long$Reaction == 1)
+correct_long_2 <- subset(correct_long, correct_long$Reaction == 2)
+correct_long_3 <- subset(correct_long, correct_long$Reaction == 3)
+correct_long_4 <- subset(correct_long, correct_long$Reaction == 4)
+correct_long_5 <- subset(correct_long, correct_long$Reaction == 5)
+correct_long_6 <- subset(correct_long, correct_long$Reaction == 6)
+correct_long_7 <- subset(correct_long, correct_long$Reaction == 7)
+correct_long_8 <- subset(correct_long, correct_long$Reaction == 8)
+
+cn1 <- 413
+cn2 <- 0
+cn3 <- 432
+cn4 <- 5
+cn5 <- 2
+cn6 <- 430
+cn7 <- 3
+cn8 <- 415
+
+cn <- cn1+cn2+cn3+cn4+cn5+cn7+cn8
+  
+cybar<- 0.5*(cagg1$Mittelwerte[1] 
+            + cagg1$Mittelwerte[2]
+            + cagg1$Mittelwerte[3]
+            + cagg1$Mittelwerte[5]
+            + cagg1$Mittelwerte[6]
+            + cagg1$Mittelwerte[7]
+            )
+csst <- cn1*(cagg1$Mittelwerte[1]-cybar)**2 
+      + cn2*(cagg1$Mittelwerte[2]-cybar)**2 
+      + cn3*(cagg1$Mittelwerte[3]-cybar)**2 
+      + cn4*(cagg1$Mittelwerte[4]-cybar)**2
+      + cn5*(cagg1$Mittelwerte[5]-cybar)**2 
+      + cn7*(cagg1$Mittelwerte[6]-cybar)**2 
+      + cn8*(cagg1$Mittelwerte[7]-cybar)**2
+cybar
+csst
+```
+## Streuung innerhalb der Gruppe
+
+```{r}
+csse1 <- correct_long$`Time in ms`[correct_long$Reaction == "1"]
+csse1 <- csse1 - cagg1$Mittelwerte[1]
+csse1Sum <- sum(csse1**2)
+
+csse2 <- correct_long$`Time in ms`[correct_long$Reaction == "2"]
+csse2 <- csse2 - cagg1$Mittelwerte[2]
+csse2Sum <- sum(csse2**2)
+
+csse3 <- correct_long$`Time in ms`[correct_long$Reaction == "3"]
+csse3 <- csse3 - cagg1$Mittelwerte[3]
+csse3Sum <- sum(csse3**2)
+
+
+csse4 <- correct_long$`Time in ms`[correct_long$Reaction == "4"]
+csse4 <- csse4 - cagg1$Mittelwerte[4]
+csse4Sum <- sum(csse4**2)
+
+
+csse5 <- correct_long$`Time in ms`[correct_long$Reaction == "5"]
+csse5 <- csse5 - cagg1$Mittelwerte[5]
+csse5Sum <- sum(csse5**2)
+
+
+csse6 <- correct_long$`Time in ms`[correct_long$Reaction == "6"]
+csse6 <- csse6 - cagg1$Mittelwerte[6]
+csse6Sum <- sum(csse6**2)
+
+csse7 <- correct_long$`Time in ms`[correct_long$Reaction == "7"]
+csse7 <- csse7 - cagg1$Mittelwerte[7]
+csse7Sum <- sum(csse7**2)
+
+csse8 <- correct_long$`Time in ms`[correct_long$Reaction == "8"]
+csse8 <- csse8 - cagg1$Mittelwerte[8]
+csse8Sum <- sum(csse8**2)
+
+csse <- csse1Sum+csse2Sum+csse3Sum+csse4Sum+csse5Sum+csse6Sum+csse7Sum+csse8Sum
+csse
+```
+
+## MST mean sqaure for treatments
+```{r}
+cp <- 7
+
+cmst <- csst/(cp-1)
+cmst
+
+```
+## MSE mean square for error
+```{r}
+
+
+cmse <- csse/(cn-cp)
+cmse
+```
+## F 
+```{r}
+cf <- cmst/cmse
+cf
+```
+
+## F-Quant
+```{r}
+cfquant <- qf(0.95, (cp-1), (cn-cp))
+cfquant
+```
+
+Wir verwerfen die Nullhypothese nicht ?
+
+## Anova-Test
+```{r}
+
+canova1 <- aov(correct_long$`Time in ms` ~ correct_long$Reaction)
+summary(canova1)
+```
+
+## Paarweise Vergleiche
+```{r}
+ctukey <- TukeyHSD(canova1)
+
+```
+
+```{r}
+#par(las=2)
+#par(mar=c(5,8,2,4))
+plot(ctukey,
+     las=1,
+     col="darkgoldenrod1")
+
+
+```
+
+```{r}
+#library(multcomp)
+#par(mar=c(5, 4, 6, 2))
+#tukey1 <- glht(anova1, linfct=mcp(correct_long$Reaction="Tukey"))
+#plot(cld(tukey1, level=0.05), col="darkgoldenrod1")
+```
+
+```{r}
+library(ggplot2)
+cpwc <- correct_long %>% 
+  tukey_hsd(correct_long$`Time in ms` ~ correct_long$Reaction)
+
+cpwc
+```
+
+```{r}
+#pwc <- pwc %>% 
+#  add_xy_position(x = "correct_long$Reaction")
+
+#ggplot(data=correct_long$Reaction, aes(x=correct_long$Reaction, y = correct_long$`Time in ms`)) + 
+#  geom_boxplot(fill="darkgoldenrod1", color="black") + 
+#  stat_pvalue_manual(pwc, hide.ns=FALSE) + 
+#  labs(
+#    title="Paarweise Vergleiche nach Tukey für den Datensatz correct_long"
+#  )
+```
+
+## Überprüfung der Voraussetzungen
+In der Annahme für die Verwendung der Funktion aov steckt insbesondere, dass die untersuchte Größe normalverteilt ist und die Varianzen in den Faktoren gleich sind. Das können wir mit Hilfe eines Q-Q Plots überprüfen.
+```{r}
+cmodel <- lm(correct_long$`Time in ms` ~ correct_long$Reaction, data =correct_long)
+ggqqplot(residuals(cmodel), title="Q-Q Plot für den Datensatz Konfiguration (95% Konfidenzniveau)", xlab="Theoretisch", ylab = "Residuen", panel.labs = TRUE)
+```
+
+```{r}
+
+shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "1"])
+#shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "2"])
+shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "3"])
+shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "4"])
+#shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "5"])
+#shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "6"])
+shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "7"])
+shapiro.test(correct_long$`Time in ms`[correct_long$Reaction == "8"])
+
+```
