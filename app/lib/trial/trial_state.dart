@@ -106,7 +106,7 @@ class TrialState extends ChangeNotifier {
 
     if (btnTitle && btnColor && result) {
       reaction[currentExerciseCounter - 1] = 1;
-    } else if (btnColor && btnColor && !result) {
+    } else if (btnTitle && btnColor && !result) {
       reaction[currentExerciseCounter - 1] = 2;
     } else if (btnTitle && !btnColor && result) {
       reaction[currentExerciseCounter - 1] = 3;

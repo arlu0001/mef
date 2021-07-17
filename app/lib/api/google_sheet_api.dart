@@ -12,7 +12,7 @@ class GoogleSheetApi {
   GoogleSheetApi._internal();
 
   static const String URL =
-      "https://script.google.com/macros/s/AKfycby-KjIalECL1ytorrv0Hta25GknUXt6maZw986NEBWqHEBznsyl/exec";
+      "https://script.google.com/macros/s/AKfycbzAypzXqOfcXpfoG1a_jhuzfP4Ci0VtXXa4Ov5DCczn6kKq2Wc/exec";
 
   static const STATUS_SUCCESS = "SUCCESS";
 
