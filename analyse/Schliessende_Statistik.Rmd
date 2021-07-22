@@ -1,0 +1,356 @@
+---
+title: "Auswirkungen des Stroop-Effekts auf mobile Benutzeroberflächen"
+subtitle: "Analyse Teil 2 - Schließende Statistik"
+output: 
+  html_notebook:
+    toc: true
+---
+
+# Einleitung
+
+Im ersten Teil der Analyse konnte eine Übersicht über den Datensatz gewonnen werden. Im zweiten Teil wird nun untersucht, ob inkongruente Reize die Reaktionszeit signifikant beeinflussen. Hierzu werden Hypothesentest genutzt.
+
+Die Null- und Gegenhypothese lauten: 
+
+**H<sub>0</sub>: Die inkongruente Färbung der Buttons hat keine Auswirkung auf die Reaktionszeit.**
+
+**H<sub>1</sub>: Die inkongruente Färbung der Buttons hat eine Auswirkung auf die Reaktionszeit.**
+
+Das Signifikanzniveau wird auf $\alpha$ = 0.05 festgelegt.
+
+```{r setup}
+source("scripts/wide_to_long.R")
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+data_original <- read_csv("data/data_original.csv", 
+    col_types = cols(Datum = col_date(format = "%d.%m.%Y"), 
+        Uhrzeit = col_time(format = "%H:%M"), 
+        `Zeit gesamt` = col_time(format = "%H:%M:%OS"), 
+        `Ishihara Dauer` = col_time(format = "%H:%M:%S")))
+```
+
+```{r}
+# Remove troll
+data_original <- data_original[-c(107), ]
+```
+
+```{r}
+# Remove all with red-green-blindness
+data_original$`Ishihara Dauer` <- format(as.POSIXct(data_original$'Ishihara Dauer'), "%H:%M:%OS")
+
+df_noCB <- subset(data_original, data_original$`Ishihara 42` == 42 & data_original$`Ishihara 3` == 3 & data_original$`Ishihara Linien` == "keine" & data_original$`Ishihara Dauer` < "00:02:00")
+```
+# Vorbereitung des Datensatzes
+Im folgenden ist der Datensatz zu sehen ohne Probanden, die den Ishihara-Test nicht bestanden haben. 
+```{r}
+head(df_noCB)
+```
+Um die Reaktionen den zugehörigen Zeitpunkten zuordnen zu können und die Reaktionen gruppieren zu können, wird die Tabelle zunächst vom weiten Format ins lange Format gebracht. Dabei werden die Spalten von "Datum" - "Ishihara Dauer" entfernt, da Informationen wie demographische Daten nicht gebraucht werden, um die Unterschiede zwischen den Reaktionen zu untersuchen. Das Ergebnis sieht wie folgt aus:
+```{r}
+df_long_reactions <- df_noCB %>% select(-("Datum":"Ishihara Dauer"))
+df_long_reactions <- wideToLongTable(df_long_reactions)
+df_long_reactions$Reaction <- as.factor(df_long_reactions$Reaction)
+names(df_long_reactions)[names(df_long_reactions) == "Time in ms"] <- "Time_ms"
+df_long_reactions
+```
+Die Spalte "Time_ms" wird als Boxplot geplottet, um die Verteilung der Reaktionszeiten zu veranschaulichen.
+
+```{r}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = df_long_reactions$`Time_ms`, name = "alle Reaktionen")
+fig <- fig %>% layout(title="Verteilung der Reaktionszeiten", showlegend = FALSE)
+fig
+```
+Der Boxplot ist stark gestaucht, da die Reaktionszeiten von 99 ms bis 56860 ms reichen. Der Median liegt bei 2029 ms, weshalb davon auszugehen ist, dass es sich bei den Außen- und Fernpunkten um Ausreißer handelt, von denen einige auch extreme Ausreißer sind. Für weitere Analysen sollten diese aussortiert werden.
+
+Die Werte des Boxplots nochmal als Tabelle:
+```{r}
+summary(df_long_reactions$`Time_ms`)
+```
+Um die Ausreißer zu identifizieren, wird das rstatix Paket verwendet. 
+```{r}
+outliers <- df_long_reactions %>%
+  group_by(Reaction) %>%
+  identify_outliers(Time_ms)
+outliers
+```
+Sichtbar sind insgesamt 628 Ausreißer von 10000 Messpunkten.
+
+```{r}
+df_extreme_outliers <- subset(outliers, outliers$is.extreme == TRUE)
+df_extreme_outliers
+```
+Von den 628 Ausreißern sind 224 Ausreißer extrem.Die extremen Ausreißer werden aus dem Datensatz entfernt.
+
+```{r}
+df_long_reactions_noExtreme <- df_long_reactions %>% anti_join(df_extreme_outliers, by = c("Z", "Time_ms", "R", "Reaction"))
+df_long_reactions_noExtreme
+```
+Sodass noch 9776 Messpunkte von 10000 verbleiben. Nun ist auch der Boxplot erkennbar.
+
+```{r}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = df_long_reactions_noExtreme$`Time_ms`, name = "alle Reaktionen")
+fig <- fig %>% layout(title="Verteilung der Reaktionszeiten", showlegend = FALSE)
+fig
+```
+Und die Reaktionszeiten befinden sich jetzt zwischen 99 ms und 6136 ms. 
+
+```{r}
+summary(df_long_reactions_noExtreme$`Time_ms`)
+```
+Nun kann mit den Hypothesentests begonnen werden.
+
+# Anova-Test für alle
+
+Zunächst wird sich ein Überblick der Mittelwerte und Standardabweichungen der einzelnen Reaktionen verschafft.
+
+```{r}
+agg1 <- df_long_reactions_noExtreme %>%
+  group_by(Reaction) %>%
+  get_summary_stats(Time_ms, type = "mean_sd")
+
+agg1
+```
+Hierbei ist zu sehen, dass sich die Mittelwerte zwischen den Reaktionen um mehrere 100 ms voneinander unterscheiden. Auch die zugehörigen Boxplots zeigen dies an:
+
+```{r}
+fig <- plot_ly(df_long_reactions_noExtreme, x = ~Reaction, y = ~Time_ms, type="box", color = ~Reaction)
+fig <- fig %>% layout(showlegend = FALSE, xaxis = list(title = "Reaktion"), yaxis = list(title = "Zeit in ms"))
+fig
+```
+Die Mediane bewegen sich von 1559 ms (Reaktion 5) zu 2143 ms (Reaktion 2). Nun ist zu prüfen, ob diese Unterschiede signifikant sind. Dafür wird der ANOVA-Test (Analysis of Variance Test) herangezogen. Dieser untersucht, ob bei einer Reihe von Messwerten, die in 2 oder mehr Gruppen eingeteilt sind, die Mittelwerte der Gruppen signifikat voneinander unterscheiden, sodass eine Aussage darüber getroffen werden kann, ob die einzelnen Gruppen eine Auswirkung auf die Messwerte haben.
+
+## Vorbedingungen prüfen
+
+Um den ANOVA-Test durchführen zu können, müssen 2 Bedingungen erfüllt sein. Zum einen müssen die Daten normalverteilt sein und zum anderen müssen sie eine Varianzhomogenität aufweisen. Zuerst wird die Normalverteilung der Reaktionszeiten geprüft.
+
+### Prüfung auf Normalverteilung
+
+Die Prüfung auf Normalverteilung wird sowohl visuell, als auch statistisch durchgeführt. Zuerst wird der Quantil-Quantil-Plot (Q-Q-Plot) betrachtet.
+```{r}
+model <- lm(Time_ms ~ Reaction, data = df_long_reactions_noExtreme)
+ggqqplot(residuals(model))
+```
+Die Winkelhalbierende stellt dabei die Standardnormalverteilung dar. Die schwarzen Punkte sind die Verteilung des Datensatzes. Je näher die Punkte an der Standardnormalverteilung sind, desto wahrscheinlicher ist eine Normalverteilung beim Datensatz.
+
+Wird jede Reaktion einzeln geplottet, so ist ersichtlich, dass Reaktionen wie z.B. 4 und 7 näher an der Standardnormalverteilung sind, als andere Reaktionen.
+
+```{r}
+ggqqplot(df_long_reactions_noExtreme, "Time_ms", facet.by = "Reaction")
+```
+Um die Normalverteilung statistisch zu prüfen, wird der Shapiro-Wilk-Test durchgeführt. R meldet beim Durchführen des Shapiro-Wilk-Tests einen Fehler, wenn auf die Normalverteilung aller Messwerte getestet wird, da nur zwischen 3 und 5000 Werte auf Normalität geprüft werden können.
+
+```{r}
+shapiro_test(residuals(model))
+```
+Daher wird der Shapiro-Wilk-Test nur auf die einzelnen Reaktionen angewandt, da diese Anzahlen von unter 5000 besitzen.
+
+```{r}
+df_long_reactions_noExtreme %>%
+  group_by(Reaction) %>%
+  shapiro_test(Time_ms)
+```
+Angewandt auf die einzelenen Reaktionen gibt der Test an, dass lediglich Reaktion 7 normalverteilt ist. Dies ist bei 100 Probanden allerdings unwahrscheinlich. Grund für dieses Ergebnis ist die Empfindlichkeit des Shapiro-Wilk-Tests bei schon kleinen Abweichungen. Auch ist zu beachten, dass die Gruppen 1, 2, 3 und 8 jeweils über 2000 Messwerte besitzen, während die anderen Gruppen jeweils unter 150 Messwerte besitzen.
+
+Eine andere Methode die Normalverteilung visuell zu prüfen, ist anhand eines Histogrammes. Die Balken sollten dabei möglichst eine gaußsche Glockenkurve bilden. Im folgenden Histogramm ist annährend eine solche Kurve zu sehen. Allerdings ist sie etwas nach links verschoben und die Anzahl der Messwerte unter 1000 ms sind abrupt sehr gering.
+```{r}
+hist(df_long_reactions_noExtreme$Time_ms)
+```
+```{r}
+df_long_reactions_noOutliers <- df_long_reactions %>% anti_join(outliers, by = c("Z", "Time_ms", "R", "Reaction"))
+```
+Im nächsten Histogramm sind nun alle Ausreißer, die von der identify-outliers-Methode erkannt worden sind, entfernt worden. Die Werte unter 1000 ms sind augenscheinlich nicht als Ausreißer erkannt worden. Der niedrigste gemessene Wert liegt bei 99 ms, welche nicht als Ausreißer erkannt wurde. Eine so schnelle Reaktion ist allerdings nicht möglich, weshalb die Person in diesem Moment möglicherweise versehentlich zweimal hintereinander auf den Button gedrückt hat, ohne vorher mental zu entscheiden, ob die Aufgabe richtig oder falsch gelöst worden ist.
+
+```{r}
+hist(df_long_reactions_noOutliers$Time_ms)
+```
+
+
+```{r}
+df_long_reactions_noOutliers_2 <- subset(df_long_reactions_noOutliers, df_long_reactions_noOutliers$Time_ms >= 500)
+df_long_reactions_noOutliers_2 <- subset(df_long_reactions_noOutliers_2, df_long_reactions_noOutliers_2$Time_ms <= 4000)
+```
+
+```{r}
+hist(df_long_reactions_noOutliers_2$Time_ms)
+```
+
+
+
+```{r}
+df_long_reactions_noOutliers %>%
+  group_by(Reaction) %>%
+  shapiro_test(Time_ms)
+```
+### Prüfung auf Varianzhomogenität
+
+Die Prüfung der Varianzhomogenität erfolgt durch den Levene-Test.
+
+```{r}
+df_long_reactions_noExtreme %>% levene_test(Time_ms ~ Reaction)
+```
+Da der p-Wert kleiner als 0,05 ist, sind die Unterschiede in den Varianzen signikant. Daher ist der Levene-Test fehlgeschlagen und die zweite Bedingung für den Anova-Test nicht erfüllt. Ein fehlgeschlagener Levene-Test kann darauf hindeuten, dass bei den Messungen ein Fehler unterlaufen ist. In diesem Experiment ist das durch den Implementierungsfehler tatsächlich der Fall.
+
+```{r}
+plot(model, 1)
+```
+## Welch-Anova-Test
+
+Zwar ist die Varianzhomogenität für den Anova-Test nicht gegeben, allerdings lässt sich trotzdem noch untersuchen, wie signifikant die Unterschiede zwischen den Reaktionen sind. Das ist mit dem Welch-Anova-Test möglich, welche nur eine Normalverteilung fordert und robost gegenüber Varianzheterogenität ist. Dadurch hat er allerdings weniger Aussagekraft als der Anova-Test.
+
+```{r}
+res_aov <- df_long_reactions_noExtreme %>% welch_anova_test(Time_ms ~ Reaction)
+res_aov
+```
+
+Der p-Wert für den Welch-Anova-Test ist kleiner als 0,05 und daher ist davon auszugehen, dass die Unterschiede zwischen den Reaktionen signifikant sind. D.h. dass die Nullhypothese verworfen wird und die Gegenhypothese angenommen wird.
+
+## Posthoc-Analyse
+
+Da der Welch-Anova erfolgreich war, wird eine Posthoc-Analyse durchgeführt, um herauszufinden, wie signifikant die Unterschiede unter allen möglichen paarweisen Kombinationen von Reaktionen sind.
+
+```{r}
+pwc <- df_long_reactions_noExtreme %>% games_howell_test(Time_ms ~ Reaction)
+pwc
+```
+Wie in der Spalte "p.adj.signif" zu sehen ist, gibt es zwischen vielen Paaren signifikante Unterschiede. Je mehr Sterne dem Paar zugeordnert werden, desto höher ist die Signifikanz. "ns" dagegen bedeutet, dass der Unterschied zwischen dem Paar nicht signifikant ist.
+
+Der paarweise Vergleich lässt sich auch visuell darstellen:
+
+```{r}
+pwc_plot <- pwc %>% add_xy_position(x = "Reaction", step.increase = 1)
+ggboxplot(df_long_reactions_noOutliers, x = "Reaction", y = "Time_ms") +
+  stat_pvalue_manual(pwc_plot, hide.ns = TRUE) +
+  labs(
+    subtitle = get_test_label(res_aov),
+    caption = get_pwc_label(pwc)
+    )
+```
+Die Linien über den Boxplots verbinden dabei die Reaktionen mit signifikanten Unterschieden. Die Sterne über den Linien zeigen auch die die Stärke der Signifkanz an.
+
+Das Ergebnis des paarweisen Vergleichs ist etwas überraschend, da dieser die Hypothese, dass inkongruente Reize längere Reaktionszeiten verursachen doch wieder in Frage stellen. So ist beispielsweise zu sehen, dass es einen starken signifikanten Unterschied zwischen Reaktion 1 und 8 gibt, obwohl es sich hier zweimal um kongruente Reize handelt. Das inkongruente Gegenstück zur 8 ist die Reaktion 3. Zwischen 3 und 8 gibt es zwar auch einen starken Unterschied, allerdings hat die kongruente Reaktion eine höhere Durschnittsszeit als die inkongruente Reaktion. 
+
+## Schlussfolgerung
+Aufgrund der Ergebnisse kann sicher gesagt werden, dass die Farbe der Buttons auf jeden Fall eine Auswirkung auf die Reaktionszeit hat. Es ist jedoch nicht nachweisbar, dass dies an den inkongruenten Stimuli liegt.
+
+
+# Anova-Test für 100 richtige Antworten
+
+Insgesamt 6 Probanden haben sowohl 100 Aufgaben richtig gelöst als auch den Ishihara-Test komplett bestanden. Da sie also keinen Fehler gemacht haben, können alle Reaktionen, die fälschlicherweise der 2 zugeordnert wurde (was eine falsche Reaktion auf eine Aufgabe ist) der 6 zugeordnet werden. Damit ist zwar ein kleiner, aber dafür korrekter Datensatz vorhanden, mit dem auch nochmal die Signifikanz zwischen den Reaktionen untersucht wird.
+
+```{r}
+df_100 <- subset(df_noCB, df_noCB$Richtig == 100)
+```
+
+Die Daten der 6 Probanden wird auf diesselbe Weise vorbereitet, wie oben auch schon.
+```{r}
+df_long_reactions_100 <- df_100 %>% select(-("Datum":"Ishihara Dauer"))
+df_long_reactions_100 <- wideToLongTable(df_long_reactions_100)
+names(df_long_reactions_100)[names(df_long_reactions_100) == "Time in ms"] <- "Time_ms"
+df_long_reactions_100[df_long_reactions_100 == 2] <- 6 
+df_long_reactions_100$Reaction <- as.factor(df_long_reactions_100$Reaction)
+df_long_reactions_100
+```
+Damit sind 600 Messwerte vorhanden. Auch hier werden vor der Analyse die Ausreißer entfernt. 
+
+Insgesamt sind 32 Ausreißer vorhanden.
+
+```{r}
+outliers_100 <- df_long_reactions_100 %>%
+  group_by(Reaction) %>%
+  identify_outliers(Time_ms)
+outliers_100
+```
+Aussortiert werden die 7 extremen Ausreißer.
+
+```{r}
+df_extreme_outliers_100 <- subset(outliers_100, outliers_100$is.extreme == TRUE)
+df_extreme_outliers_100
+```
+Damit verbleiben noch 593 Messwerte.
+
+```{r}
+df_long_reactions_noExtreme_100 <- df_long_reactions_100 %>% anti_join(df_extreme_outliers_100, by = c("Z", "Time_ms", "R", "Reaction"))
+df_long_reactions_noExtreme_100
+```
+Das zugehörige Boxplot zeigt die Verteilung der Messwerte an.
+
+```{r}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = df_long_reactions_noExtreme_100$Time_ms)
+fig
+```
+Die Tabelle zeigt die Ergebnisse wiederrum in Zahlen an.
+
+```{r}
+summary(df_long_reactions_noExtreme_100$`Time_ms`)
+```
+Auffällig ist, dass der Median um 197 ms höher liegt, als bei der Gesamtgruppe.
+
+```{r}
+names(df_long_reactions_noExtreme_100)[names(df_long_reactions_noExtreme_100) == "Time in ms"] <- "Time_ms"
+
+agg_100 <- df_long_reactions_100 %>%
+  group_by(Reaction) %>%
+  get_summary_stats(Time_ms, type = "mean_sd")
+
+agg_100
+```
+Auch bei den Mittelwerten sind höhere Reaktionszeiten zu sehen.
+
+```{r}
+fig <- plot_ly(df_long_reactions_noExtreme_100, x = ~Reaction, y = ~Time_ms, type="box", color = ~Reaction)
+fig <- fig %>% layout(showlegend = FALSE, xaxis = list(title = "Reaktion"), yaxis = list(title = "Zeit in ms"))
+fig
+```
+
+```{r}
+summary(df_long_reactions_noExtreme_100$Time_ms)
+```
+Eine Normalverteilung ist gegeben.
+
+```{r}
+model_100 <- lm(Time_ms ~ Reaction, data = df_long_reactions_noExtreme_100)
+ggqqplot(residuals(model_100))
+```
+
+```{r}
+ggqqplot(df_long_reactions_noExtreme_100, "Time_ms", facet.by = "Reaction")
+```
+
+Der Levene-Test ist erfolgreich, da p > 0,05 ist.
+
+```{r}
+df_long_reactions_noExtreme_100 %>% levene_test(Time_ms ~ Reaction)
+```
+
+Daher wird der Anova-Test durchgeführt.
+
+```{r}
+res_aov_100 <- df_long_reactions_noExtreme_100 %>% anova_test(Time_ms ~ Reaction)
+res_aov_100
+```
+Mit p < 0,05 ist der Anova-Test erfolgreich, daher bestehen signifikante Unterschiede zwischen den Gruppen.
+
+Es folgt die Post-hoc Analyse, welche das Ergebnis von vorhin bestätigt: es bestehen signifikante Unterschiede zwsichen Reaktion 1 und 8 sowie zwischen Reaktion 3 und 8.
+
+```{r}
+pwc_100 <- df_long_reactions_noExtreme_100 %>% tukey_hsd(Time_ms ~ Reaction)
+pwc_100
+```
+
+
+
+```{r}
+pwc_plot_100 <- pwc_100 %>% add_xy_position(x = "Reaction", step.increase = 1)
+ggboxplot(df_long_reactions_noExtreme_100, x = "Reaction", y = "Time_ms") +
+  stat_pvalue_manual(pwc_plot_100, hide.ns = TRUE) +
+  labs(
+    subtitle = get_test_label(res_aov_100),
+    caption = get_pwc_label(pwc_100)
+    )
+```
+Dieses Ergebnis ist möglicherweise ein Hinweis darauf, dass der Aufbau des Experiments nicht geeignet ist, um herauszufinden, ob die Reaktionszeit durch inkongruenten Stimuli beeinflusst wird.
