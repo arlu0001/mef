@@ -1,0 +1,88 @@
+---
+title: "Kruskal-Wallis-Test"
+subtitle: "Analyse Teil 2 - Schließende Statistik - Alternativ-Test"
+output: html_notebook
+---
+
+```{r}
+library(readr)
+library(tidyverse)
+library(ggplot2)
+library(ggpubr)
+library(plotly)
+library(datasets)
+library(dplyr)
+library(graphics)
+library(grDevices)
+library(methods)
+library(stats)
+library(rstatix)
+library(utils)
+```
+
+```{r}
+data_original <- read_csv("data/data_original.csv", 
+    col_types = cols(Datum = col_date(format = "%d.%m.%Y"), 
+        Uhrzeit = col_time(format = "%H:%M"), 
+        `Zeit gesamt` = col_time(format = "%H:%M:%OS"), 
+        `Ishihara Dauer` = col_time(format = "%H:%M:%S")))
+```
+
+```{r}
+# Remove troll
+data_original <- data_original[-c(107), ]
+```
+
+```{r}
+# Remove all with red-green-blindness
+data_original$`Ishihara Dauer` <- format(as.POSIXct(data_original$'Ishihara Dauer'), "%H:%M:%OS")
+
+df_noCB <- subset(data_original, data_original$`Ishihara 42` == 42 & data_original$`Ishihara 3` == 3 & data_original$`Ishihara Linien` == "keine" & data_original$`Ishihara Dauer` < "00:02:00")
+```
+# Einleitung
+Im ersten Teil der Analyse konnte eine Übersicht über den Datensatz gewonnen werden. Im zweiten Teil wird nun untersucht, ob inkongruente Reize die Reaktionszeit signifikant beeinflussen. Hierzu werden Hypothesentest genutzt.
+
+Die Null- und Gegenhypothese lauten:
+H<sub>0</sub>: Die Färbung der Buttons und die Beschriftung haben keine Auswirkung auf die Bearbeitungszeit 
+
+H<sub>1</sub>: Die Färbung der Buttons und die Beschriftung haben Auswirkung auf die Bearbeitungszeit 
+
+Das Signifikanzniveau wird auf 0,05 festgelegt.
+
+# Vorbereitung des Datensatzes
+Im folgenden ist der Datensatz zu sehen ohne Probanden, die den Ishihara-Test nicht bestanden haben. 
+
+```{r}
+head(df_noCB)
+```
+
+Um die Reaktionen den zugehörigen Zeitpunkten zuordnen zu können und die Reaktionen gruppieren zu können, wird die Tabelle zunächst vom weiten Format ins lange Format gebracht. Dabei werden die Spalten von "Datum" - "Ishihara Dauer" entfernt, da Informationen wie demographische Daten nicht gebraucht werden, um die Unterschiede zwischen den Reaktionen zu untersuchen. Das Ergebnis sieht wie folgt aus:
+```{r}
+df_long_reactions <- df_noCB %>% select(-("Datum":"Ishihara Dauer"))
+df_long_reactions <- wideToLongTable(df_long_reactions)
+df_long_reactions$Reaction <- as.factor(df_long_reactions$Reaction)
+names(df_long_reactions)[names(df_long_reactions) == "Time in ms"] <- "Time_ms"
+df_long_reactions
+```
+## Kruskal-Wallis-Test 
+Aufgrund der anfangs angenommenen fehlenden Normalverteilung und Varianzhomogenität, wurde sich für den Kruskal-Wallis-Test entschieden. Als nicht parametrisches Verfahren hat dieser nicht die Vorraussetzungen des Anova Test. 
+```{r}
+# Berechnung Kruskal-Wallis-Test
+kruskal.test(df_long_reactions$`Time_ms`~ df_long_reactions$Reaction)
+```
+Der Kruskal-Wallis-Test ergab einen P-Wert < 2.2e-16 somit kleiner als 0.05 und die Nullhypothese wird verworfen. 
+
+## Post-hoc-Analyse:
+Anschließend wird die Post-hoc-Analyse durchgeführt um signifikante Unterschiede zwischen den Konfigurationen der Buttons, im Bezug auf die Bearbeitungszeit aufzuzeigen.
+```{r}
+pairwise <- pairwise.wilcox.test(df_long_reactions$`Time_ms`,df_long_reactions$Reaction, p.adjust="bonferroni")
+pairwise
+```
+
+## Effektstärke des Kuskal-Wallis-Test
+Abschließend muss noch die Effekt-Stärke berechnet werden, um zu identifizieren, wie stark die Abweichungen eingeschätzt werden.
+```{r}
+effect <- df_long_reactions %>% kruskal_effsize(df_long_reactions$`Time_ms`~ df_long_reactions$Reaction)
+effect
+```
+### Schwacher Effekt liegt vor da der F-Wert über 0,1 aber unter 0,25 liegt

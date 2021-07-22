@@ -245,7 +245,7 @@ Insgesamt 6 Probanden haben sowohl 100 Aufgaben richtig gelöst als auch den Ish
 df_100 <- subset(df_noCB, df_noCB$Richtig == 100)
 ```
 
-Die Daten der 6 Probanden wird auf diesselbe Weise vorbereitet, wie oben auch schon.
+Die Daten der 6 Probanden werden auf diesselbe Weise vorbereitet, wie oben auch schon.
 ```{r}
 df_long_reactions_100 <- df_100 %>% select(-("Datum":"Ishihara Dauer"))
 df_long_reactions_100 <- wideToLongTable(df_long_reactions_100)
@@ -310,6 +310,10 @@ fig
 ```{r}
 summary(df_long_reactions_noExtreme_100$Time_ms)
 ```
+## Vorbedingungen prüfen
+
+### Prüfung auf Normalverteilung
+
 Eine Normalverteilung ist gegeben.
 
 ```{r}
@@ -321,11 +325,15 @@ ggqqplot(residuals(model_100))
 ggqqplot(df_long_reactions_noExtreme_100, "Time_ms", facet.by = "Reaction")
 ```
 
+### Prüfung auf Varianzhomogenität
+
 Der Levene-Test ist erfolgreich, da p > 0,05 ist.
 
 ```{r}
 df_long_reactions_noExtreme_100 %>% levene_test(Time_ms ~ Reaction)
 ```
+
+## Anova-Test
 
 Daher wird der Anova-Test durchgeführt.
 
@@ -335,7 +343,9 @@ res_aov_100
 ```
 Mit p < 0,05 ist der Anova-Test erfolgreich, daher bestehen signifikante Unterschiede zwischen den Gruppen.
 
-Es folgt die Post-hoc Analyse, welche das Ergebnis von vorhin bestätigt: es bestehen signifikante Unterschiede zwsichen Reaktion 1 und 8 sowie zwischen Reaktion 3 und 8.
+## Post-Hoc-Analyse
+
+Es folgt die Post-hoc Analyse, welche das Ergebnis von vorhin bestätigt: es bestehen signifikante Unterschiede zwischen Reaktion 1 und 8 sowie zwischen Reaktion 1 und 6.
 
 ```{r}
 pwc_100 <- df_long_reactions_noExtreme_100 %>% tukey_hsd(Time_ms ~ Reaction)
@@ -353,4 +363,11 @@ ggboxplot(df_long_reactions_noExtreme_100, x = "Reaction", y = "Time_ms") +
     caption = get_pwc_label(pwc_100)
     )
 ```
+## Schlussfolgerung
+
 Dieses Ergebnis ist möglicherweise ein Hinweis darauf, dass der Aufbau des Experiments nicht geeignet ist, um herauszufinden, ob die Reaktionszeit durch inkongruenten Stimuli beeinflusst wird.
+
+# Quellen
+
+Als Orientierung zur Durchführung des Anova-Tests wurde dieses Tutorial befolgt:
+https://www.datanovia.com/en/lessons/anova-in-r/

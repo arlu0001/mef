@@ -1,0 +1,455 @@
+---
+title: "Auswirkungen des Stroop-Effekts auf mobile Benutzeroberflächen"
+subtitle: "Analyse Teil 1 - Beschreibende Statistik"
+output: html_notebook
+---
+```{r setup}
+#source("scripts/wide_to_long.R")
+source("scripts/get_mean_tpt.R")
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{r}
+data_original <- read_csv("data/data_original.csv", 
+    col_types = cols(Datum = col_date(format = "%d.%m.%Y"), 
+        Uhrzeit = col_time(format = "%H:%M"), 
+        `Zeit gesamt` = col_time(format = "%H:%M:%OS"), 
+        `Ishihara Dauer` = col_time(format = "%H:%M:%S")))
+```
+
+```{r}
+# Remove troll
+data_original <- data_original[-c(107), ]
+```
+
+```{r}
+# Remove all with red-green-blindness
+data_original$`Ishihara Dauer` <- format(as.POSIXct(data_original$'Ishihara Dauer'), "%H:%M:%OS")
+
+df_noCB <- subset(data_original, data_original$`Ishihara 42` == 42 & data_original$`Ishihara 3` == 3 & data_original$`Ishihara Linien` == "keine" & data_original$`Ishihara Dauer` < "00:02:00")
+```
+
+Der erste Teil der Analyse gibt einen Übersicht über den Datensatz.
+Im folgenden werden die Daten aller Probanden dargestellt, um einen Überblick darüber zu geben, wie die Verteilung aller Probanden des Experiments ist. 
+
+Für die Auswertung, werden die Daten der Probanden genutzt, bei denen keine Farbfehlsichtigkeit vorliegt. Dazu wird der original Datensatz dementsprechend bereinigt und die Personen mit Farbfehlsichtigkeit rausgefiltert. Die Probanden mit Farbfehlsichtigkeit werden über die drei gestellten Aufgaben des Ishihara-Tests und die Zeit der Bearbeitung des Ishihara-Test identifiziert. Dabei werden Probanden aussortiert die eine oder mehrere Aufgaben falsch beantwortet haben und Probanden deren Bearbeitungszeit über 2 Minuten beträgt. 
+
+# Demographie der Probanden
+
+Im Folgenden werden die demographischen Daten graphisch dargestellt und jeweils für alle Probanden und die Probanden ohne Farbfehlsichtigkeit gegenübergestellt, um die Verteilung zu vergleichen. 
+```{r}
+m <- sum(with(data_original,data_original$Geschlecht == "m"))
+
+f <- sum(with(data_original,data_original$Geschlecht == "f"))
+```
+```{r}
+library(plotly)
+labels = c('Männer','Frauen')
+values = c(m, f)
+
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "Verteilung Geschlecht aller Probanden n=120",
+                      legend = list(orientation = 'h'),
+                      autosize = F)
+
+fig
+```
+```{r}
+noCB_m <- sum(with(df_noCB,df_noCB$Geschlecht == "m"))
+noCB_f <- sum(with(df_noCB,df_noCB$Geschlecht == "f"))
+```
+
+```{r}
+library(plotly)
+
+labels = c('Männer','Frauen')
+values = c(noCB_m, noCB_f)
+
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "Verteilung Geschlecht Probanden ohne Farbfehlsichtigkeit n=100",
+                      legend = list(orientation = 'h'),
+                      autosize = F)
+fig
+
+```
+
+```{r}
+a11 <- sum(with(data_original,data_original$Alter == "unter 11"))
+a11_20 <- sum(with(data_original,data_original$Alter == "11-20"))
+a21_30 <- sum(with(data_original,data_original$Alter == "21-30"))
+a31_40 <- sum(with(data_original,data_original$Alter == "31-40"))
+a41_50 <- sum(with(data_original,data_original$Alter == "41-50"))
+a51_60 <- sum(with(data_original,data_original$Alter == "51-60"))
+a60 <- sum(with(data_original,data_original$Alter == "über 60"))
+```
+
+```{r}
+library(plotly)
+labels = c('unter 11','11-20','21-30','31-40','41-50','51-60','über 60')
+values = c(a11, a11_20, a21_30, a31_40, a41_50, a51_60, a60)
+
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "Verteilung Alter aller Probanden n=120",
+                      legend = list(orientation = 'h'),
+                      autosize = F)
+fig
+```
+```{r}
+noBC_a11 <- sum(with(df_noCB,df_noCB$Alter == "unter 11"))
+noBC_a11_20 <- sum(with(df_noCB,df_noCB$Alter == "11-20"))
+noBC_a21_30 <- sum(with(df_noCB,df_noCB$Alter == "21-30"))
+noBC_a31_40 <- sum(with(df_noCB,df_noCB$Alter == "31-40"))
+noBC_a41_50 <- sum(with(df_noCB,df_noCB$Alter == "41-50"))
+noBC_a51_60 <- sum(with(df_noCB,df_noCB$Alter == "51-60"))
+noBC_a60 <- sum(with(df_noCB,df_noCB$Alter == "über 60"))
+```
+
+```{r}
+library(plotly)
+labels = c('unter 11','11-20','21-30','31-40','41-50','51-60','über 60')
+values = c(noBC_a11, noBC_a11_20, noBC_a21_30, noBC_a31_40, noBC_a41_50, noBC_a51_60, noBC_a60)
+
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "Verteilung Alter der Probanden ohne Farbfehlsichtigkeit n=100",
+                      legend = list(orientation = 'h'),
+                      autosize = F)
+fig
+```
+
+```{r}
+mt <- sum(with(data_original,data_original$`Smartphone Nutzung` == "mehrmals täglich"))
+t <- sum(with(data_original,data_original$`Smartphone Nutzung` == "täglich"))
+mw <- sum(with(data_original,data_original$`Smartphone Nutzung` == "mehrmals die Woche"))
+```
+
+```{r}
+library(plotly)
+labels = c('mehrmals täglich','täglich','mehrmals die Woche')
+values = c(mt,t, mw)
+
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "Verteilung der Nutzungshäufigkeit aller Probanden n=120",
+                      legend = list(orientation = 'h'),
+                      autosize = F)
+fig
+```
+
+```{r}
+noBC_mt <- sum(with(df_noCB,df_noCB$`Smartphone Nutzung` == "mehrmals täglich"))
+noBC_t <- sum(with(df_noCB,df_noCB$`Smartphone Nutzung` == "täglich"))
+noBC_mw <- sum(with(df_noCB,df_noCB$`Smartphone Nutzung` == "mehrmals die Woche"))
+```
+
+```{r}
+library(plotly)
+labels = c('mehrmals täglich','täglich','mehrmals die Woche')
+values = c(noBC_mt,noBC_t,noBC_mw)
+
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "Verteilung der Nutzungshäufigkeit der Probanden ohne Farbfehlsichtigkeit n=100",
+                      legend = list(orientation = 'h'),
+                      autosize = F)
+fig
+```
+```{r}
+ss <- sum(with(data_original,data_original$`Smartphone Nutzungserfahrung` == "sehr sicher"))
+s <- sum(with(data_original,data_original$`Smartphone Nutzungserfahrung` == "sicher"))
+mm <- sum(with(data_original,data_original$`Smartphone Nutzungserfahrung` == "mittelmäßig"))
+u <- sum(with(data_original,data_original$`Smartphone Nutzungserfahrung` == "unsicher"))
+su <- sum(with(data_original,data_original$`Smartphone Nutzungserfahrung` == "sehr unsicher"))
+```
+
+
+```{r}
+library(plotly)
+labels = c('sehr sicher','sicher','mittelmäßig','unsicher', 'sehr unsicher')
+values = c(ss,s,mm,u,su)
+
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "Verteilung der Nutzungssicherheit aller Probanden n=120",
+                      legend = list(orientation = 'h'),
+                      autosize = F)
+fig
+```
+```{r}
+noBC_ss <- sum(with(df_noCB,df_noCB$`Smartphone Nutzungserfahrung` == "sehr sicher"))
+noBC_s <- sum(with(df_noCB,df_noCB$`Smartphone Nutzungserfahrung` == "sicher"))
+noBC_mm <- sum(with(df_noCB,df_noCB$`Smartphone Nutzungserfahrung` == "mittelmäßig"))
+noBC_u <- sum(with(df_noCB,df_noCB$`Smartphone Nutzungserfahrung` == "unsicher"))
+noBC_su <- sum(with(df_noCB,df_noCB$`Smartphone Nutzungserfahrung` == "sehr unsicher"))
+```
+
+
+```{r}
+library(plotly)
+labels = c('sehr sicher','sicher','mittelmäßig','unsicher', 'sehr unsicher')
+values = c(noBC_ss,noBC_s,noBC_mm,noBC_u,noBC_su)
+
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "Verteilung der Nutzungssicherheit der Probanden ohne Farbfehlsichtigkeit n=100",
+                      legend = list(orientation = 'h'),
+                      autosize = F)
+fig
+```
+
+```{r}
+iOS <- sum(with(data_original,data_original$OS == "iOS"))
+android <- sum(with(data_original,data_original$OS == "Android"))
+
+```
+
+```{r}
+library(plotly)
+labels = c('iOS', 'Android')
+values = c(iOS, android)
+
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "Verteilung der Nutzungssicherheit aller Probanden n=120",
+                      legend = list(orientation = 'h'),
+                      autosize = F)
+fig
+```
+
+```{r}
+noBC_iOS <- sum(with(df_noCB,df_noCB$OS == "iOS"))
+noBC_android <- sum(with(df_noCB,df_noCB$OS == "Android"))
+
+```
+ 
+```{r}
+library(plotly)
+labels = c('iOS', 'Android')
+values = c(noBC_iOS, noBC_android)
+
+fig <- plot_ly(type='pie', labels=labels, values=values, 
+               textinfo='percent',
+               insidetextorientation='radial')
+fig <- fig %>% layout(title = "Verteilung der Nutzungssicherheit der Probanden ohne Farbfehlsichtigkeit n=100",
+                      legend = list(orientation = 'h'),
+                      autosize = F)
+fig
+```
+## Demographische Daten im Vergleich 
+Die Vergleichsdarstellung der demographischen Daten ergibt, dass sich durch die Bereinigung der Daten die Verteilung der Gruppen nicht deutlich verändert.
+
+# Verteilung der richtig beantworteten Aufgaben 
+
+Nachfolgend wird die Anzahl der richtig beantworteten Aufgaben betrachtet. Dazu werden Subsets der jeweiligen Gruppen (z.B. nach biologischem Geschlecht) erstellt. 
+Und die Spalte "Richtig" wird als Boxplot geplottet, um die Verteilung der richtigen Aufgaben zu veranschaulichen.
+
+```{r }
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = df_noCB$`Richtig`, name="Richtige Aufgaben")
+
+fig <- fig %>% layout(yaxis = list(title= "Anzahl richtig beantworteter Aufgaben"), 
+                      title = "Verteilung richtiger Aufgaben aller Probanden ohne Farbfehlsichtigkeit",
+                      autosize = F)
+fig
+```
+Die Werte des Boxplots nochmal als Tabelle:
+```{r}
+summary(df_noCB$`Richtig`)
+```
+
+Der Boxplot reicht von 76 bis 100 richtige Aufgaben. Der Median liegt bei 97 richtigen Aufgaben.
+
+```{r}
+  noBC_subset_m <-subset(df_noCB,df_noCB$'Geschlecht' == 'm')
+  noBC_subset_f <-subset(df_noCB,df_noCB$'Geschlecht' == 'f')
+```
+
+```{r}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = noBC_subset_f$`Richtig`, name="Weiblich")
+fig <- fig %>% add_trace(y = noBC_subset_m$`Richtig`, name="Männlich")
+
+fig <- fig %>% layout(yaxis = list(title= "Anzahl richtig beantworteter Aufgaben"), 
+                      title = "Verteilung richtiger Aufgaben nach biologischem Geschlecht",
+                      autosize = F)
+fig
+```
+Die Werte des Boxplots nochmal als Tabelle:
+
+Biologisches Geschlecht Weiblich:
+```{r}
+summary(noBC_subset_f$`Richtig`)
+```
+
+Biologisches Geschlecht Männlich:
+```{r}
+summary(noBC_subset_m$`Richtig`)
+```
+
+Bei der Betrachtung nach biologischem Geschlecht kann festgehalten werden, dass der Median beider Gruppen 97 richtiger Antworten entspricht. Bei den Probanden die für das biologische Geschlecht männlich angeben, lassen sich mehr Außen- und Fernpunkte erkennen. 
+
+## Alle Probanden ohne Farbfehlsichtigkeit nach Betriebssystem 
+```{r}
+  noBC_subset_iOS <-subset(df_noCB,df_noCB$OS == 'iOS')
+  noBC_subset_android <-subset(df_noCB,df_noCB$OS == 'Android')
+```
+
+```{r}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = noBC_subset_iOS$`Richtig`, name= "iOS")
+fig <- fig %>% add_trace(y = noBC_subset_android$`Richtig`, name="Android")
+
+fig <- fig %>% layout(yaxis = list(title= "Anzahl richtig beantworteter Aufgaben"), 
+                      title = "Verteilung richtiger Aufgaben nach Betriebssystem",
+                      autosize = F)
+fig
+```
+Die Werte des Boxplots nochmal als Tabelle:
+
+iOS:
+```{r}
+summary(noBC_subset_iOS$`Richtig`)
+```
+
+Android:
+```{r}
+summary(noBC_subset_android$`Richtig`)
+```
+
+# Durchschnittliche Zeit pro Aufgabe 
+```{r}
+mean_tpt <- get_tptfv(df_noCB)
+```
+
+Um einen Lern- oder Ermüdungseffekt zu erkennen, werden die Durchschnittszeiten pro Aufgabe erfasst. Dazu werden die Zeitangaben der einzelnen Aufgaben in einer Tabelle zusammengefasst. Anschließend wird der Durchschnitt der der Spalten berechnet und in einer neuen Liste gespeichert. Dieses Vorgehen wurde ebenso für die jeweiligen Gruppen (z.B. biologisches Geschlecht, Alter) durchgeführt. Das Ergebnis sieht wie folgt aus:
+
+```{r}
+head(mean_tpt)
+```
+
+
+```{r pressure, echo=FALSE}
+
+fig <- plot_ly(data=df_noCB, y = ~mean_tpt, type = 'bar')
+
+fig <- fig %>% layout(title = "Durchschnittliche Zeit pro Aufgabe",
+                      xaxis = list(title = "Aufgaben"),
+                      yaxis = list(title = 'Zeit in Millisekunden'), 
+                      barmode = 'group',
+                      autosize = F)
+fig
+```
+Die Betrachtung der Grafik, lässt darauf schließen, dass es zu einem Lerneffekt kommt. Um dies zu bestätigen wird eine Grafik mit einer Regressiongerade geplottet.
+```{r}
+
+Aufgaben <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100)
+
+fig<- plot_ly(data= df_noCB, y= ~mean_tpt, x = ~Aufgaben, type = "scatter", mode="markers", name="Durchschnittszeit pro Aufgabe")
+
+fig <- add_trace(fig, x=~Aufgaben,y=fitted(lm(mean_tpt~Aufgaben)), mode = "lines", name="Regressionsgerade")
+fig <- fig %>% layout(autosize = F,
+                      yaxis = list(title = 'Zeit in Millisekunden'), 
+                      title = "Durchschnittliche Zeit pro Aufgabe")
+fig
+
+```
+Die Regressionsgerade bestätigt die Annahme das die Probanden zum Ende des Experiments die Aufgaben schneller fertigstellen. Was auf einen Lerneffekt bei der Bearbeitung der Aufgaben schließen lässt.
+
+## Nach biologischem Geschlecht
+Anschließend wird überprüft, inwieweit das biologische Geschlecht einen Einfluss auf die durchschnittliche Bearbeitungszeit der Aufgaben haben könnte.
+```{r}
+mean_tpt_f <- get_tptfv(noBC_subset_f)
+mean_tpt_m <- get_tptfv(noBC_subset_m)
+```
+
+```{r}
+fig <- plot_ly(type = "bar")
+fig <- fig %>% add_trace(y = ~mean(mean_tpt_f), name = 'Weiblich')
+fig <- fig %>% add_trace(y = ~mean(mean_tpt_m), name = 'Männlich')
+
+fig <- fig %>% layout(
+xaxis = list(title = "Aufgaben"),
+yaxis = list(title = 'Zeit in Millisekunden'),
+title = "Durchschnittliche Zeit pro Aufgabe nach biologischem Geschlecht",
+barmode = 'group',
+autosize = F)
+
+fig
+```
+```{r}
+Aufgaben <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100)
+
+
+fig <- plot_ly(data= df_noCB, y= ~mean_tpt_f, x = ~Aufgaben, type = "scatter", mode="markers", name="Durchschnittszeit pro Aufgabe")
+fig <- add_trace(fig, x=~Aufgaben,y=fitted(lm(mean_tpt_f~Aufgaben)), mode = "lines", name="Regressionsgerade")
+fig <- fig %>% layout(xaxis = list(title = "Aufgaben"),
+                      yaxis = list(title = 'Zeit in Millisekunden'),
+                      title = "Durchschnittliche Zeit pro Aufgabe nach biologischem Geschlecht (weiblich)",
+                      autosize = F)
+
+fig
+```
+
+
+
+```{r}
+fig <- plot_ly(data= df_noCB, y= ~mean_tpt_m, x = ~Aufgaben, type = "scatter", mode="markers", name="Durchschnittszeit pro Aufgabe")
+fig <- add_trace(fig, x=~Aufgaben,y=fitted(lm(mean_tpt_f~Aufgaben)), mode = "lines", name="Regressionsgerade")
+fig <- fig %>% layout(xaxis = list(title = "Aufgaben"),
+                      yaxis = list(title = 'Zeit in Millisekunden'),
+                      title = "Durchschnittliche Zeit pro Aufgabe nach biologischem Geschlecht (männlich)",
+                      autosize = F)
+
+fig
+```
+Die Grafiken ergeben das die Probanden die als biologisches Geschlecht männlich angeben durchschnittlich 176 Millisekunden mehr pro Aufgabe benötigen. Bei beiden Gruppen, ist davon auszugehen, dass ein Lerneffekt vorhanden ist.  
+
+```{r}
+noBC_subset_11 <-subset(df_noCB,df_noCB$'Alter' == 'unter 11')
+noBC_subset_1120 <-subset(df_noCB,df_noCB$'Alter' == '11-20')
+noBC_subset_2130 <-subset(df_noCB,df_noCB$'Alter' == '21-30')
+noBC_subset_3140 <-subset(df_noCB,df_noCB$'Alter' == '31-40')
+noBC_subset_4150 <-subset(df_noCB,df_noCB$'Alter' == '41-50')
+noBC_subset_5160 <-subset(df_noCB,df_noCB$'Alter' == '51-60')
+noBC_subset_60 <-subset(df_noCB,df_noCB$'Alter' == 'über 60')
+```
+
+```{r}
+mean_tpt_11<- get_tptfv(noBC_subset_11)
+mean_tpt_1120<- get_tptfv(noBC_subset_1120)
+mean_tpt_2130<- get_tptfv(noBC_subset_2130)
+mean_tpt_3140<- get_tptfv(noBC_subset_3140)
+mean_tpt_4150<- get_tptfv(noBC_subset_4150)
+mean_tpt_5160<- get_tptfv(noBC_subset_5160)
+mean_tpt_60<- get_tptfv(noBC_subset_60)
+```
+
+```{r}
+age <- plot_ly(data=df_noCB, y=~mean(mean_tpt_11), type ='bar',name='unter 11')
+age <- age %>% add_trace(y = ~mean(mean_tpt_1120), name = '11-20')
+age <- age %>% add_trace(y = ~mean(mean_tpt_2130), name = '21-30')
+age <- age %>% add_trace(y = ~mean(mean_tpt_3140), name = '31-40')
+age <- age %>% add_trace(y = ~mean(mean_tpt_4150), name = '41-50')
+age <- age %>% add_trace(y = ~mean(mean_tpt_5160), name = '51-60')
+age <- age %>% add_trace(y = ~mean(mean_tpt_60), name = 'über 60')
+
+age <- age %>% layout(title = "Altersverteilung",
+                      xaxis = list(title = "Alter"),
+                      yaxis = list(title = 'Zeit in Millisekunden'), 
+                      barmode = 'group',
+                      autosize = F)
+age
+```

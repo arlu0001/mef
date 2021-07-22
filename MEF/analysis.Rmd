@@ -84,6 +84,19 @@ fig <- fig %>% layout(
 
 fig
 ```
+```{r}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = data_ishiharaclean$`Richtig`)
+#fig <- fig %>% add_trace(y = data_ishiharafalse$`Richtig`, name="mit Farbsehschwäche")
+fig <- fig %>% layout(
+    xaxis = list(showticklabels = FALSE),
+    yaxis = list(title= "Anzahl richtig beantworteter Aufgaben"),
+    showlegend = FALSE
+    #title = "Verteilung richtiger Aufgaben"
+  )
+
+fig
+```
 
 ```{r echo=FALSE}
 data_time_config <- data_ishiharaclean
@@ -167,8 +180,8 @@ fig <- fig %>% add_trace(y = data_time_config_7$`Time in ms`, name="7")
 fig <- fig %>% add_trace(y = data_time_config_8$`Time in ms`, name="8")
 
 fig <- fig %>% layout(
-    yaxis = list(title= "Zeit in ms"), 
-    title = "Boxplots"
+    yaxis = list(title= "Zeit in ms") 
+    #title = "Boxplots"
   )
 
 fig
@@ -202,8 +215,8 @@ fig <- fig %>% add_trace(y = data_time_config_100_6$`Time in ms`, name="Config 6
 fig <- fig %>% add_trace(y = data_time_config_100_8$`Time in ms`, name="Config 8")
 
 fig <- fig %>% layout(
-    yaxis = list(title= "Zeit in ms"), 
-    title = "Boxplots 100 richtig"
+    yaxis = list(title= "Zeit in ms") 
+    #title = "Boxplots 100 richtig"
   )
 
 fig
@@ -243,5 +256,32 @@ tmp2
 ```{r}
 correct <- rbind(data_time_config_100, tmp2)
 correct
+```
+```{r}
+correct_long_1 <- subset(correct_long, correct_long$Reaction == 1)
+correct_long_3 <- subset(correct_long, correct_long$Reaction == 3)
+correct_long_4 <- subset(correct_long, correct_long$Reaction == 4)
+correct_long_5 <- subset(correct_long, correct_long$Reaction == 5)
+correct_long_6 <- subset(correct_long, correct_long$Reaction == 6)
+correct_long_7 <- subset(correct_long, correct_long$Reaction == 7)
+correct_long_8 <- subset(correct_long, correct_long$Reaction == 8)
+```
+
+```{r}
+fig <- plot_ly(type = "box")
+fig <- fig %>% add_trace(y = correct_long_1$`Time in ms`, name="Config 1")
+fig <- fig %>% add_trace(y = correct_long_3$`Time in ms`, name="Config 3")
+fig <- fig %>% add_trace(y = correct_long_4$`Time in ms`, name="Config 4")
+fig <- fig %>% add_trace(y = correct_long_5$`Time in ms`, name="Config 5")
+fig <- fig %>% add_trace(y = correct_long_6$`Time in ms`, name="Config 6")
+fig <- fig %>% add_trace(y = correct_long_7$`Time in ms`, name="Config 7")
+fig <- fig %>% add_trace(y = correct_long_8$`Time in ms`, name="Config 8")
+
+fig <- fig %>% layout(
+    yaxis = list(title= "Zeit in ms") 
+    #title = "Boxplots 100 richtig"
+  )
+
+fig
 ```
 
